@@ -1,156 +1,116 @@
-﻿using Microsoft.Xna.Framework;
+﻿//
+// minecraft_kurwa
+// ZlomenyMesic, KryKom
+//
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace minecraft_kurwa {
 
     public class Game1 : Game {
+        SpriteBatch spriteBatch;
+        SpriteFont spriteFont;
         GraphicsDeviceManager graphics;
 
-        Vector3 camTarget;
-        Vector3 camPosition;
-        Matrix projectionMatrix;
-        Matrix viewMatrix;
-        Matrix worldMatrix;
+        public Vector3 camTarget;
+        public Vector3 camPosition;
+        public Matrix projectionMatrix;
+        public Matrix viewMatrix;
 
-        BasicEffect basicEffect;
+        RenderTarget2D MainTarget;
 
-        VertexPositionColor[] triangleVertices;
-        VertexBuffer vertexBuffer;
+        public List<Voxel> voxels;
 
-        // TADY JSOU NEJAKY HODNOTY CO BY SE ASI MELY DAT NASTAVIT PRIMO Z TY APLIKACE
-        float fieldOfView = 60f;
-        float renderDistance = 1000f;
-        float sensibility = 2f;
-        // KONEC NASTAVITELNYCH HODNOT
+        // CUSTOMIZABLE VALUES
+        readonly public int windowHeight = 1400;
+        readonly public int windowWidth = 2400;
+        readonly public float fieldOfView = 60; // in degrees
+        readonly public float renderDistance = 20_000;
+        readonly public float sensibility = 200; // higher value => faster mouse
+        readonly public float movementSpeed = 500; // higher value => faster movement
 
-        float leftRightRot = 0f;
-        float upDownRot = 0f;
+        public float leftRightRot = 0f;
+        public float upDownRot = 0f;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferHeight = 1400;
-            graphics.PreferredBackBufferWidth = 2400;
+            graphics.PreferredBackBufferHeight = windowHeight;
+            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
         protected override void Initialize() {
             base.Initialize();
 
-            camTarget = new Vector3(0f, 0f, 0f);
-            camPosition = new Vector3(0f, 0f, -200f);
+            camPosition = new Vector3(0f, 350f, 0f);
+            camTarget = new Vector3(0f, 0f, camPosition.Z + 300f);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(fieldOfView), GraphicsDevice.DisplayMode.AspectRatio, 1f, renderDistance);
-            viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, new Vector3(0f, 1f, 0f));
-            worldMatrix = Matrix.CreateWorld(camTarget, Vector3.Forward, Vector3.Up);
+            viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
+            MainTarget = new RenderTarget2D(GraphicsDevice, windowWidth, windowHeight, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
-            // BORDEL TYKAJICI SE BAREVNEHO TROJUHELNIKU (VSECHNO DLE TUTORIALU)
-            basicEffect = new BasicEffect(GraphicsDevice);
-            basicEffect.Alpha = 1f;
-            basicEffect.VertexColorEnabled = true;
-            basicEffect.LightingEnabled = false;
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteFont = Content.Load<SpriteFont>("font");
 
-            triangleVertices = new VertexPositionColor[3];
-            triangleVertices[0] = new VertexPositionColor(new Vector3(0, 20, 0), Color.Red);
-            triangleVertices[1] = new VertexPositionColor(new Vector3(-20, -20, 0), Color.Green);
-            triangleVertices[2] = new VertexPositionColor(new Vector3(20, -20, 0), Color.Blue);
+            Mouse.SetPosition(windowWidth / 2, windowHeight / 2);
 
-            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), 3, BufferUsage.WriteOnly);
-            vertexBuffer.SetData<VertexPositionColor>(triangleVertices);
-            // KONEC TROJUHELNIKOVEHO BORDELU
-
-
-            Mouse.SetPosition(1200, 700);
-        }
-
-        protected override void LoadContent() {
-
-        }
-
-        protected override void UnloadContent() {
-
+            // SUCK MY DICK
+            voxels = new();
+            for (int x = 0; x < 100; x++) {
+                for (int z = 0; z < 100; z++) {
+                    Voxel v = new(new Vector3(x, x + z, z), "grass", GraphicsDevice, Content);
+                    voxels.Add(v);
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TADY BUDE NEJAKY POHYB POMOCI TLACITEK
-            if (Keyboard.GetState().IsKeyDown(Keys.D)) {
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A)) {
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.W)) {
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S)) {
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) {
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space)) {
-                
-            }
-
-            HandleMouse();
-
+            Movement.Update(this);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {
-            basicEffect.Projection = projectionMatrix;
-            basicEffect.View = viewMatrix;
-            basicEffect.World = worldMatrix;
+            GraphicsDevice.SetRenderTarget(MainTarget);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            Set3DStates();
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.SetVertexBuffer(vertexBuffer);
-
-
-            // ZACINA BORDEL TYKAJICI SE TROJUHELNIKU
-            RasterizerState rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = CullMode.None;
-            GraphicsDevice.RasterizerState = rasterizerState;
-
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes) {
-                pass.Apply();
-                GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
+            foreach (var voxel in voxels) {
+                voxel.Draw(projectionMatrix, viewMatrix);
             }
-            // KONCI BORDEL TYKAJICI SE TROJUHELNIKU
 
+            GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
+            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void HandleMouse() {
-            // TADY TO ZJISTI JAK MOC HEJBU MYSI
-
-            Vector2 difference;
-            MouseState ms = Mouse.GetState();
-
-            difference.X = 1200 - ms.X;
-            difference.Y = 700 - ms.Y;
-            leftRightRot = sensibility * difference.X / 1000;
-            upDownRot = sensibility * difference.Y / 4;
-
-            Mouse.SetPosition(1200, 700);
-
-            UpdateViewMatrix();
-        }
-
-        private void UpdateViewMatrix() {
-            // TADY TO UPDATUJE KAM MIRI KAMERA PODLE TOHO JAK MOC JSEM HEJBAL MYSI
-
+        public void UpdateViewMatrix() {
             camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(leftRightRot)) + camPosition;
 
             camTarget.Y += upDownRot;
-            camTarget.Y = MathHelper.Min(camTarget.Y, 135);
-            camTarget.Y = MathHelper.Max(camTarget.Y, -135);
+            camTarget.Y = MathHelper.Min(camTarget.Y, camPosition.Y + 600);
+            camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
+        }
+
+        /// <summary>
+        /// used to hide stuff not visible to the camera
+        /// </summary>
+        private void Set3DStates() {
+            GraphicsDevice.BlendState = BlendState.NonPremultiplied; GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            if (GraphicsDevice.RasterizerState.CullMode == CullMode.None) {
+                RasterizerState rs = new() { CullMode = CullMode.CullCounterClockwiseFace };
+                GraphicsDevice.RasterizerState = rs;
+            }
         }
     }
 }
