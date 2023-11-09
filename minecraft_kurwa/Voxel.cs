@@ -29,16 +29,16 @@ namespace minecraft_kurwa {
         /// <param name="texture">texture file name (no extension)</param>
         /// <param name="gpu">graphics device</param>
         /// <param name="content">content manager</param>
-        public Voxel(Vector3 position, string texture, GraphicsDevice gpu, ContentManager content) {
+        public Voxel(Vector3 position, Texture2D texture, GraphicsDevice gpu) {
             this.position = position;
-            this.texture = content.Load<Texture2D>(texture);
+            this.texture = texture;
             this.gpu = gpu;
 
-            // simple lighting, probably will be modified in the future
+            // simple lighting, should be improved in the future
             basicEffect = new(gpu) {
-                Alpha = 1.0f,
+                Alpha = 1.0f, // TRANSPARENCY
                 AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f),
-                DiffuseColor = new Vector3(0.9f, 0.9f, 0.9f),
+                DiffuseColor = new Vector3(0.7f, 0.7f, 0.7f),
                 TextureEnabled = true
             };
             basicEffect.EnableDefaultLighting();
@@ -61,10 +61,10 @@ namespace minecraft_kurwa {
 
             // 16 vertices
             Vector3 normal = Vector3.Up; AddVertex(x1, y1, z2, normal, 0, 0); AddVertex(x2, y1, z2, normal, 1, 0); AddVertex(x2, y1, z1, normal, 1, 1); AddVertex(x1, y1, z1, normal, 0, 1);
-            normal = Vector3.Right; AddVertex(x2, y2, z2, normal, 0, 0); AddVertex(x2, y2, z1, normal, 0, 1);
-            normal = Vector3.Down; AddVertex(x1, y2, z2, normal, 1, 0); AddVertex(x1, y2, z1, normal, 1, 1);
-            normal = Vector3.Backward; AddVertex(x1, y1, z1, normal, 0, 0); AddVertex(x2, y1, z1, normal, 1, 0); AddVertex(x2, y2, z1, normal, 1, 1); AddVertex(x1, y2, z1, normal, 0, 1);
-            normal = Vector3.Forward; AddVertex(x2, y1, z2, normal, 0, 0); AddVertex(x1, y1, z2, normal, 1, 0); AddVertex(x1, y2, z2, normal, 1, 1); AddVertex(x2, y2, z2, normal, 0, 1);
+            normal = Vector3.Right;      AddVertex(x2, y2, z2, normal, 0, 0); AddVertex(x2, y2, z1, normal, 0, 1);
+            normal = Vector3.Down;       AddVertex(x1, y2, z2, normal, 1, 0); AddVertex(x1, y2, z1, normal, 1, 1);
+            normal = Vector3.Backward;   AddVertex(x1, y1, z1, normal, 0, 0); AddVertex(x2, y1, z1, normal, 1, 0); AddVertex(x2, y2, z1, normal, 1, 1); AddVertex(x1, y2, z1, normal, 0, 1);
+            normal = Vector3.Forward;    AddVertex(x2, y1, z2, normal, 0, 0); AddVertex(x1, y1, z2, normal, 1, 0); AddVertex(x1, y2, z2, normal, 1, 1); AddVertex(x2, y2, z2, normal, 0, 1);
 
             // 12 triangles
             AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);

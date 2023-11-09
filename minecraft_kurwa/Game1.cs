@@ -22,6 +22,7 @@ namespace minecraft_kurwa {
 
         RenderTarget2D MainTarget;
 
+        Textures textures;
         public List<Voxel> voxels;
 
         // CUSTOMIZABLE VALUES
@@ -30,7 +31,7 @@ namespace minecraft_kurwa {
         readonly public float fieldOfView = 60; // in degrees
         readonly public float renderDistance = 20_000;
         readonly public float sensibility = 200; // higher value => faster mouse
-        readonly public float movementSpeed = 500; // higher value => faster movement
+        readonly public float movementSpeed = 300; // higher value => faster movement
 
         public float leftRightRot = 0f;
         public float upDownRot = 0f;
@@ -57,13 +58,16 @@ namespace minecraft_kurwa {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("font");
 
+            textures = new(GraphicsDevice);
+
             Mouse.SetPosition(windowWidth / 2, windowHeight / 2);
 
             // SUCK MY DICK
             voxels = new();
+
             for (int x = 0; x < 100; x++) {
                 for (int z = 0; z < 100; z++) {
-                    Voxel v = new(new Vector3(x, x + z, z), "grass", GraphicsDevice, Content);
+                    Voxel v = new(new Vector3(x, 0, z), textures.LIGHT_GREEN, GraphicsDevice);
                     voxels.Add(v);
                 }
             }
