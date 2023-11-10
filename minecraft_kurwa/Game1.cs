@@ -6,13 +6,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace minecraft_kurwa {
 
     public class Game1 : Game {
         SpriteBatch spriteBatch;
-        SpriteFont spriteFont;
         GraphicsDeviceManager graphics;
 
         public Vector3 camTarget;
@@ -24,13 +24,14 @@ namespace minecraft_kurwa {
 
         public List<Voxel> voxels;
 
-        // CUSTOMIZABLE VALUES
+        // CUSTOMIZABLE VARIABLES
         readonly public int windowHeight = 1400;
         readonly public int windowWidth = 2400;
         readonly public float fieldOfView = 60; // in degrees
         readonly public float renderDistance = 20_000;
         readonly public float sensibility = 200; // higher value => faster mouse
         readonly public float movementSpeed = 150; // higher value => faster movement
+        readonly public float updatesPerSecond = 60; // how many times does Update() get called
 
         public float leftRightRot = 0f;
         public float upDownRot = 0f;
@@ -42,6 +43,9 @@ namespace minecraft_kurwa {
             graphics.PreferredBackBufferHeight = windowHeight;
             graphics.PreferredBackBufferWidth = windowWidth;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
+
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1 / updatesPerSecond);
         }
 
         protected override void Initialize() {
@@ -55,18 +59,15 @@ namespace minecraft_kurwa {
             MainTarget = new RenderTarget2D(GraphicsDevice, windowWidth, windowHeight, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteFont = Content.Load<SpriteFont>("font");
 
             Mouse.SetPosition(windowWidth / 2, windowHeight / 2);
 
             voxels = new();
 
-            for (int x = 0; x < 20; x++) {
-                for (int y = 0; y < 20; y++) {
-                    for (int z = 0; z < 20; z++) {
-                        Voxel v = new(GraphicsDevice, new Vector3(x, y, z), Color.Green);
-                        voxels.Add(v);
-                    }
+            for (int x = 0; x < 200; x++) {
+                for (int z = 0; z < 200; z++) {
+                    Voxel v = new(GraphicsDevice, new Vector3(x, new Random().Next(0, 2), z), Color.Green);
+                    voxels.Add(v);
                 }
             }
         }
@@ -79,7 +80,7 @@ namespace minecraft_kurwa {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.SetRenderTarget(MainTarget);
             GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
-            Set3DStates();
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             foreach (var voxel in voxels) {
                 voxel.Draw(projectionMatrix, viewMatrix);
@@ -102,17 +103,6 @@ namespace minecraft_kurwa {
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
-        }
-
-        /// <summary>
-        /// used to hide stuff not visible to the camera
-        /// </summary>
-        private void Set3DStates() {
-            GraphicsDevice.BlendState = BlendState.NonPremultiplied; GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            if (GraphicsDevice.RasterizerState.CullMode == CullMode.None) {
-                RasterizerState rs = new() { CullMode = CullMode.CullCounterClockwiseFace };
-                GraphicsDevice.RasterizerState = rs;
-            }
         }
     }
 }
