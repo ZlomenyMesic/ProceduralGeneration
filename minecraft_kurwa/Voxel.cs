@@ -10,42 +10,39 @@ using Microsoft.Xna.Framework.Graphics;
 namespace minecraft_kurwa {
     public class Voxel {
         public readonly Vector3 position;
-        public readonly Texture2D texture;
+        public readonly Color color;
+        public readonly float transparency;
 
         private readonly GraphicsDevice gpu;
         private readonly BasicEffect basicEffect;
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
         private readonly ushort[] indices;
-        private readonly VertexPositionNormalTexture[] vertices;
-
-        private int vertexCount = 0; // 16
+        private readonly VertexPositionColor[] vertices;
+        private int vertexCount = 0; // 24
         private int indexCount = 0;  // 36
 
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="position">point with lowest X, Y, Z coordinates</param>
-        /// <param name="texture">texture file name (no extension)</param>
         /// <param name="gpu">graphics device</param>
-        /// <param name="content">content manager</param>
-        public Voxel(Vector3 position, Texture2D texture, GraphicsDevice gpu) {
-            this.position = position;
-            this.texture = texture;
+        /// <param name="position">point with lowest XYZ coordinates</param>
+        /// <param name="color">default color</param>
+        /// <param name="transparency">transparency, values 0 to 1</param>
+        public Voxel(GraphicsDevice gpu, Vector3 position, Color color, float transparency = 1.0f) {
             this.gpu = gpu;
+            this.position = position;
+            this.color = color;
+            this.transparency = transparency;
 
-            // simple lighting, should be improved in the future
             basicEffect = new(gpu) {
-                Alpha = 1.0f, // TRANSPARENCY
-                AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f),
-                DiffuseColor = new Vector3(0.7f, 0.7f, 0.7f),
-                TextureEnabled = true
+                Alpha = transparency,
+                VertexColorEnabled = true
             };
-            basicEffect.EnableDefaultLighting();
 
-            vertices = new VertexPositionNormalTexture[16];
+            vertices = new VertexPositionColor[24];
             indices = new ushort[36];
-            vertexBuffer = new VertexBuffer(gpu, typeof(VertexPositionNormalTexture), 16, BufferUsage.WriteOnly);
+            vertexBuffer = new VertexBuffer(gpu, typeof(VertexPositionColor), 24, BufferUsage.WriteOnly);
             indexBuffer = new IndexBuffer(gpu, typeof(ushort), 36, BufferUsage.WriteOnly);
 
             Create();
@@ -55,27 +52,41 @@ namespace minecraft_kurwa {
         /// creates vertices and triangles for the cube
         /// </summary>
         private void Create() {
-            float x1 = position.X, x2 = x1 + 2;
-            float y1 = position.Y, y2 = y1 + 2;
-            float z1 = position.Z, z2 = z1 + 2;
+            Vector3 adjustedColor = color.ToVector3();
 
-            // 16 vertices
-            Vector3 normal = Vector3.Up; AddVertex(x1, y1, z2, normal, 0, 0); AddVertex(x2, y1, z2, normal, 1, 0); AddVertex(x2, y1, z1, normal, 1, 1); AddVertex(x1, y1, z1, normal, 0, 1);
-            normal = Vector3.Right;      AddVertex(x2, y2, z2, normal, 0, 0); AddVertex(x2, y2, z1, normal, 0, 1);
-            normal = Vector3.Down;       AddVertex(x1, y2, z2, normal, 1, 0); AddVertex(x1, y2, z1, normal, 1, 1);
-            normal = Vector3.Backward;   AddVertex(x1, y1, z1, normal, 0, 0); AddVertex(x2, y1, z1, normal, 1, 0); AddVertex(x2, y2, z1, normal, 1, 1); AddVertex(x1, y2, z1, normal, 0, 1);
-            normal = Vector3.Forward;    AddVertex(x2, y1, z2, normal, 0, 0); AddVertex(x1, y1, z2, normal, 1, 0); AddVertex(x1, y2, z2, normal, 1, 1); AddVertex(x2, y2, z2, normal, 0, 1);
+            // front side
+            adjustedColor -= new Vector3(0.1f, 0.1f, 0.1f);
+            AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
 
-            // 12 triangles
+            // right side
+            adjustedColor -= new Vector3(0.1f, 0.1f, 0.1f);
+            AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+
+            // back side
+            adjustedColor -= new Vector3(0.1f, 0.1f, 0.1f);
+            AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+
+            // left side
+            adjustedColor += new Vector3(0.1f, 0.1f, 0.1f);
+            AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+
+            // bottom side
+            adjustedColor -= new Vector3(0.2f, 0.2f, 0.2f);
+            AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor);
+
+            // top side
+            adjustedColor += new Vector3(0.4f, 0.4f, 0.4f);
+            AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+
             AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);
-            AddTriangle(2, 1, 4); AddTriangle(4, 5, 2);
-            AddTriangle(5, 4, 6); AddTriangle(6, 7, 5);
-            AddTriangle(7, 6, 0); AddTriangle(0, 3, 7);
-            AddTriangle(8, 9, 10); AddTriangle(10, 11, 8);
-            AddTriangle(12, 13, 14); AddTriangle(14, 15, 12);
+            AddTriangle(7, 5, 4); AddTriangle(4, 6, 7);
+            AddTriangle(10, 9, 8); AddTriangle(10, 11, 9);
+            AddTriangle(12, 14, 15); AddTriangle(15, 13, 12);
+            AddTriangle(19, 17, 16); AddTriangle(16, 18, 19);
+            AddTriangle(21, 20, 22); AddTriangle(22, 23, 21);
 
-            vertexBuffer.SetData<VertexPositionNormalTexture>(0, vertices, 0, vertexCount, 32);
-            indexBuffer.SetData<ushort>(0, indices, 0, indexCount);
+            vertexBuffer.SetData<VertexPositionColor>(0, vertices, 0, 24, 0);
+            indexBuffer.SetData(0, indices, 0, indexCount);
         }
 
         /// <summary>
@@ -84,11 +95,9 @@ namespace minecraft_kurwa {
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
         /// <param name="z">Z coordinate</param>
-        /// <param name="normal">direction of triangle's front side</param>
-        /// <param name="u">U coordinate</param>
-        /// <param name="v">V coordinate</param>
-        private void AddVertex(float x, float y, float z, Vector3 normal, float u, float v) {
-            vertices[vertexCount++] = new VertexPositionNormalTexture(new Vector3(x, y, z), normal, new Vector2(u, v));
+        /// <param name="color">vertex's color</param>
+        private void AddVertex(float x, float y, float z, Vector3 color) {
+            vertices[vertexCount++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
         }
 
         /// <summary>
@@ -112,7 +121,6 @@ namespace minecraft_kurwa {
             gpu.SetVertexBuffer(vertexBuffer);
             gpu.Indices = indexBuffer;
 
-            basicEffect.Texture = texture;
             basicEffect.Projection = projectionMatrix;
             basicEffect.View = viewMatrix;
             basicEffect.World = Matrix.CreateTranslation(position);
