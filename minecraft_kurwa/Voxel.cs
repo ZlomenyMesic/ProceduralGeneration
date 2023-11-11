@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace minecraft_kurwa {
-    public class Voxel {
-        public readonly Vector3 position;
-        public readonly Color color;
-        public readonly float transparency;
+    internal class Voxel {
+        internal readonly Vector3 position;
+        internal readonly Color color;
+        internal readonly float transparency;
 
         private readonly GraphicsDevice gpu;
         private readonly BasicEffect basicEffect;
@@ -25,7 +25,7 @@ namespace minecraft_kurwa {
         private const int INDEX_COUNT = 36;
         private const int TRIANGLE_COUNT = 12;
 
-        public Voxel(GraphicsDevice gpu, Vector3 position, Color color, float transparency = 1.0f) {
+        internal Voxel(GraphicsDevice gpu, Vector3 position, Color color, float transparency = 1.0f) {
             this.gpu = gpu;
             this.position = position;
             this.color = color;
@@ -84,7 +84,7 @@ namespace minecraft_kurwa {
             indices[indexCounter++] = c;
         }
 
-        public void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
+        internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
             gpu.SetVertexBuffer(vertexBuffer);
             gpu.Indices = indexBuffer;
 

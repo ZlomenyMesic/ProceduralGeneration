@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace minecraft_kurwa {
-    static class Movement {
-        public static float leftRightRot = 0;
-        public static float upDownRot = 0;
+    internal static class Movement {
+        internal static float leftRightRot = 0;
+        internal static float upDownRot = 0;
 
-        public static void Update(Game1 game) {
+        internal static void Update(Game1 game) {
             HandleMouse(game);
             HandleKeyboard(game);
         }

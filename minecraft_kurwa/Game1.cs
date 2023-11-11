@@ -15,14 +15,17 @@ namespace minecraft_kurwa {
         SpriteBatch spriteBatch;
         GraphicsDeviceManager graphics;
 
-        public Vector3 camTarget;
-        public Vector3 camPosition;
-        public Matrix projectionMatrix;
-        public Matrix viewMatrix;
+        internal Vector3 camTarget;
+        internal Vector3 camPosition;
+        internal Matrix projectionMatrix;
+        internal Matrix viewMatrix;
 
         RenderTarget2D MainTarget;
 
-        public List<Voxel> voxels;
+        // temporary
+        internal List<Voxel> voxels;
+
+        internal List<Chunk> world;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -53,8 +56,8 @@ namespace minecraft_kurwa {
 
             voxels = new();
 
-            for (int x = 0; x < 99; x++) {
-                for (int z = 0; z < 99; z++) {
+            for (int x = 0; x < 100; x++) {
+                for (int z = 0; z < 100; z++) {
                     Voxel v = new(GraphicsDevice, new Vector3(x, 0, z), new Color(0, 255, 0));
                     voxels.Add(v);
                 }
@@ -85,7 +88,7 @@ namespace minecraft_kurwa {
             base.Draw(gameTime);
         }
 
-        public void UpdateViewMatrix() {
+        internal void UpdateViewMatrix() {
             camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(Movement.leftRightRot)) + camPosition;
 
             camTarget.Y += Movement.upDownRot;
