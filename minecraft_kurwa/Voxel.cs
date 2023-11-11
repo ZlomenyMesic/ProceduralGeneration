@@ -12,7 +12,7 @@ namespace minecraft_kurwa {
         internal readonly Color color;
         internal readonly float transparency;
 
-        private readonly GraphicsDevice gpu;
+        private readonly GraphicsDevice graphicsDevice;
         private readonly BasicEffect basicEffect;
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
@@ -25,21 +25,21 @@ namespace minecraft_kurwa {
         private const int INDEX_COUNT = 36;
         private const int TRIANGLE_COUNT = 12;
 
-        internal Voxel(GraphicsDevice gpu, Vector3 position, Color color, float transparency = 1.0f) {
-            this.gpu = gpu;
+        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, float transparency = 1.0f) {
+            this.graphicsDevice = graphicsDevice;
             this.position = position;
             this.color = color;
             this.transparency = transparency;
 
-            basicEffect = new(gpu) {
+            basicEffect = new(graphicsDevice) {
                 Alpha = transparency,
                 VertexColorEnabled = true
             };
 
             vertices = new VertexPositionColor[VERTEX_COUNT];
             indices = new ushort[INDEX_COUNT];
-            vertexBuffer = new VertexBuffer(gpu, typeof(VertexPositionColor), VERTEX_COUNT, BufferUsage.WriteOnly);
-            indexBuffer = new IndexBuffer(gpu, typeof(ushort), INDEX_COUNT, BufferUsage.WriteOnly);
+            vertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor), VERTEX_COUNT, BufferUsage.WriteOnly);
+            indexBuffer = new IndexBuffer(graphicsDevice, typeof(ushort), INDEX_COUNT, BufferUsage.WriteOnly);
 
             CreateTriangles();
         }
@@ -85,8 +85,8 @@ namespace minecraft_kurwa {
         }
 
         internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
-            gpu.SetVertexBuffer(vertexBuffer);
-            gpu.Indices = indexBuffer;
+            graphicsDevice.SetVertexBuffer(vertexBuffer);
+            graphicsDevice.Indices = indexBuffer;
 
             basicEffect.Projection = projectionMatrix;
             basicEffect.View = viewMatrix;
@@ -94,7 +94,7 @@ namespace minecraft_kurwa {
 
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes) {
                 pass.Apply();
-                gpu.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
             }
         }
     }
