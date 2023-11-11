@@ -24,28 +24,17 @@ namespace minecraft_kurwa {
 
         public List<Voxel> voxels;
 
-        // CUSTOMIZABLE VARIABLES
-        readonly public int windowHeight = 1400;
-        readonly public int windowWidth = 2400;
-        readonly public float fieldOfView = 60; // in degrees
-        readonly public float renderDistance = 20_000;
-        readonly public float sensibility = 200; // higher value => faster mouse
-        readonly public float movementSpeed = 150; // higher value => faster movement
-        readonly public float updatesPerSecond = 60; // how many times does Update() get called
-
-        public float leftRightRot = 0f;
-        public float upDownRot = 0f;
-
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "minecraft?";
 
-            graphics.PreferredBackBufferHeight = windowHeight;
-            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.PreferredBackBufferHeight = Options.WINDOW_HEIGHT;
+            graphics.PreferredBackBufferWidth = Options.WINDOW_WIDTH;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromSeconds(1 / updatesPerSecond);
+            TargetElapsedTime = TimeSpan.FromSeconds(1 / Options.UPDATES_PER_SECOND);
         }
 
         protected override void Initialize() {
@@ -53,20 +42,20 @@ namespace minecraft_kurwa {
 
             camPosition = new Vector3(0f, 350f, 0f);
             camTarget = new Vector3(0f, 0f, camPosition.Z + 300f);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(fieldOfView), GraphicsDevice.DisplayMode.AspectRatio, 1f, renderDistance);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Options.FIELD_OF_VIEW), GraphicsDevice.DisplayMode.AspectRatio, 1f, Options.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
-            MainTarget = new RenderTarget2D(GraphicsDevice, windowWidth, windowHeight, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            MainTarget = new RenderTarget2D(GraphicsDevice, Options.WINDOW_WIDTH, Options.WINDOW_HEIGHT, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Mouse.SetPosition(windowWidth / 2, windowHeight / 2);
+            Mouse.SetPosition(Options.WINDOW_WIDTH / 2, Options.WINDOW_HEIGHT / 2);
 
             voxels = new();
 
-            for (int x = 0; x < 200; x++) {
-                for (int z = 0; z < 200; z++) {
-                    Voxel v = new(GraphicsDevice, new Vector3(x, new Random().Next(0, 2), z), Color.Green);
+            for (int x = 0; x < 99; x++) {
+                for (int z = 0; z < 99; z++) {
+                    Voxel v = new(GraphicsDevice, new Vector3(x, 0, z), new Color(0, 255, 0));
                     voxels.Add(v);
                 }
             }
@@ -81,6 +70,7 @@ namespace minecraft_kurwa {
             GraphicsDevice.SetRenderTarget(MainTarget);
             GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
             foreach (var voxel in voxels) {
                 voxel.Draw(projectionMatrix, viewMatrix);
@@ -89,16 +79,16 @@ namespace minecraft_kurwa {
             GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
-            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Options.WINDOW_WIDTH, Options.WINDOW_HEIGHT), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
         public void UpdateViewMatrix() {
-            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(leftRightRot)) + camPosition;
+            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(Movement.leftRightRot)) + camPosition;
 
-            camTarget.Y += upDownRot;
+            camTarget.Y += Movement.upDownRot;
             camTarget.Y = MathHelper.Min(camTarget.Y, camPosition.Y + 600);
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 
