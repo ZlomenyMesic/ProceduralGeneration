@@ -8,8 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace minecraft_kurwa {
     internal class Voxel {
+        internal readonly VoxelType type;
         internal readonly Vector3 position;
-        internal readonly Color color;
+        internal readonly Colors color;
         internal readonly float transparency;
 
         private readonly GraphicsDevice graphicsDevice;
@@ -25,8 +26,9 @@ namespace minecraft_kurwa {
         private const int INDEX_COUNT = 36;
         private const int TRIANGLE_COUNT = 12;
 
-        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, float transparency = 1.0f) {
+        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Colors color = Colors.GRASS_NORMAL, VoxelType type = VoxelType.UNKNOWN, float transparency = 1.0f) {
             this.graphicsDevice = graphicsDevice;
+            this.type = type;
             this.position = position;
             this.color = color;
             this.transparency = transparency;
@@ -45,22 +47,23 @@ namespace minecraft_kurwa {
         }
 
         private void CreateTriangles() {
-            Vector3 adjustedColor = color.ToVector3() - new Vector3(0.1f, 0.1f, 0.1f); // front
+            Vector3 originalColor = ColorManager.LIST[(int)color].ToVector3();
+            Vector3 adjustedColor = originalColor * ColorManager.FRONT_SHADOW; // front
             AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
 
-            adjustedColor -= new Vector3(0.1f, 0.1f, 0.1f); // right
+            adjustedColor = originalColor * ColorManager.SIDE_SHADOW; // right
             AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
 
-            adjustedColor -= new Vector3(0.1f, 0.1f, 0.1f); // back
+            adjustedColor = originalColor * ColorManager.BACK_SHADOW; // back
             AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
 
-            adjustedColor += new Vector3(0.1f, 0.1f, 0.1f); // left
+            adjustedColor = originalColor * ColorManager.SIDE_SHADOW; // left
             AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
 
-            adjustedColor -= new Vector3(0.2f, 0.2f, 0.2f); // bottom
+            adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW; // bottom
             AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor);
 
-            adjustedColor += new Vector3(0.4f, 0.4f, 0.4f); // top
+            adjustedColor = originalColor * ColorManager.TOP_SHADOW; // top
             AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
 
             AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);
@@ -97,5 +100,17 @@ namespace minecraft_kurwa {
                 graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
             }
         }
+    }
+
+    internal enum VoxelType {
+        UNKNOWN = 0,
+        GRASS = 1,
+        STONE = 2,
+        SAND = 3,
+        ICE = 4,
+        TERRACOTA = 5,
+        GRAVEL = 6,
+        SNOW = 7,
+        WATER = 8
     }
 }

@@ -56,15 +56,10 @@ namespace minecraft_kurwa {
 
             voxels = new();
 
-            for (int x = 0; x < 20; x++) {
+            for (int x = 0; x < 100; x++) {
                 for (int z = 0; z < 100; z++) {
-                    Voxel v1 = new(GraphicsDevice, new Vector3(x, 0, z), Colors.GRASS_COLD);
-                    Voxel v2 = new(GraphicsDevice, new Vector3(x + 20, 0, z), Colors.GRASS_NORMAL);
-                    Voxel v3 = new(GraphicsDevice, new Vector3(x + 40, 0, z), Colors.GRASS_WARM);
-                    Voxel v4 = new(GraphicsDevice, new Vector3(x + 60, 0, z), Colors.GRASS_DRY);
-                    Voxel v5 = new(GraphicsDevice, new Vector3(x + 80, 0, z), Colors.DIRT_DRY);
-                    Voxel v6 = new(GraphicsDevice, new Vector3(x + 100, 0, z), Colors.ROCK);
-                    voxels.Add(v1); voxels.Add(v2); voxels.Add(v3); voxels.Add(v4); voxels.Add(v5); voxels.Add(v6);
+                    Voxel v = new(GraphicsDevice, new Vector3(x, 0, z), Colors.GRASS_DRY);
+                    voxels.Add(v);
                 }
             }
         }
