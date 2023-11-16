@@ -47,22 +47,17 @@ namespace minecraft_kurwa {
         }
 
         internal double Noise(double x, double y) {
-            double value = 0;
-            double size = defaultSize;
-            double initialSize = size;
+            double value = 0, size = defaultSize, initialSize = size;
 
             while (size >= 1) {
                 value += SmoothNoise(x / size, y / size, 0f / size) * size;
                 size /= 2.0;
             }
-
             return value / initialSize;
         }
 
         internal double SmoothNoise(double x, double y, double z) {
-            x += seed;
-            y += seed;
-            z += seed;
+            x += seed; y += seed; z += seed;
 
             int X = (int)Math.Floor(x) & 255;
             int Y = (int)Math.Floor(y) & 255;

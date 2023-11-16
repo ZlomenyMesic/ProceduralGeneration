@@ -14,13 +14,15 @@ namespace minecraft_kurwa {
         internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
 
         internal static readonly Color[] LIST = {
-            new(19, 109, 21),
-            new(19, 133, 16),
-            new(65, 152, 10),
-            new(120, 144, 48),
-            new(144, 120, 48),
-            new(103, 146, 125),
-            new(255, 255, 255)
+            new(255, 0, 255),   // NONE - purple, default color
+            new(19, 109, 21),   // GRASS_COLD
+            new(19, 133, 16),   // GRASS_NORMAL
+            new(65, 152, 10),   // GRASS_WARM
+            new(120, 144, 48),  // GRASS_DRY
+            new(144, 120, 48),  // DIRT_DRY
+            new(103, 146, 125), // ROCK_NORMAL
+            new(127, 131, 134), // ROCK_MOSSY
+            new(255, 255, 255)  // SNOW
         };
         internal static Colors GetTypeColor(VoxelType? voxelType, BiomeType biomeType, int altitude) {
             // TODO: colors based on biome type
@@ -32,20 +34,22 @@ namespace minecraft_kurwa {
                 return Colors.GRASS_COLD;
             } 
             else if (voxelType == VoxelType.STONE) {
-                return Colors.ROCK;
+                return Colors.ROCK_NORMAL;
             }
 
-            return Colors.GRASS_COLD;
+            return Colors.NONE;
         }
     }
 
     internal enum Colors {
-        GRASS_COLD = 0,
-        GRASS_NORMAL = 1,
-        GRASS_WARM = 2,
-        GRASS_DRY = 3,
-        DIRT_DRY = 4,
-        ROCK = 5,
-        SNOW = 6,
+        NONE = 0,
+        GRASS_COLD = 1,
+        GRASS_NORMAL = 2,
+        GRASS_WARM = 3,
+        GRASS_DRY = 4,
+        DIRT_DRY = 5,
+        ROCK_NORMAL = 6,
+        ROCK_MOSSY = 7,
+        SNOW = 8,
     }
 }

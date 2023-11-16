@@ -17,10 +17,11 @@ namespace minecraft_kurwa {
 
         internal Vector3 camTarget;
         internal Vector3 camPosition;
+
         internal Matrix projectionMatrix;
         internal Matrix viewMatrix;
 
-        RenderTarget2D MainTarget;
+        internal RenderTarget2D MainTarget;
 
         internal List<Voxel> world;
 
