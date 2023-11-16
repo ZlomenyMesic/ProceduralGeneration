@@ -20,12 +20,12 @@ namespace minecraft_kurwa {
             Vector2 difference;
             MouseState mouseState = Mouse.GetState();
 
-            difference.X = (Options.WINDOW_WIDTH / 2) - mouseState.X;
-            difference.Y = (Options.WINDOW_HEIGHT / 2) - mouseState.Y;
-            leftRightRot = Options.SENSIBILITY * difference.X / 100_000;
-            upDownRot = Options.SENSIBILITY * difference.Y / 400;
+            difference.X = (Global.WINDOW_WIDTH / 2) - mouseState.X;
+            difference.Y = (Global.WINDOW_HEIGHT / 2) - mouseState.Y;
+            leftRightRot = Global.SENSIBILITY * difference.X / 100_000;
+            upDownRot = Global.SENSIBILITY * difference.Y / 400;
 
-            Mouse.SetPosition(Options.WINDOW_WIDTH / 2, Options.WINDOW_HEIGHT / 2);
+            Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
 
             game.UpdateViewMatrix();
         }
@@ -34,7 +34,7 @@ namespace minecraft_kurwa {
             KeyboardState keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Escape)) game.Exit();
 
-            float speed = 1 / Options.MOVEMENT_SPEED * 10_000;
+            float speed = 1 / Global.MOVEMENT_SPEED * 10_000;
 
             float differenceX = (game.camTarget.X - game.camPosition.X) / speed;
             float differenceZ = (game.camTarget.Z - game.camPosition.Z) / speed;
