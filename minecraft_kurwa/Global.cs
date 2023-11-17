@@ -12,13 +12,17 @@ namespace minecraft_kurwa {
         internal const float RENDER_DISTANCE = 2000;
 
         internal const float SENSIBILITY = 200; // higher value => faster mouse
-        internal const float MOVEMENT_SPEED = 100; // higher value => faster movement
+        internal const float MOVEMENT_SPEED = 40; // higher value => faster movement
 
         internal const float UPDATES_PER_SECOND = 60; // how many times Update() gets called
 
-        internal const int WORLD_SIZE = 250;
+        internal const float START_POS_X = 0;
+        internal const float START_POS_Y = 100;
+        internal const float START_POS_Z = 0;
+
+        internal const int WORLD_SIZE = 200;
         internal const int HEIGHT_LIMIT = 512;
-        internal const int SEED = 1;
+        internal const int SEED = 20;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
@@ -38,7 +42,7 @@ namespace minecraft_kurwa {
         STONE = 2,
         SAND = 3,
         ICE = 4,
-        TERRACOTA = 5,
+        TERRACOTTA = 5,
         GRAVEL = 6,
         SNOW = 7,
         WATER = 8

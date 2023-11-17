@@ -11,9 +11,33 @@ namespace minecraft_kurwa {
         internal const int TEMPERATE_OCEANIC_BIOME_COUNT = 4;
         internal const int TEMPERATE_INLAND_BIOME_COUNT = 4;
         internal const int COLD_BIOME_COUNT = 4;
+
+        internal static BiomeType GetBiome(int x, int z) {
+            return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE 
+                ? (BiomeType)(Global.BIOME_MAP[x, z] - (Global.BIOME_MAP[x, z] % 10))
+                : BiomeType.VOID;
+        }
+
+        internal static BiomeType GetSubbiome(int x, int z) {
+            return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE
+                ? (BiomeType)Global.BIOME_MAP[x, z]
+                : BiomeType.VOID;
+        }
+
+        internal static VoxelType GetTopBlock(BiomeType biome) {
+            if (biome == BiomeType.TROPICAL_DRY_DESERT_SANDY) return VoxelType.SAND;
+            if (biome == BiomeType.TROPICAL_DRY_DESERT_STONY) return VoxelType.STONE;
+            if (biome == BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return VoxelType.GRAVEL;
+            if (biome == BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return VoxelType.TERRACOTTA;
+            if ((int)biome >= 50) return VoxelType.SNOW;
+
+            return VoxelType.GRASS;
+        }
     }
 
     internal enum BiomeType {
+        VOID = -1,
+
         TROPICAL_DRY = 0,
         TROPICAL_DRY_DESERT_SANDY = 1,
         TROPICAL_DRY_DESERT_STONY = 2,
@@ -23,7 +47,7 @@ namespace minecraft_kurwa {
         TROPICAL_DRY_WASTELAND = 6,
 
         TROPICAL_RAINY = 10,
-        TOPICAL_RAINY_JUNGLE = 11,
+        TROPICAL_RAINY_JUNGLE = 11,
         TROPICAL_RAINY_BAMBOO_JUNGLE = 12,
         TROPICAL_RAINY_PLAINS = 13,
 

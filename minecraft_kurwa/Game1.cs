@@ -8,10 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace minecraft_kurwa {
 
     public class Game1 : Game {
+        private Stopwatch stopWatch;
+
         SpriteBatch spriteBatch;
         GraphicsDeviceManager graphics;
 
@@ -23,9 +26,14 @@ namespace minecraft_kurwa {
 
         internal RenderTarget2D MainTarget;
 
+        internal SpriteFont defaultFont;
+
         internal List<Voxel> world;
 
         public Game1() {
+            stopWatch = new();
+            stopWatch.Start();
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "minecraft?";
@@ -41,14 +49,16 @@ namespace minecraft_kurwa {
         protected override void Initialize() {
             base.Initialize();
 
-            camPosition = new Vector3(0f, 350f, 0f);
-            camTarget = new Vector3(0f, 0f, camPosition.Z + 300f);
+            camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
+            camTarget = new Vector3(camPosition.X, camPosition.Y - 350f, camPosition.Z + 300f);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Global.FIELD_OF_VIEW), GraphicsDevice.DisplayMode.AspectRatio, 1f, Global.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
             MainTarget = new RenderTarget2D(GraphicsDevice, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            defaultFont = Content.Load<SpriteFont>("default");
 
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
 
@@ -87,6 +97,21 @@ namespace minecraft_kurwa {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
             spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT), Color.White);
+            spriteBatch.End();
+
+            if (stopWatch.IsRunning) stopWatch.Stop();
+
+            spriteBatch.Begin();
+            spriteBatch.DrawString(defaultFont,
+                $"Camera position:\n" +
+                $"X: {camPosition.X}\n" +
+                $"Y: {camPosition.Y}\n" +
+                $"Z: {camPosition.Z}\n" +
+                $"Biome: {Biome.GetBiome((int)camPosition.X, (int)camPosition.Z)}\n" +
+                $"Subbiome: {Biome.GetSubbiome((int)camPosition.X, (int)camPosition.Z)}\n\n" +
+                $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
+                $"Seed: {Global.SEED}",
+                new(30, 30), Color.White); ;
             spriteBatch.End();
 
             base.Draw(gameTime);

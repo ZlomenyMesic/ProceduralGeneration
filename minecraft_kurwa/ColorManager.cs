@@ -16,37 +16,53 @@ namespace minecraft_kurwa {
         private static readonly Color[] BASE_COLORS = {
             new(255, 0, 255),   // 0 - purple
             new(19, 133, 16),   // 1 - grass
-            new(103, 146, 125), // 2 - rock
-            new(255, 255, 255), // 3 - snow
+            new(100, 110, 106), // 2 - rock
+            new(242, 210, 169), // 3 - sand
+            new(185, 232, 234), // 4 - ice
+            new(179, 86, 66),   // 5 - terracotta
+            new(83, 84, 78),    // 6 - gravel
+            new(255, 255, 255), // 7 - snow
         };
 
         private static readonly Color[] SHADES = {
             new(0, 0, 0),       // 0 - no shade
             new(0, -24, 5),     // 1 - grass - cold
-            new(15, 5, -2),     // 2 - grass - warm
+            new(15, 5, -2),     // 2 - grass - rainy
             new(50, 5, 15),     // 3 - grass - dry
-            new(24, -15, 9),    // 4 - rock - mossy
+            new(70, 7, 20),     // 4 - grass - super dry
         };
 
-        internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biomeType, int altitude) {
-            Color baseColor = BASE_COLORS[0];
+        internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude) {
+            Color @base = BASE_COLORS[(int)voxelType];
             Color shade = SHADES[0];
 
             if (voxelType == VoxelType.GRASS) {
-                baseColor = BASE_COLORS[1];
-
-                if ((int)biomeType < 10) shade = SHADES[3];        // tropical dry
-                else if ((int)biomeType < 20) shade = SHADES[2];   // tropical rainy
-                else if ((int)biomeType < 50) shade = SHADES[0];   // subtropical, temperate oceanic, temperate inland
-                else shade = SHADES[1];                            // cold
+                if ((int)biome < 10 || (int)biome == 23) shade = SHADES[4];  // super dry
+                else if ((int)biome < 20) shade = SHADES[2];                 // rainy
+                else if ((int)biome < 30) shade = SHADES[3];                 // dry
+                else if ((int)biome < 50) shade = SHADES[0];                 // normal
+                else shade = SHADES[1];                                      // cold
             }
             else if (voxelType == VoxelType.STONE) {
-                baseColor = BASE_COLORS[2];
+                
+            }
+            else if (voxelType == VoxelType.SAND) {
+                
+            }
+            else if (voxelType == VoxelType.ICE) {
+                
+            }
+            else if (voxelType == VoxelType.TERRACOTTA) {
 
-                //if ((int)biomeType >= 10 && (int)biomeType < 20) shade = SHADES[4]; // tropical rainy
+            }
+            else if (voxelType == VoxelType.GRAVEL) {
+
+            }
+            else if (voxelType == VoxelType.SNOW) {
+
             }
 
-            Vector3 result = baseColor.ToVector3() + shade.ToVector3();
+            Vector3 result = @base.ToVector3() + shade.ToVector3();
             return new(result.X, result.Y, result.Z);
         }
     }
