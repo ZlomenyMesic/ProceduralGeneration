@@ -20,7 +20,7 @@ namespace minecraft_kurwa {
         internal const float START_POS_Y = 100;
         internal const float START_POS_Z = 0;
 
-        internal const int WORLD_SIZE = 200;
+        internal const int WORLD_SIZE = 300;
         internal const int HEIGHT_LIMIT = 512;
         internal const int SEED = 1;
 

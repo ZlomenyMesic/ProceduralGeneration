@@ -11,12 +11,12 @@ namespace minecraft_kurwa {
         internal static float leftRightRot = 0;
         internal static float upDownRot = 0;
 
-        internal static void Update(Game1 game) {
-            HandleMouse(game);
-            HandleKeyboard(game);
+        internal static bool Update(ref Vector3 camTarget, ref Vector3 camPosition) {
+            HandleMouse();
+            return HandleKeyboard(ref camTarget, ref camPosition);
         }
 
-        private static void HandleMouse(Game1 game) {
+        private static void HandleMouse() {
             Vector2 difference;
             MouseState mouseState = Mouse.GetState();
 
@@ -26,51 +26,50 @@ namespace minecraft_kurwa {
             upDownRot = Global.SENSIBILITY * difference.Y / 400;
 
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
-
-            game.UpdateViewMatrix();
         }
 
-        private static void HandleKeyboard(Game1 game) {
+        private static bool HandleKeyboard(ref Vector3 camTarget, ref Vector3 camPosition) {
             KeyboardState keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(Keys.Escape)) game.Exit();
+            if (keyboard.IsKeyDown(Keys.Escape)) return true;
 
             float speed = 1 / Global.MOVEMENT_SPEED * 10_000;
 
-            float differenceX = (game.camTarget.X - game.camPosition.X) / speed;
-            float differenceZ = (game.camTarget.Z - game.camPosition.Z) / speed;
+            float differenceX = (camTarget.X - camPosition.X) / speed;
+            float differenceZ = (camTarget.Z - camPosition.Z) / speed;
 
             if (keyboard.IsKeyDown(Keys.W)) {
-                game.camPosition.X += differenceX;
-                game.camTarget.X += differenceX;
-                game.camPosition.Z += differenceZ;
-                game.camTarget.Z += differenceZ;
+                camPosition.X += differenceX;
+                camTarget.X += differenceX;
+                camPosition.Z += differenceZ;
+                camTarget.Z += differenceZ;
             }
             if (keyboard.IsKeyDown(Keys.S)) {
-                game.camPosition.X -= differenceX;
-                game.camTarget.X -= differenceX;
-                game.camPosition.Z -= differenceZ;
-                game.camTarget.Z -= differenceZ;
+                camPosition.X -= differenceX;
+                camTarget.X -= differenceX;
+                camPosition.Z -= differenceZ;
+                camTarget.Z -= differenceZ;
             }
             if (keyboard.IsKeyDown(Keys.A)) {
-                game.camPosition.Z -= differenceX;
-                game.camTarget.Z -= differenceX;
-                game.camPosition.X += differenceZ;
-                game.camTarget.X += differenceZ;
+                camPosition.Z -= differenceX;
+                camTarget.Z -= differenceX;
+                camPosition.X += differenceZ;
+                camTarget.X += differenceZ;
             }
             if (keyboard.IsKeyDown(Keys.D)) {
-                game.camPosition.Z += differenceX;
-                game.camTarget.Z += differenceX;
-                game.camPosition.X -= differenceZ;
-                game.camTarget.X -= differenceZ;
+                camPosition.Z += differenceX;
+                camTarget.Z += differenceX;
+                camPosition.X -= differenceZ;
+                camTarget.X -= differenceZ;
             }
             if (keyboard.IsKeyDown(Keys.Space)) {
-                game.camPosition.Y += 200 / speed;
-                game.camTarget.Y += 200 / speed;
+                camPosition.Y += 200 / speed;
+                camTarget.Y += 200 / speed;
             }
             if (keyboard.IsKeyDown(Keys.LeftShift)) {
-                game.camPosition.Y -= 200 / speed;
-                game.camTarget.Y -= 200 / speed;
+                camPosition.Y -= 200 / speed;
+                camTarget.Y -= 200 / speed;
             }
+            return false;
         }
     }
 }

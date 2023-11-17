@@ -44,9 +44,6 @@ namespace minecraft_kurwa {
                 else if ((int)biome < 50) shade = SHADES[0];                 // normal
                 else shade = SHADES[1];                                      // cold
             }
-            else if (voxelType == VoxelType.OAK_LEAVES) {
-                
-            }
 
             Vector3 result = @base.ToVector3() + shade.ToVector3();
             return new(result.X, result.Y, result.Z);

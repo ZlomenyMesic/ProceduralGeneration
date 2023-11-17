@@ -13,10 +13,10 @@ using System.Diagnostics;
 namespace minecraft_kurwa {
 
     public class Game1 : Game {
-        private Stopwatch stopWatch;
+        private readonly Stopwatch stopWatch;
 
-        SpriteBatch spriteBatch;
-        GraphicsDeviceManager graphics;
+        internal SpriteBatch spriteBatch;
+        internal GraphicsDeviceManager graphics;
 
         internal Vector3 camTarget;
         internal Vector3 camPosition;
@@ -62,6 +62,10 @@ namespace minecraft_kurwa {
 
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
 
+            Voxel.basicEffect = new(GraphicsDevice) {
+                VertexColorEnabled = true
+            };
+
             world = new();
 
             GeneratorController.GenerateWorld();
@@ -79,7 +83,8 @@ namespace minecraft_kurwa {
         }
 
         protected override void Update(GameTime gameTime) {
-            Movement.Update(this);
+            if (Movement.Update(ref camTarget, ref camPosition)) Exit();
+            UpdateViewMatrix();
             base.Update(gameTime);
         }
 
@@ -89,8 +94,8 @@ namespace minecraft_kurwa {
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
-            foreach (var voxel in world) {
-                voxel.Draw(projectionMatrix, viewMatrix);
+            for (int i = 0; i < world.Count; i++) {
+                world[i].Draw(projectionMatrix, viewMatrix);
             }
 
             GraphicsDevice.SetRenderTarget(null);

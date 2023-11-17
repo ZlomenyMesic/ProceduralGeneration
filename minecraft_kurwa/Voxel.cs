@@ -14,7 +14,7 @@ namespace minecraft_kurwa {
         internal readonly float transparency;
 
         private readonly GraphicsDevice graphicsDevice;
-        private readonly BasicEffect basicEffect;
+        internal static BasicEffect basicEffect;
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
         private readonly ushort[] indices;
@@ -32,11 +32,7 @@ namespace minecraft_kurwa {
             this.position = position;
             this.color = color;
             this.transparency = transparency;
-
-            basicEffect = new(graphicsDevice) {
-                Alpha = transparency,
-                VertexColorEnabled = true
-            };
+            basicEffect.Alpha = transparency;
 
             vertices = new VertexPositionColor[VERTEX_COUNT];
             indices = new ushort[INDEX_COUNT];
@@ -95,8 +91,8 @@ namespace minecraft_kurwa {
             basicEffect.View = viewMatrix;
             basicEffect.World = Matrix.CreateTranslation(position);
 
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes) {
-                pass.Apply();
+            for (int i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
+                basicEffect.CurrentTechnique.Passes[i].Apply();
                 graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
             }
         }

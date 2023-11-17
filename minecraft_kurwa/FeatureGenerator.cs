@@ -3,7 +3,6 @@
 // ZlomenyMesic, KryKom
 //
 
-using SharpDX;
 using System;
 
 namespace minecraft_kurwa {
