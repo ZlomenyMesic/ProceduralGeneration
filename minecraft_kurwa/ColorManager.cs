@@ -13,43 +13,41 @@ namespace minecraft_kurwa {
         internal static readonly Vector3 BOTTOM_SHADOW = new(0.6f, 0.6f, 0.6f);
         internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
 
-        internal static readonly Color[] LIST = {
-            new(255, 0, 255),   // NONE - purple, default color
-            new(19, 109, 21),   // GRASS_COLD
-            new(19, 133, 16),   // GRASS_NORMAL
-            new(65, 152, 10),   // GRASS_WARM
-            new(120, 144, 48),  // GRASS_DRY
-            new(144, 120, 48),  // DIRT_DRY
-            new(103, 146, 125), // ROCK_NORMAL
-            new(127, 131, 134), // ROCK_MOSSY
-            new(255, 255, 255)  // SNOW
+        private static readonly Color[] BASE_COLORS = {
+            new(255, 0, 255),   // 0 - purple
+            new(19, 133, 16),   // 1 - grass
+            new(103, 146, 125), // 2 - rock
+            new(255, 255, 255), // 3 - snow
         };
-        internal static Colors GetTypeColor(VoxelType? voxelType, BiomeType biomeType, int altitude) {
-            // TODO: colors based on biome type
+
+        private static readonly Color[] SHADES = {
+            new(0, 0, 0),       // 0 - no shade
+            new(0, -24, 5),     // 1 - grass - cold
+            new(15, 5, -2),     // 2 - grass - warm
+            new(50, 5, 15),     // 3 - grass - dry
+            new(24, -15, 9),    // 4 - rock - mossy
+        };
+
+        internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biomeType, int altitude) {
+            Color baseColor = BASE_COLORS[0];
+            Color shade = SHADES[0];
 
             if (voxelType == VoxelType.GRASS) {
-                if (altitude > 70) return Colors.SNOW;
-                else if (altitude > 66) return new System.Random().Next(0, 2) == 0 ? Colors.SNOW : Colors.GRASS_COLD;
-                else if (altitude < 10) return Colors.GRASS_NORMAL;
-                return Colors.GRASS_COLD;
-            } 
+                baseColor = BASE_COLORS[1];
+
+                if ((int)biomeType < 10) shade = SHADES[3];        // tropical dry
+                else if ((int)biomeType < 20) shade = SHADES[2];   // tropical rainy
+                else if ((int)biomeType < 50) shade = SHADES[0];   // subtropical, temperate oceanic, temperate inland
+                else shade = SHADES[1];                            // cold
+            }
             else if (voxelType == VoxelType.STONE) {
-                return Colors.ROCK_NORMAL;
+                baseColor = BASE_COLORS[2];
+
+                //if ((int)biomeType >= 10 && (int)biomeType < 20) shade = SHADES[4]; // tropical rainy
             }
 
-            return Colors.NONE;
+            Vector3 result = baseColor.ToVector3() + shade.ToVector3();
+            return new(result.X, result.Y, result.Z);
         }
-    }
-
-    internal enum Colors {
-        NONE = 0,
-        GRASS_COLD = 1,
-        GRASS_NORMAL = 2,
-        GRASS_WARM = 3,
-        GRASS_DRY = 4,
-        DIRT_DRY = 5,
-        ROCK_NORMAL = 6,
-        ROCK_MOSSY = 7,
-        SNOW = 8,
     }
 }

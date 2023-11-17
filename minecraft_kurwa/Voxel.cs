@@ -10,7 +10,7 @@ namespace minecraft_kurwa {
     internal class Voxel {
         internal readonly VoxelType type;
         internal readonly Vector3 position;
-        internal readonly Colors color;
+        internal readonly Color color;
         internal readonly float transparency;
 
         private readonly GraphicsDevice graphicsDevice;
@@ -26,7 +26,7 @@ namespace minecraft_kurwa {
         private const int INDEX_COUNT = 36;
         private const int TRIANGLE_COUNT = 12;
 
-        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Colors color = Colors.GRASS_NORMAL, VoxelType type = VoxelType.UNKNOWN, float transparency = 1.0f) {
+        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, VoxelType type = VoxelType.UNKNOWN, float transparency = 1.0f) {
             this.graphicsDevice = graphicsDevice;
             this.type = type;
             this.position = position;
@@ -40,14 +40,14 @@ namespace minecraft_kurwa {
 
             vertices = new VertexPositionColor[VERTEX_COUNT];
             indices = new ushort[INDEX_COUNT];
-            vertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor), VERTEX_COUNT, BufferUsage.WriteOnly);
-            indexBuffer = new IndexBuffer(graphicsDevice, typeof(ushort), INDEX_COUNT, BufferUsage.WriteOnly);
+            vertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionColor), VERTEX_COUNT, BufferUsage.None);
+            indexBuffer = new IndexBuffer(graphicsDevice, typeof(ushort), INDEX_COUNT, BufferUsage.None);
 
             CreateTriangles();
         }
 
         private void CreateTriangles() {
-            Vector3 originalColor = ColorManager.LIST[(int)color].ToVector3();
+            Vector3 originalColor = color.ToVector3();
             Vector3 adjustedColor = originalColor * ColorManager.FRONT_SHADOW; // front
             AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
 
@@ -100,17 +100,5 @@ namespace minecraft_kurwa {
                 graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
             }
         }
-    }
-
-    internal enum VoxelType {
-        UNKNOWN = 0,
-        GRASS = 1,
-        STONE = 2,
-        SAND = 3,
-        ICE = 4,
-        TERRACOTA = 5,
-        GRAVEL = 6,
-        SNOW = 7,
-        WATER = 8
     }
 }

@@ -31,4 +31,16 @@ namespace minecraft_kurwa {
         internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
         internal static byte[,] BIOME_MAP = new byte[WORLD_SIZE, WORLD_SIZE];
     }
+
+    internal enum VoxelType {
+        UNKNOWN = 0,
+        GRASS = 1,
+        STONE = 2,
+        SAND = 3,
+        ICE = 4,
+        TERRACOTA = 5,
+        GRAVEL = 6,
+        SNOW = 7,
+        WATER = 8
+    }
 }

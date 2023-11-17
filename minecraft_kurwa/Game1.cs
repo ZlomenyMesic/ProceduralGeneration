@@ -60,7 +60,7 @@ namespace minecraft_kurwa {
                 for (int y = 0; y < Global.WORLD_SIZE; y++) {
                     for (int z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
-                            Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetTypeColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z));
+                            Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z));
                             world.Add(v);
                         }
                     }
@@ -75,7 +75,7 @@ namespace minecraft_kurwa {
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.SetRenderTarget(MainTarget);
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            GraphicsDevice.Clear(0, Color.Black, 1.0f, 0);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
