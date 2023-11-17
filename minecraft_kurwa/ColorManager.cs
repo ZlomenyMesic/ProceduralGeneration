@@ -22,6 +22,7 @@ namespace minecraft_kurwa {
             new(179, 86, 66),   // 5 - terracotta
             new(83, 84, 78),    // 6 - gravel
             new(255, 255, 255), // 7 - snow
+            new(0, 255, 0),     // 8 - oak leaves
         };
 
         private static readonly Color[] SHADES = {
@@ -43,23 +44,8 @@ namespace minecraft_kurwa {
                 else if ((int)biome < 50) shade = SHADES[0];                 // normal
                 else shade = SHADES[1];                                      // cold
             }
-            else if (voxelType == VoxelType.STONE) {
+            else if (voxelType == VoxelType.OAK_LEAVES) {
                 
-            }
-            else if (voxelType == VoxelType.SAND) {
-                
-            }
-            else if (voxelType == VoxelType.ICE) {
-                
-            }
-            else if (voxelType == VoxelType.TERRACOTTA) {
-
-            }
-            else if (voxelType == VoxelType.GRAVEL) {
-
-            }
-            else if (voxelType == VoxelType.SNOW) {
-
             }
 
             Vector3 result = @base.ToVector3() + shade.ToVector3();

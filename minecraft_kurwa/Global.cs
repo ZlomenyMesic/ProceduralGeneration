@@ -45,6 +45,7 @@ namespace minecraft_kurwa {
         TERRACOTTA = 5,
         GRAVEL = 6,
         SNOW = 7,
-        WATER = 8
+        OAK_LEAVES = 8,
+        WATER = 9,
     }
 }
