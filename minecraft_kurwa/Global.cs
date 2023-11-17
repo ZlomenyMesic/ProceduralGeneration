@@ -22,14 +22,14 @@ namespace minecraft_kurwa {
 
         internal const int WORLD_SIZE = 200;
         internal const int HEIGHT_LIMIT = 512;
-        internal const int SEED = 20;
+        internal const int SEED = 1;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
         internal const int SIDE_NOISE_SHARPNESS = 1;
         internal const int SIDE_NOISE_SCALE = 5;
-        internal const int BIOME_SCALE = 40;
-        internal const int SUBBIOME_SCALE = 5;
+        internal const int BIOME_SCALE = 80;
+        internal const int SUBBIOME_SCALE = 8;
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
         internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];

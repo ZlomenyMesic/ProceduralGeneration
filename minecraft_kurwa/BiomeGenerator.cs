@@ -18,7 +18,7 @@ namespace minecraft_kurwa {
                 }
             }
 
-            p.seed = Global.SEED + 1;
+            p.seed += 1;
 
             for (int x = 0; x < Global.WORLD_SIZE; x++) {
                 for (int y = 0; y < Global.WORLD_SIZE; y++) {
