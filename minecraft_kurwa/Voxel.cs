@@ -9,12 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 namespace minecraft_kurwa {
     internal class Voxel {
         internal readonly VoxelType type;
-        internal readonly Vector3 position;
         internal readonly Color color;
         internal readonly float transparency;
 
+        private readonly Matrix transform;
+
         private readonly GraphicsDevice graphicsDevice;
-        internal static BasicEffect basicEffect;
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
         private readonly ushort[] indices;
@@ -26,13 +26,16 @@ namespace minecraft_kurwa {
         private const int INDEX_COUNT = 36;
         private const int TRIANGLE_COUNT = 12;
 
+        internal static BasicEffect basicEffect;
+
         internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, VoxelType type = VoxelType.UNKNOWN, float transparency = 1.0f) {
             this.graphicsDevice = graphicsDevice;
             this.type = type;
-            this.position = position;
             this.color = color;
             this.transparency = transparency;
             basicEffect.Alpha = transparency;
+
+            transform = Matrix.CreateTranslation(position);
 
             vertices = new VertexPositionColor[VERTEX_COUNT];
             indices = new ushort[INDEX_COUNT];
@@ -89,7 +92,7 @@ namespace minecraft_kurwa {
 
             basicEffect.Projection = projectionMatrix;
             basicEffect.View = viewMatrix;
-            basicEffect.World = Matrix.CreateTranslation(position);
+            basicEffect.World = transform;
 
             for (int i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
                 basicEffect.CurrentTechnique.Passes[i].Apply();

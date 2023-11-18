@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace minecraft_kurwa {
     internal static class ColorManager {
-        internal static readonly Vector3 FRONT_SHADOW = new(0.9f, 0.9f, 0.9f);
+        internal static readonly Vector3 FRONT_SHADOW = new(0.7f, 0.7f, 0.7f);
         internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
         internal static readonly Vector3 BACK_SHADOW = new(0.7f, 0.7f, 0.7f);
         internal static readonly Vector3 BOTTOM_SHADOW = new(0.6f, 0.6f, 0.6f);
@@ -27,10 +27,10 @@ namespace minecraft_kurwa {
 
         private static readonly Color[] SHADES = {
             new(0, 0, 0),       // 0 - no shade
-            new(0, -24, 5),     // 1 - grass - cold
-            new(15, 5, -2),     // 2 - grass - rainy
-            new(50, 5, 15),     // 3 - grass - dry
-            new(70, 7, 20),     // 4 - grass - super dry
+            new(70, 7, 20),     // 1 - grass - super dry
+            new(50, 5, 15),     // 2 - grass - dry
+            new(15, 5, -2),     // 3 - grass - rainy
+            new(0, -24, 5),     // 4 - grass - cold
         };
 
         internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude) {
@@ -38,11 +38,13 @@ namespace minecraft_kurwa {
             Color shade = SHADES[0];
 
             if (voxelType == VoxelType.GRASS) {
-                if ((int)biome < 10 || (int)biome == 23) shade = SHADES[4];  // super dry
-                else if ((int)biome < 20) shade = SHADES[2];                 // rainy
-                else if ((int)biome < 30) shade = SHADES[3];                 // dry
-                else if ((int)biome < 50) shade = SHADES[0];                 // normal
-                else shade = SHADES[1];                                      // cold
+                switch ((int)biome) {
+                    case 1: case 2: case 3: case 4: case 5: case 6: case 23: shade = SHADES[1]; break;  // super dry
+                    case 21: case 22: case 24: case 25: shade = SHADES[2]; break;                       // dry
+                    case 11: case 12: shade = SHADES[3]; break;                                         // rainy
+                    case 51: case 52: case 53: case 54: shade = SHADES[4]; break;                       // cold
+                    default: shade = SHADES[0]; break;                                                  // normal
+                }
             }
 
             Vector3 result = @base.ToVector3() + shade.ToVector3();

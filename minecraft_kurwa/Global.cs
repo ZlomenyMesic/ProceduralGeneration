@@ -20,15 +20,15 @@ namespace minecraft_kurwa {
         internal const float START_POS_Y = 100;
         internal const float START_POS_Z = 0;
 
-        internal const int WORLD_SIZE = 300;
-        internal const int HEIGHT_LIMIT = 512;
+        internal const int WORLD_SIZE = 250;
+        internal const int HEIGHT_LIMIT = 256;
         internal const int SEED = 1;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
         internal const int SIDE_NOISE_SHARPNESS = 1;
         internal const int SIDE_NOISE_SCALE = 5;
-        internal const int BIOME_SCALE = 80;
+        internal const int BIOME_SCALE = 50;
         internal const int SUBBIOME_SCALE = 8;
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];

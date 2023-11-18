@@ -28,7 +28,8 @@ namespace minecraft_kurwa {
 
         internal SpriteFont defaultFont;
 
-        internal List<Voxel> world;
+        internal Voxel[] world;
+        internal int voxelCount = 0;
 
         public Game1() {
             stopWatch = new();
@@ -66,7 +67,7 @@ namespace minecraft_kurwa {
                 VertexColorEnabled = true
             };
 
-            world = new();
+            world = new Voxel[Global.WORLD_SIZE * Global.WORLD_SIZE * Global.HEIGHT_LIMIT];
 
             GeneratorController.GenerateWorld();
 
@@ -75,7 +76,7 @@ namespace minecraft_kurwa {
                     for (int z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
                             Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z));
-                            world.Add(v);
+                            world[voxelCount++] = v;
                         }
                     }
                 }
@@ -94,7 +95,7 @@ namespace minecraft_kurwa {
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
-            for (int i = 0; i < world.Count; i++) {
+            for (int i = 0; i < voxelCount; i++) {
                 world[i].Draw(projectionMatrix, viewMatrix);
             }
 
