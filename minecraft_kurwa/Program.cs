@@ -1,3 +1,7 @@
-﻿
-using var game = new minecraft_kurwa.Game1();
-game.Run();
+﻿//
+// minecraft_kurwa
+// ZlomenyMesic, KryKom
+//
+
+var engine = new minecraft_kurwa.Engine();
+engine.Run();
