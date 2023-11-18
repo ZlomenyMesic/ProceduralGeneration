@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace minecraft_kurwa {
     internal class Voxel {
-        internal readonly VoxelType type;
         internal readonly Color color;
         internal readonly float transparency;
 
@@ -28,12 +27,10 @@ namespace minecraft_kurwa {
 
         internal static BasicEffect basicEffect;
 
-        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, VoxelType type = VoxelType.UNKNOWN, float transparency = 1.0f) {
+        internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, float transparency = 1.0f) {
             this.graphicsDevice = graphicsDevice;
-            this.type = type;
             this.color = color;
             this.transparency = transparency;
-            basicEffect.Alpha = transparency;
 
             transform = Matrix.CreateTranslation(position);
 
@@ -89,6 +86,8 @@ namespace minecraft_kurwa {
         internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
             graphicsDevice.SetVertexBuffer(vertexBuffer);
             graphicsDevice.Indices = indexBuffer;
+
+            basicEffect.Alpha = transparency;
 
             basicEffect.Projection = projectionMatrix;
             basicEffect.View = viewMatrix;

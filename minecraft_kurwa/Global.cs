@@ -29,6 +29,8 @@ namespace minecraft_kurwa {
         internal const int BIOME_SCALE = 50;
         internal const int SUBBIOME_SCALE = 8;
 
+        internal const int TREE_DENSITY = 50;
+
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
         internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
         internal static byte[,] BIOME_MAP = new byte[WORLD_SIZE, WORLD_SIZE];
@@ -44,6 +46,7 @@ namespace minecraft_kurwa {
         GRAVEL = 6,
         SNOW = 7,
         OAK_LEAVES = 8,
-        WATER = 9,
+        OAK_WOOD = 9,
+        WATER = 10,
     }
 }

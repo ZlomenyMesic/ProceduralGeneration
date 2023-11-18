@@ -19,6 +19,8 @@ namespace minecraft_kurwa {
                     if (y < Global.WORLD_SIZE - 1 && Global.HEIGHT_MAP[x, y + 1] + 1 < Global.HEIGHT_MAP[x, y]) for (int z = 1 + Global.HEIGHT_MAP[x, y + 1]; z < Global.HEIGHT_MAP[x, y]; z++) Global.VOXEL_MAP[x, y, z] = VoxelType.STONE;
                 }
             }
+
+            Tree.GenerateTrees();
         }
     }
 }
