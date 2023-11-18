@@ -26,8 +26,6 @@ namespace minecraft_kurwa {
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
-        internal const int SIDE_NOISE_SHARPNESS = 1;
-        internal const int SIDE_NOISE_SCALE = 5;
         internal const int BIOME_SCALE = 50;
         internal const int SUBBIOME_SCALE = 8;
 

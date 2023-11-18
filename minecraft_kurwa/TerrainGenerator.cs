@@ -19,22 +19,6 @@ namespace minecraft_kurwa {
                 }
             }
 
-            //perlinNoise.seed += 1;
-
-            //short[,] side = new short[Global.WORLD_SIZE, Global.WORLD_SIZE];
-
-            //for (int x = 0; x < Global.WORLD_SIZE; x++) {
-            //    for (int y = 0; y < Global.WORLD_SIZE; y++) {
-            //        side[x, y] = (short)Math.Round(perlinNoise.Noise((double)x / Global.SIDE_NOISE_SCALE, (double)y / Global.SIDE_NOISE_SCALE) * Global.SIDE_NOISE_SHARPNESS * 5 / 2 + Global.SIDE_NOISE_SHARPNESS * 3 / 2);
-            //    }
-            //}
-
-            //for (int x = 0; x < Global.WORLD_SIZE; x++) {
-            //    for (int y = 0; y < Global.WORLD_SIZE; y++) {
-            //        output[x, y] += side[x, y];
-            //    }
-            //}
-
             return output;
         }
     }
