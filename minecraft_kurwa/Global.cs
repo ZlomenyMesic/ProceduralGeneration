@@ -22,7 +22,7 @@ namespace minecraft_kurwa {
 
         internal const int WORLD_SIZE = 250;
         internal const int HEIGHT_LIMIT = 256;
-        internal const int SEED = 1;
+        internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;

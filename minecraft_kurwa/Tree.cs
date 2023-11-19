@@ -26,7 +26,7 @@ namespace minecraft_kurwa {
                 else if (biome == 11) {
                     BuildKapokTree(random.Next(15, 18), x, z, Global.HEIGHT_MAP[x, z] + 1);
                 }
-                else if (biome == 31 || biome == 41) {
+                else if (biome == 31 || biome == 41 || biome == 51) {
                     BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
                 }
             }
