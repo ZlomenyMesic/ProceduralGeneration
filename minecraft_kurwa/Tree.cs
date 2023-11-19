@@ -22,6 +22,9 @@ namespace minecraft_kurwa {
                 else if (biome == 11) {
                     BuildKapokTree(random.Next(15, 18), x, z, Global.HEIGHT_MAP[x, z] + 1);
                 }
+                else if (biome == 31 || biome == 41) {
+                    BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
+                }
             }
         }
 
@@ -48,8 +51,8 @@ namespace minecraft_kurwa {
                 }
             }
 
-            for (int z = posZ; z < posZ + (height * 2 / 3); z++) {
-                Global.VOXEL_MAP[posX, posY, z] = VoxelType.OAK_WOOD;
+            for (int z = 0; z < height * 2 / 3; z++) {
+                Global.VOXEL_MAP[posX, posY, posZ + z] = VoxelType.OAK_WOOD;
             }
         }
 
@@ -76,21 +79,64 @@ namespace minecraft_kurwa {
                 }
             }
 
-            for (int z = posZ; z <= posZ + (height * 2 / 3); z++) {
-                Global.VOXEL_MAP[posX, posY, z] = VoxelType.KAPOK_WOOD;
+            for (int z = 0; z <= height * 2 / 3; z++) {
+                Global.VOXEL_MAP[posX, posY, posZ + z] = VoxelType.KAPOK_WOOD;
             }
 
             for (int x = -1; x <= 1; x++) {
+                if (posX + x < 0 || posX + x >= Global.WORLD_SIZE) continue;
+
                 for (int y = -1; y <= 1; y++) {
+                    if (posY + y < 0 || posY + y >= Global.WORLD_SIZE) continue;
+
                     for (int z = 0; z <= 1; z++) {
                         if (random.Next(0, 3) == 0) {
                             Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
-                            if (x == -1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
-                            if (x == 1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x + 1, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
-                            if (x == 0 && y == -1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x, posY + y - 1, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
-                            if (x == 0 && y == 1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y + 1, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
+                            if (posX + x - 1 >= 0 && x == -1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
+                            if (posX + x + 1 < Global.WORLD_SIZE && x == 1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x + 1, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
+                            if (posY + y - 1 >= 0 && x == 0 && y == -1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x, posY + y - 1, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
+                            if (posY + y + 1 < Global.WORLD_SIZE && x == 0 && y == 1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y + 1, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_WOOD;
                         }
                     }
+                }
+            }
+        }
+
+        internal static void BuildSpruceTree(int height, int posX, int posY, int posZ) {
+            Random random = new(Global.SEED * posX * posY * posZ * height);
+            float diameter = height * 2 / 5;
+            int bottomStart = height / random.Next(4, 6);
+
+            for (int z = bottomStart; z < height; z += 2) {
+                for (int x = (int)(-diameter / 2); x <= diameter / 2; x++) {
+                    if (posX + x < 0 || posX + x >= Global.WORLD_SIZE) continue;
+
+                    for (int y = (int)(-diameter / 2); y <= diameter / 2; y++) {
+                        if (posY + y < 0 || posY + y >= Global.WORLD_SIZE) continue;
+
+                        float distanceFromCenter = (float)Math.Sqrt(x * x + y * y);
+                        if (distanceFromCenter < diameter / 2 && random.Next(0, 6) != 0) {
+                            if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = VoxelType.SPRUCE_LEAVES;
+                            }
+                        }
+                    }
+                }
+                diameter -= 0.8f;
+            }
+
+            for (int z = 0; z <= height; z++) {
+                if (z < height * 4 / 5) {
+                    Global.VOXEL_MAP[posX, posY, posZ + z] = VoxelType.SPRUCE_WOOD;
+                }
+                else {
+                    Global.VOXEL_MAP[posX, posY, posZ + z] = VoxelType.SPRUCE_LEAVES;
+                }
+                if (z >= bottomStart && z < height * 4 / 5) {
+                    if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = VoxelType.SPRUCE_LEAVES;
+                    if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = VoxelType.SPRUCE_LEAVES;
+                    if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = VoxelType.SPRUCE_LEAVES;
+                    if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = VoxelType.SPRUCE_LEAVES;
                 }
             }
         }
