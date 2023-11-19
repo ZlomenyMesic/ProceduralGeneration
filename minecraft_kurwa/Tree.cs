@@ -12,8 +12,8 @@ namespace minecraft_kurwa {
             Random random = new(Global.SEED + 69);
 
             for (int i = 0; i < amount; i++) {
-                int x = random.Next(6, Global.WORLD_SIZE - 5);
-                int z = random.Next(6, Global.WORLD_SIZE - 5);
+                int x = random.Next(Global.TREE_EDGE_OFFSET, Global.WORLD_SIZE - Global.TREE_EDGE_OFFSET - 1);
+                int z = random.Next(Global.TREE_EDGE_OFFSET, Global.WORLD_SIZE - Global.TREE_EDGE_OFFSET - 1);
                 int biome = Global.BIOME_MAP[x, z];
 
                 if (biome == 32 || biome == 42) {
@@ -30,9 +30,14 @@ namespace minecraft_kurwa {
             int crownRadius = (int)(height / 2.5f);
 
             for (int x = -crownRadius + 1; x < crownRadius; x++) {
+                if (posX + x < 0 || posX + x >= Global.WORLD_SIZE) continue;
+
                 for (int y = -crownRadius + 1; y < crownRadius; y++) {
+                    if (posY + y < 0 || posY + y >= Global.WORLD_SIZE) continue;
+
                     for (int z = -crownRadius + 1; z < crownRadius; z++) {
                         float distanceFromCenter = (float)Math.Sqrt(x * x + y * y + z * z);
+
                         if ((distanceFromCenter < crownRadius / 2 && random.Next(0, 2) == 0)
                             || (distanceFromCenter <= crownRadius && random.Next(0, 4) == 0)) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + (height * 2 / 3) + z] == null) {
@@ -53,9 +58,14 @@ namespace minecraft_kurwa {
             int crownRadius = height / 3;
 
             for (int x = -crownRadius - 1; x <= crownRadius + 1; x++) {
+                if (posX + x < 0 || posX + x >= Global.WORLD_SIZE) continue;
+
                 for (int y = -crownRadius - 1; y <= crownRadius + 1; y++) {
+                    if (posY + y < 0 || posY + y >= Global.WORLD_SIZE) continue;
+
                     for (int z = -crownRadius / 3 + 1; z <= crownRadius / 1.5; z++) {
                         float distanceFromCenterXY = (float)Math.Sqrt(x * x + y * y);
+
                         if ((distanceFromCenterXY > crownRadius / 2 || (distanceFromCenterXY <= crownRadius / 2 && z > height / 10)) 
                             && distanceFromCenterXY <= crownRadius && distanceFromCenterXY + Math.Abs(z) < height / 2 - 1 && random.Next(0, 3) == 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] == null) {

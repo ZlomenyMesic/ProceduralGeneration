@@ -30,6 +30,7 @@ namespace minecraft_kurwa {
         internal const int SUBBIOME_SCALE = 8;
 
         internal const int TREE_DENSITY = 100;
+        internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
         internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
