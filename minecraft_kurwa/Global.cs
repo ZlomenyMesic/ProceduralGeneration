@@ -22,14 +22,14 @@ namespace minecraft_kurwa {
 
         internal const int WORLD_SIZE = 250;
         internal const int HEIGHT_LIMIT = 256;
-        internal const int SEED = 4;
+        internal const int SEED = 1;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
         internal const int BIOME_SCALE = 65;
         internal const int SUBBIOME_SCALE = 8;
 
-        internal const int TREE_DENSITY = 100;
+        internal const int TREE_DENSITY = 130;
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
@@ -56,6 +56,12 @@ namespace minecraft_kurwa {
         SPRUCE_LEAVES = 12,
         SPRUCE_WOOD = 13,
 
-        WATER = 14,
+        BEECH_LEAVES = 14,
+        BEECH_WOOD = 15,
+
+        MAPLE_LEAVES = 16,
+        MAPLE_WOOD = 17,
+
+        WATER = 18,
     }
 }

@@ -17,7 +17,11 @@ namespace minecraft_kurwa {
                 int biome = Global.BIOME_MAP[x, z];
 
                 if (biome == 32 || biome == 42) {
-                    BuildOakTree(random.Next(10, 18), x, z, Global.HEIGHT_MAP[x, z] + 1);
+                    int tree = random.Next(0, 12);
+                    if (tree == 0) BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
+                    else if (tree == 1) BuildBasicDeciduousTree(random.Next(13, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD);
+                    else if (tree == 2 || tree == 3) BuildBasicDeciduousTree(random.Next(13, 16), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.MAPLE_LEAVES, VoxelType.MAPLE_WOOD);
+                    else BuildBasicDeciduousTree(random.Next(10, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.OAK_LEAVES, VoxelType.OAK_WOOD);
                 }
                 else if (biome == 11) {
                     BuildKapokTree(random.Next(15, 18), x, z, Global.HEIGHT_MAP[x, z] + 1);
@@ -28,7 +32,7 @@ namespace minecraft_kurwa {
             }
         }
 
-        internal static void BuildOakTree(int height, int posX, int posY, int posZ) {
+        internal static void BuildBasicDeciduousTree(int height, int posX, int posY, int posZ, VoxelType leaves, VoxelType wood) {
             Random random = new(Global.SEED * posX * posY * posZ * height);
             int crownRadius = (int)(height / 2.5f);
 
@@ -44,7 +48,7 @@ namespace minecraft_kurwa {
                         if ((distanceFromCenter < crownRadius / 2 && random.Next(0, 2) == 0)
                             || (distanceFromCenter <= crownRadius && random.Next(0, 4) == 0)) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + (height * 2 / 3) + z] == null) {
-                                Global.VOXEL_MAP[posX + x, posY + y, posZ + (height * 2 / 3) + z] = VoxelType.OAK_LEAVES;
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + (height * 2 / 3) + z] = leaves;
                             }
                         }
                     }
@@ -52,7 +56,7 @@ namespace minecraft_kurwa {
             }
 
             for (int z = 0; z < height * 2 / 3; z++) {
-                Global.VOXEL_MAP[posX, posY, posZ + z] = VoxelType.OAK_WOOD;
+                Global.VOXEL_MAP[posX, posY, posZ + z] = wood;
             }
         }
 
@@ -70,7 +74,7 @@ namespace minecraft_kurwa {
                         float distanceFromCenterXY = (float)Math.Sqrt(x * x + y * y);
 
                         if ((distanceFromCenterXY > crownRadius / 2 || (distanceFromCenterXY <= crownRadius / 2 && z > height / 10)) 
-                            && distanceFromCenterXY <= crownRadius && distanceFromCenterXY + Math.Abs(z) < height / 2 - 1 && random.Next(0, 3) == 0) {
+                            && distanceFromCenterXY <= crownRadius && distanceFromCenterXY + Math.Abs(z) < height / 2 - 1 && random.Next(0, 2) == 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = VoxelType.KAPOK_LEAVES;
                             }
