@@ -14,7 +14,7 @@ namespace minecraft_kurwa {
 
             for (int x = 0; x < Global.WORLD_SIZE; x++) {
                 for (int y = 0; y < Global.WORLD_SIZE; y++) {
-                    biomeType[x, y] = (byte)((int)(p.Noise((double)x / Global.BIOME_SCALE, (double)y / Global.BIOME_SCALE) * 5) * -10);
+                    biomeType[x, y] = (byte)((int)(p.Noise((double)x / Global.BIOME_SCALE, (double)y / Global.BIOME_SCALE) * 10) * -10);
                 }
             }
 

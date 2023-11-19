@@ -24,7 +24,9 @@ namespace minecraft_kurwa {
             new(83, 84, 78),    // 6 - gravel
             new(255, 255, 255), // 7 - snow
             new(100, 184, 6),   // 8 - oak leaves
-            new(110, 85, 68),
+            new(90, 85, 54),   // 9 - oak wood
+            new(75, 154, 30),    // 10 - kapok leaves
+            new(105, 75, 55),   // 11 - kapok wood
         };
 
         internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude, int seed) {
@@ -32,17 +34,24 @@ namespace minecraft_kurwa {
 
             if (voxelType == VoxelType.GRASS) {
                 switch ((int)biome) {
-                    case 1: case 2: case 3: case 4: case 5: case 6: case 23: color += new Vector3(70, 7, 20); break;  // super dry
-                    case 21: case 22: case 24: case 25: color += new Vector3(50, 5, 15); break;                       // dry
-                    case 11: case 12: color += new Vector3(15, 5, -2); break;                                         // rainy
-                    case 51: case 52: case 53: case 54: color += new Vector3(0, -24, 5); break;                       // cold
-                    default: break;                                                                                   // no shade
+                    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 23: color += new Vector3(70, 7, 20); break;  // super dry
+                    case 20: case 21: case 22: case 24: case 25: color += new Vector3(50, 5, 15); break;                      // dry
+                    case 10: case 11: case 12: color += new Vector3(15, 5, -2); break;                                        // rainy
+                    case 50: case 51: case 52: case 53: case 54: color += new Vector3(0, -24, 5); break;                      // cold
+                    default: break;                                                                                           // no shade
                 }
             }
             else if (voxelType == VoxelType.OAK_LEAVES) {
                 switch (new Random(Global.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-17, -15, -2); break;  // dark shade
                     case 1: color += new Vector3(15, 12, 3); break;     // light shade
+                    default: break;                                     // no shade
+                }
+            }
+            else if (voxelType == VoxelType.KAPOK_LEAVES) {
+                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                    case 0: color += new Vector3(-17, -15, -2); break;  // dark shade
+                    case 1: color += new Vector3(8, 12, 3); break;     // light shade
                     default: break;                                     // no shade
                 }
             }
@@ -53,6 +62,7 @@ namespace minecraft_kurwa {
         internal static float GetVoxelTransparency(VoxelType? voxelType) {
             switch (voxelType) {
                 case VoxelType.OAK_LEAVES: return 0.9f;
+                case VoxelType.KAPOK_LEAVES: return 0.9f;
                 default: return 1.0f;
             }
         }

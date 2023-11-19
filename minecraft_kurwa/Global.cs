@@ -22,14 +22,14 @@ namespace minecraft_kurwa {
 
         internal const int WORLD_SIZE = 250;
         internal const int HEIGHT_LIMIT = 256;
-        internal const int SEED = 1;
+        internal const int SEED = 16;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
         internal const int MAIN_NOISE_SCALE = 7;
-        internal const int BIOME_SCALE = 50;
+        internal const int BIOME_SCALE = 65;
         internal const int SUBBIOME_SCALE = 8;
 
-        internal const int TREE_DENSITY = 50;
+        internal const int TREE_DENSITY = 100;
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
         internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
@@ -45,8 +45,13 @@ namespace minecraft_kurwa {
         TERRACOTTA = 5,
         GRAVEL = 6,
         SNOW = 7,
+
         OAK_LEAVES = 8,
         OAK_WOOD = 9,
-        WATER = 10,
+
+        KAPOK_LEAVES = 10,
+        KAPOK_WOOD = 11,
+
+        WATER = 12,
     }
 }
