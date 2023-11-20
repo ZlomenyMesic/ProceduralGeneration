@@ -116,7 +116,8 @@ namespace minecraft_kurwa {
                 $"Biome: {Biome.GetBiome((int)camPosition.X, (int)camPosition.Z)}\n" +
                 $"Subbiome: {Biome.GetSubbiome((int)camPosition.X, (int)camPosition.Z)}\n\n" +
                 $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
-                $"Seed: {Global.SEED}",
+                $"Seed: {Global.SEED}\n" +
+                $"Triangles: {Voxel.triangleCounter}",
                 new(30, 30), Color.White); ;
             spriteBatch.End();
 

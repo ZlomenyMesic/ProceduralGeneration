@@ -20,6 +20,7 @@ namespace minecraft_kurwa {
                 }
             }
 
+            Water.Generate();
             Tree.GenerateTrees();
         }
     }

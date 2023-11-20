@@ -33,6 +33,7 @@ namespace minecraft_kurwa {
             new(125, 110, 86),  // 15 - beech wood
             new(209, 169, 7),   // 16 - maple leaves
             new(51, 42, 38),    // 17 - maple wood
+            new(24, 77, 134),   // 18 - water
         };
 
         internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude, int seed) {
@@ -73,7 +74,7 @@ namespace minecraft_kurwa {
                 switch (new Random(Global.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-30, 16, -3); break;  // green shade
                     case 1: color += new Vector3(-40, 23, -7); break;  // greener shade
-                    default: break;                                     // no shade
+                    default: break;                                    // no shade
                 }
             }
 

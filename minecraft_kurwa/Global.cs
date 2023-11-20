@@ -29,6 +29,8 @@ namespace minecraft_kurwa {
         internal const int BIOME_SCALE = 65;
         internal const int SUBBIOME_SCALE = 8;
 
+        internal const int WATER_LEVEL = 4;
+
         internal const int TREE_DENSITY = 130;
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 

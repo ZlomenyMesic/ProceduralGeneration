@@ -5,9 +5,11 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.DXGI;
 
 namespace minecraft_kurwa {
     internal class Voxel {
+        internal readonly Vector3 position;
         internal readonly Color color;
         internal readonly float transparency;
 
@@ -23,12 +25,13 @@ namespace minecraft_kurwa {
 
         private const int VERTEX_COUNT = 24;
         private const int INDEX_COUNT = 36;
-        private const int TRIANGLE_COUNT = 12;
 
         internal static BasicEffect basicEffect;
+        internal static int triangleCounter = 0;
 
         internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, float transparency = 1.0f) {
             this.graphicsDevice = graphicsDevice;
+            this.position = position;
             this.color = color;
             this.transparency = transparency;
 
@@ -44,46 +47,73 @@ namespace minecraft_kurwa {
 
         private void CreateTriangles() {
             Vector3 originalColor = color.ToVector3();
-            Vector3 adjustedColor = originalColor * ColorManager.FRONT_SHADOW; // front
-            AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
+            Vector3 adjustedColor;
+         
+            if ((int)position.Z - 1 < 0 || Global.VOXEL_MAP[(int)position.X, (int)position.Z - 1, (int)position.Y] == null ) {
+                adjustedColor = originalColor * ColorManager.FRONT_SHADOW;   // front
+                AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
+                AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);
+            }
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW; // right
-            AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+            if ((int)position.X - 1 < 0 || Global.VOXEL_MAP[(int)position.X - 1, (int)position.Z, (int)position.Y] == null) {
+                adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // right
+                AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+                AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1);
+            }
 
-            adjustedColor = originalColor * ColorManager.BACK_SHADOW; // back
-            AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+            if ((int)position.Z + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(int)position.X, (int)position.Z + 1, (int)position.Y] == null) {
+                adjustedColor = originalColor * ColorManager.BACK_SHADOW;    // back
+                AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+                AddTriangle(vertexCounter - 2, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 2, vertexCounter - 1, vertexCounter - 3);
+            }
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW; // left
-            AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+            if ((int)position.X + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(int)position.X + 1, (int)position.Z, (int)position.Y] == null) {
+                adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // left
+                AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
+                AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1); AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4);
+            }
 
-            adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW; // bottom
-            AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor);
+            if ((int)position.Y - 1 < 0 || Global.VOXEL_MAP[(int)position.X, (int)position.Z, (int)position.Y - 1] == null) {
+                adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW;  // bottom
+                AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor);
+                AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1);
+            }
 
-            adjustedColor = originalColor * ColorManager.TOP_SHADOW; // top
-            AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+            if ((int)position.Y + 1 == Global.HEIGHT_LIMIT || Global.VOXEL_MAP[(int)position.X, (int)position.Z, (int)position.Y + 1] == null) {
+                adjustedColor = originalColor * ColorManager.TOP_SHADOW;     // top
+                AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
+                AddTriangle(vertexCounter - 3, vertexCounter - 4, vertexCounter - 2); AddTriangle(vertexCounter - 2, vertexCounter - 1, vertexCounter - 3);
+            }
 
-            AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);
-            AddTriangle(7, 5, 4); AddTriangle(4, 6, 7);
-            AddTriangle(10, 9, 8); AddTriangle(10, 11, 9);
-            AddTriangle(12, 14, 15); AddTriangle(15, 13, 12);
-            AddTriangle(19, 17, 16); AddTriangle(16, 18, 19);
-            AddTriangle(21, 20, 22); AddTriangle(22, 23, 21);
+            if (vertexCounter == 0) return;
 
-            vertexBuffer.SetData<VertexPositionColor>(0, vertices, 0, VERTEX_COUNT, 0);
-            indexBuffer.SetData(0, indices, 0, INDEX_COUNT);
+            VertexPositionColor[] newVertices = new VertexPositionColor[vertexCounter];
+            ushort[] newIndices = new ushort[indexCounter];
+            for (int i = 0; i < vertexCounter; i++) {
+                newVertices[i] = vertices[i];
+            }
+            for (int i = 0; i < indexCounter; i++) {
+                newIndices[i] = indices[i];
+            }
+            
+            vertexBuffer.SetData(0, newVertices, 0, vertexCounter, 0);
+            indexBuffer.SetData(0, newIndices, 0, indexCounter);
         }
 
         private void AddVertex(float x, float y, float z, Vector3 color) {
             vertices[vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
         }
 
-        private void AddTriangle(ushort a, ushort b, ushort c) {
-            indices[indexCounter++] = a;
-            indices[indexCounter++] = b;
-            indices[indexCounter++] = c;
+        private void AddTriangle(int a, int b, int c) {
+            triangleCounter++;
+            indices[indexCounter++] = (ushort)a;
+            indices[indexCounter++] = (ushort)b;
+            indices[indexCounter++] = (ushort)c;
         }
 
         internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
+            if (vertexCounter == 0) return;
+
             graphicsDevice.SetVertexBuffer(vertexBuffer);
             graphicsDevice.Indices = indexBuffer;
 
@@ -95,7 +125,7 @@ namespace minecraft_kurwa {
 
             for (int i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
                 basicEffect.CurrentTechnique.Passes[i].Apply();
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, TRIANGLE_COUNT);
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCounter / 3);
             }
         }
     }

@@ -16,6 +16,8 @@ namespace minecraft_kurwa {
                 int z = random.Next(Global.TREE_EDGE_OFFSET, Global.WORLD_SIZE - Global.TREE_EDGE_OFFSET - 1);
                 int biome = Global.BIOME_MAP[x, z];
 
+                if (Global.HEIGHT_MAP[x, z] <= Global.WATER_LEVEL) continue;
+
                 if (biome == 32 || biome == 42) {
                     int tree = random.Next(0, 12);
                     if (tree == 0) BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
