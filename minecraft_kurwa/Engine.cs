@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace minecraft_kurwa {
@@ -51,7 +50,7 @@ namespace minecraft_kurwa {
             base.Initialize();
 
             camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
-            camTarget = new Vector3(camPosition.X, camPosition.Y - 350f, camPosition.Z + 300f);
+            camTarget = new Vector3(camPosition.X, camPosition.Y - 350, camPosition.Z + 300f);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Global.FIELD_OF_VIEW), GraphicsDevice.DisplayMode.AspectRatio, 1f, Global.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 

@@ -9,7 +9,7 @@ namespace minecraft_kurwa {
         internal const int WINDOW_WIDTH = 2400;
 
         internal const float FIELD_OF_VIEW = 60; // in degrees
-        internal const float RENDER_DISTANCE = 2000;
+        internal const float RENDER_DISTANCE = 8000;
 
         internal const float SENSIBILITY = 200; // higher value => faster mouse
         internal const float MOVEMENT_SPEED = 40; // higher value => faster movement
@@ -21,7 +21,7 @@ namespace minecraft_kurwa {
         internal const float START_POS_Z = 0;
 
         internal const int WORLD_SIZE = 250;
-        internal const int HEIGHT_LIMIT = 256;
+        internal const int HEIGHT_LIMIT = 150;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
@@ -65,5 +65,8 @@ namespace minecraft_kurwa {
         MAPLE_WOOD = 17,
 
         WATER = 18,
+
+        POPLAR_LEAVES = 19,
+        POPLAR_WOOD = 20,
     }
 }

@@ -19,10 +19,11 @@ namespace minecraft_kurwa {
                 if (Global.HEIGHT_MAP[x, z] <= Global.WATER_LEVEL) continue;
 
                 if (biome == 32 || biome == 42) {
-                    int tree = random.Next(0, 12);
-                    if (tree == 0) BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
-                    else if (tree == 1) BuildBasicDeciduousTree(random.Next(13, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD);
-                    else if (tree == 2 || tree == 3) BuildBasicDeciduousTree(random.Next(13, 16), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.MAPLE_LEAVES, VoxelType.MAPLE_WOOD);
+                    int treeType = random.Next(0, 12);
+                    if (treeType == 0) BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
+                    else if (treeType == 1) BuildBasicDeciduousTree(random.Next(13, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD);
+                    else if (treeType == 2 || treeType == 3) BuildBasicDeciduousTree(random.Next(13, 16), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.MAPLE_LEAVES, VoxelType.MAPLE_WOOD);
+                    else if (treeType == 4) BuildPoplarTree(random.Next(22, 25), x, z, Global.HEIGHT_MAP[x, z] + 1);
                     else BuildBasicDeciduousTree(random.Next(10, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.OAK_LEAVES, VoxelType.OAK_WOOD);
                 }
                 else if (biome == 11) {
@@ -144,6 +145,30 @@ namespace minecraft_kurwa {
                     if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = VoxelType.SPRUCE_LEAVES;
                     if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = VoxelType.SPRUCE_LEAVES;
                 }
+            }
+        }
+
+        internal static void BuildPoplarTree(int height, int posX, int posY, int posZ) {
+            Random random = new(Global.SEED * posX * posY * posZ * height);
+            for (int z = height / random.Next(4, 6); z < height; z++) {
+                if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = VoxelType.POPLAR_LEAVES;
+                if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = VoxelType.POPLAR_LEAVES;
+                if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = VoxelType.POPLAR_LEAVES;
+                if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = VoxelType.POPLAR_LEAVES;
+
+                if (z >= height * 1.5 / 5 && z <= height * 4.5 / 5) {
+                    for (int x = -2; x <= 2; x++) {
+                        for (int y = -2; y <= 2; y++) {
+                            if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
+                                if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = VoxelType.POPLAR_LEAVES;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int z = 0; z <= height; z++) {
+                Global.VOXEL_MAP[posX, posY, posZ + z] = z != height ? VoxelType.POPLAR_WOOD : VoxelType.POPLAR_LEAVES;
             }
         }
     }

@@ -33,7 +33,9 @@ namespace minecraft_kurwa {
             new(125, 110, 86),  // 15 - beech wood
             new(209, 169, 7),   // 16 - maple leaves
             new(51, 42, 38),    // 17 - maple wood
-            new(24, 77, 134),   // 18 - water
+            new(23, 75, 144),   // 18 - water
+            new(93, 146, 37),   // 19 - poplar leaves
+            new(120, 113, 100), // 20 - poplar wood
         };
 
         internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude, int seed) {
@@ -88,6 +90,7 @@ namespace minecraft_kurwa {
                 case VoxelType.SPRUCE_LEAVES: return 0.9f;
                 case VoxelType.BEECH_LEAVES: return 0.9f;
                 case VoxelType.MAPLE_LEAVES: return 0.9f;
+                case VoxelType.POPLAR_LEAVES: return 0.9f;
                 default: return 1.0f;
             }
         }
