@@ -13,13 +13,13 @@ namespace minecraft_kurwa {
         internal const int COLD_BIOME_COUNT = 4;
 
         internal static BiomeType GetBiome(ushort x, ushort z) {
-            return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE 
+            return x < Global.WORLD_SIZE && z < Global.WORLD_SIZE 
                 ? (BiomeType)(Global.BIOME_MAP[x, z] - (Global.BIOME_MAP[x, z] % 10))
                 : BiomeType.VOID;
         }
 
         internal static BiomeType GetSubbiome(ushort x, ushort z) {
-            return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE
+            return x < Global.WORLD_SIZE && z < Global.WORLD_SIZE
                 ? (BiomeType)Global.BIOME_MAP[x, z]
                 : BiomeType.VOID;
         }

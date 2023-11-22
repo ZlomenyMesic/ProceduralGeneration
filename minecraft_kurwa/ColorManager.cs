@@ -5,6 +5,7 @@
 
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 
 namespace minecraft_kurwa {
     internal static class ColorManager {
