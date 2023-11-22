@@ -14,7 +14,6 @@ namespace minecraft_kurwa {
 
         private readonly Matrix transform;
 
-        private readonly GraphicsDevice graphicsDevice;
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
         private readonly ushort[] indices;
@@ -29,7 +28,6 @@ namespace minecraft_kurwa {
         internal static int triangleCounter = 0;
 
         internal Voxel(GraphicsDevice graphicsDevice, Vector3 position, Color color, float transparency = 1.0f) {
-            this.graphicsDevice = graphicsDevice;
             this.position = position;
             this.color = color;
             this.transparency = transparency;
@@ -110,21 +108,18 @@ namespace minecraft_kurwa {
             indices[indexCounter++] = c;
         }
 
-        internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
+        internal void Draw() {
             if (vertexCounter == 0) return;
 
-            graphicsDevice.SetVertexBuffer(vertexBuffer);
-            graphicsDevice.Indices = indexBuffer;
+            Global.GRAPHICS_DEVICE.SetVertexBuffer(vertexBuffer);
+            Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             basicEffect.Alpha = transparency;
-
-            basicEffect.Projection = projectionMatrix;
-            basicEffect.View = viewMatrix;
             basicEffect.World = transform;
 
             for (ushort i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
                 basicEffect.CurrentTechnique.Passes[i].Apply();
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCounter / 3);
+                Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCounter / 3);
             }
         }
     }

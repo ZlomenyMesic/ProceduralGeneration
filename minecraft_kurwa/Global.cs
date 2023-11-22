@@ -3,8 +3,12 @@
 // ZlomenyMesic, KryKom
 //
 
+using Microsoft.Xna.Framework.Graphics;
+
 namespace minecraft_kurwa {
     internal static class Global {
+        internal static GraphicsDevice GRAPHICS_DEVICE;
+
         internal const int WINDOW_HEIGHT = 1400;
         internal const int WINDOW_WIDTH = 2400;
 
@@ -21,7 +25,7 @@ namespace minecraft_kurwa {
         internal const float START_POS_Z = 0;
 
         internal const int WORLD_SIZE = 250;
-        internal const int HEIGHT_LIMIT = 150;
+        internal const int HEIGHT_LIMIT = 140;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;

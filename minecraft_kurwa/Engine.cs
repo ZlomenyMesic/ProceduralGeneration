@@ -28,7 +28,7 @@ namespace minecraft_kurwa {
         internal SpriteFont defaultFont;
 
         internal Voxel[] world;
-        internal int voxelCount = 0;
+        internal int voxelCounter = 0;
 
         public Engine() {
             stopWatch = new();
@@ -49,20 +49,22 @@ namespace minecraft_kurwa {
         protected override void Initialize() {
             base.Initialize();
 
+            Global.GRAPHICS_DEVICE = GraphicsDevice;
+
             camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
             camTarget = new Vector3(camPosition.X, camPosition.Y - 350, camPosition.Z + 300f);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Global.FIELD_OF_VIEW), GraphicsDevice.DisplayMode.AspectRatio, 1f, Global.RENDER_DISTANCE);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Global.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio, 1f, Global.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
-            MainTarget = new RenderTarget2D(GraphicsDevice, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT, false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            MainTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(Global.GRAPHICS_DEVICE);
 
             defaultFont = Content.Load<SpriteFont>("default");
 
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
 
-            Voxel.basicEffect = new(GraphicsDevice) {
+            Voxel.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
             };
 
@@ -75,7 +77,7 @@ namespace minecraft_kurwa {
                     for (ushort z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
                             Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
-                            world[voxelCount++] = v;
+                            world[voxelCounter++] = v;
                         }
                     }
                 }
@@ -89,16 +91,17 @@ namespace minecraft_kurwa {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.SetRenderTarget(MainTarget);
-            GraphicsDevice.Clear(0, Color.Black, 1.0f, 0);
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            Global.GRAPHICS_DEVICE.SetRenderTarget(MainTarget);
+            Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
+            Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
-            for (int i = 0; i < voxelCount; i++) {
-                world[i].Draw(projectionMatrix, viewMatrix);
+            Voxel.basicEffect.Projection = projectionMatrix;
+            Voxel.basicEffect.View = viewMatrix;
+            for (int i = 0; i < voxelCounter; i++) {
+                world[i].Draw();
             }
 
-            GraphicsDevice.SetRenderTarget(null);
+            Global.GRAPHICS_DEVICE.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
             spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT), Color.White);
@@ -116,6 +119,7 @@ namespace minecraft_kurwa {
                 $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n\n" +
                 $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Global.SEED}\n" +
+                $"Voxels: {voxelCounter}\n" +
                 $"Triangles: {Voxel.triangleCounter}",
                 new(30, 30), Color.White); ;
             spriteBatch.End();
