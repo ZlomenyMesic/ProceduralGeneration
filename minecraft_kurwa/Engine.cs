@@ -123,7 +123,7 @@ namespace minecraft_kurwa {
                 $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Global.SEED}\n" +
                 $"Voxels: {voxelCounter}\n" +
-                $"Triangles: {Voxel.triangleCounter}",
+                $"Triangles: {VoxelStructure.triangleCounter}",
                 new(30, 30), Color.White);
             spriteBatch.End();
 
@@ -148,6 +148,8 @@ namespace minecraft_kurwa {
                 currentVoxelCount = 0;
                 voxelStructCount++;
             }
+
+            voxelCounter++;
         }
     }
 }
