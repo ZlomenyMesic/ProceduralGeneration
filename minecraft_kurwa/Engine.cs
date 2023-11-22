@@ -27,8 +27,11 @@ namespace minecraft_kurwa {
 
         internal SpriteFont defaultFont;
 
-        internal Voxel[] world;
+        internal VoxelStructure[] world;
         internal int voxelCounter = 0;
+
+        internal int voxelStructCount = 0;
+        internal int currentVoxelCount = 0;
 
         public Engine() {
             stopWatch = new();
@@ -64,20 +67,19 @@ namespace minecraft_kurwa {
 
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
 
-            Voxel.basicEffect = new(Global.GRAPHICS_DEVICE) {
+            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
             };
 
-            world = new Voxel[Global.WORLD_SIZE * Global.WORLD_SIZE * Global.HEIGHT_LIMIT];
-
             GeneratorController.GenerateWorld();
+
+            world = new VoxelStructure[Global.WORLD_SIZE * Global.WORLD_SIZE];
 
             for (ushort x = 0; x < Global.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Global.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
-                            Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
-                            world[voxelCounter++] = v;
+                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
                         }
                     }
                 }
@@ -95,10 +97,11 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
-            Voxel.basicEffect.Projection = projectionMatrix;
-            Voxel.basicEffect.View = viewMatrix;
-            for (int i = 0; i < voxelCounter; i++) {
-                world[i].Draw();
+            VoxelStructure.basicEffect.Projection = projectionMatrix;
+            VoxelStructure.basicEffect.View = viewMatrix;
+
+            for (int i = 0; i < world.Length; i++) {
+                world[i]?.Draw();
             }
 
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);
@@ -135,6 +138,16 @@ namespace minecraft_kurwa {
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
+        }
+
+        internal void AddVoxel(Vector3 position, Color color, float transparency = 1.0f) {
+            world[voxelStructCount] ??= new();
+            world[voxelStructCount].AddVoxel(position, color, transparency);
+
+            if (++currentVoxelCount > 6) {
+                currentVoxelCount = 0;
+                voxelStructCount++;
+            }
         }
     }
 }
