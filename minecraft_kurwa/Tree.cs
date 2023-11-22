@@ -79,7 +79,7 @@ namespace minecraft_kurwa {
                         if ((distanceFromCenterXY > crownRadius / 2 || (distanceFromCenterXY <= crownRadius / 2 && z > height / 10)) 
                             && distanceFromCenterXY <= crownRadius && distanceFromCenterXY + Math.Abs(z) < height / 2 - 1 && random.Next(0, 2) == 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] == null) {
-                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_LEAVES;
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_LEAVES;
                             }
                         }
                     }
@@ -87,7 +87,7 @@ namespace minecraft_kurwa {
             }
 
             for (ushort z = 0; z <= height * 2 / 3; z++) {
-                Global.VOXEL_MAP[posX, posY, posZ + z] = (byte) VoxelType.KAPOK_WOOD;
+                Global.VOXEL_MAP[posX, posY, posZ + z] = (byte)VoxelType.KAPOK_WOOD;
             }
 
             for (sbyte x = -1; x <= 1; x++) {
@@ -98,11 +98,11 @@ namespace minecraft_kurwa {
 
                     for (sbyte z = 0; z <= 1; z++) {
                         if (random.Next(0, 3) == 0) {
-                            Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_WOOD;
-                            if (posX + x - 1 >= 0 && x == -1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_WOOD;
-                            if (posX + x + 1 < Global.WORLD_SIZE && x == 1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x + 1, posY + y, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_WOOD;
-                            if (posY + y - 1 >= 0 && x == 0 && y == -1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x, posY + y - 1, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_WOOD;
-                            if (posY + y + 1 < Global.WORLD_SIZE && x == 0 && y == 1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y + 1, posZ + z + (height * 2 / 3)] = (byte) VoxelType.KAPOK_WOOD;
+                            Global.VOXEL_MAP[posX + x, posY + y, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_WOOD;
+                            if (posX + x - 1 >= 0 && x == -1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_WOOD;
+                            if (posX + x + 1 < Global.WORLD_SIZE && x == 1 && y == 0 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x + 1, posY + y, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_WOOD;
+                            if (posY + y - 1 >= 0 && x == 0 && y == -1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x, posY + y - 1, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_WOOD;
+                            if (posY + y + 1 < Global.WORLD_SIZE && x == 0 && y == 1 && z == 0 && random.Next(0, 2) == 0) Global.VOXEL_MAP[posX + x - 1, posY + y + 1, posZ + z + (height * 2 / 3)] = (byte)VoxelType.KAPOK_WOOD;
                         }
                     }
                 }
@@ -124,7 +124,7 @@ namespace minecraft_kurwa {
                         float distanceFromCenter = (float)Math.Sqrt(x * x + y * y);
                         if (distanceFromCenter < diameter / 2 && random.Next(0, 6) != 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
-                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
                             }
                         }
                     }
@@ -134,16 +134,16 @@ namespace minecraft_kurwa {
 
             for (byte z = 0; z <= height; z++) {
                 if (z < height * 4 / 5) {
-                    Global.VOXEL_MAP[posX, posY, posZ + z] = (byte) VoxelType.SPRUCE_WOOD;
+                    Global.VOXEL_MAP[posX, posY, posZ + z] = (byte)VoxelType.SPRUCE_WOOD;
                 }
                 else {
-                    Global.VOXEL_MAP[posX, posY, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
+                    Global.VOXEL_MAP[posX, posY, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
                 }
                 if (z >= bottomStart && z < height * 4 / 5) {
-                    if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
-                    if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
-                    if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
-                    if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = (byte) VoxelType.SPRUCE_LEAVES;
+                    if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
+                    if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
+                    if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
+                    if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = (byte)VoxelType.SPRUCE_LEAVES;
                 }
             }
         }
@@ -151,16 +151,16 @@ namespace minecraft_kurwa {
         internal static void BuildPoplarTree(int height, int posX, int posY, int posZ) {
             Random random = new(Global.SEED * posX * posY * posZ * height);
             for (byte z = (byte)(height / random.Next(4, 6)); z < height; z++) {
-                if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte) VoxelType.POPLAR_LEAVES;
-                if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = (byte) VoxelType.POPLAR_LEAVES;
-                if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte) VoxelType.POPLAR_LEAVES;
-                if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = (byte) VoxelType.POPLAR_LEAVES;
+                if (posX + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                if (posY + 1 < Global.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
 
                 if (z >= height * 1.5 / 5 && z <= height * 4.5 / 5) {
                     for (sbyte x = -2; x <= 2; x++) {
                         for (sbyte y = -2; y <= 2; y++) {
                             if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
-                                if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte) VoxelType.POPLAR_LEAVES;
+                                if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
                             }
                         }
                     }
@@ -168,7 +168,7 @@ namespace minecraft_kurwa {
             }
 
             for (byte z = 0; z <= height; z++) {
-                Global.VOXEL_MAP[posX, posY, posZ + z] = z != height ? (byte) VoxelType.POPLAR_WOOD : (byte) VoxelType.POPLAR_LEAVES;
+                Global.VOXEL_MAP[posX, posY, posZ + z] = z != height ? (byte)VoxelType.POPLAR_WOOD : (byte)VoxelType.POPLAR_LEAVES;
             }
         }
     }

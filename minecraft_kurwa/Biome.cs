@@ -24,14 +24,14 @@ namespace minecraft_kurwa {
                 : BiomeType.VOID;
         }
 
-        internal static VoxelType GetTopBlock(BiomeType biome) {
-            if (biome == BiomeType.TROPICAL_DRY_DESERT_SANDY) return VoxelType.SAND;
-            if (biome == BiomeType.TROPICAL_DRY_DESERT_STONY) return VoxelType.STONE;
-            if (biome == BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return VoxelType.GRAVEL;
-            if (biome == BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return VoxelType.TERRACOTTA;
-            if ((byte)biome >= 50) return VoxelType.SNOW;
+        internal static byte GetTopBlock(byte biome) {
+            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_SANDY) return (byte)VoxelType.SAND;
+            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_STONY) return (byte)VoxelType.STONE;
+            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return (byte)VoxelType.GRAVEL;
+            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return (byte)VoxelType.TERRACOTTA;
+            if (biome >= 50) return (byte)VoxelType.SNOW;
 
-            return VoxelType.GRASS;
+            return (byte)VoxelType.GRASS;
         }
     }
 
