@@ -39,7 +39,7 @@ namespace minecraft_kurwa {
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal static short[,] HEIGHT_MAP = new short[WORLD_SIZE, WORLD_SIZE];
-        internal static VoxelType?[,,] VOXEL_MAP = new VoxelType?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
+        internal static byte?[,,] VOXEL_MAP = new byte?[WORLD_SIZE, WORLD_SIZE, HEIGHT_LIMIT];
         internal static byte[,] BIOME_MAP = new byte[WORLD_SIZE, WORLD_SIZE];
     }
 

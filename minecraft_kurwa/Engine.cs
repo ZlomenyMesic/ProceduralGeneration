@@ -76,7 +76,7 @@ namespace minecraft_kurwa {
                 for (ushort y = 0; y < Global.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
-                            Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
+                            Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor((VoxelType) Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency( (VoxelType) Global.VOXEL_MAP[x, y, z]));
                             world[voxelCounter++] = v;
                         }
                     }
