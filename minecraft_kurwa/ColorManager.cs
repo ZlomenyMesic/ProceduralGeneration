@@ -38,7 +38,7 @@ namespace minecraft_kurwa {
             new(120, 113, 100), // 20 - poplar wood
         };
 
-        internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, int altitude, int seed) {
+        internal static Color GetVoxelColor(VoxelType? voxelType, BiomeType biome, ushort altitude, int seed) {
             Vector3 color = COLORS[(int)voxelType].ToVector3() * new Vector3(255, 255, 255);
 
             if (voxelType == VoxelType.GRASS) {

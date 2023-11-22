@@ -70,9 +70,9 @@ namespace minecraft_kurwa {
 
             GeneratorController.GenerateWorld();
 
-            for (int x = 0; x < Global.WORLD_SIZE; x++) {
-                for (int y = 0; y < Global.WORLD_SIZE; y++) {
-                    for (int z = 0; z < Global.HEIGHT_LIMIT; z++) {
+            for (ushort x = 0; x < Global.WORLD_SIZE; x++) {
+                for (ushort y = 0; y < Global.WORLD_SIZE; y++) {
+                    for (ushort z = 0; z < Global.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
                             Voxel v = new(GraphicsDevice, new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], (BiomeType)Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
                             world[voxelCount++] = v;
@@ -112,8 +112,8 @@ namespace minecraft_kurwa {
                 $"X: {camPosition.X}\n" +
                 $"Y: {camPosition.Y}\n" +
                 $"Z: {camPosition.Z}\n" +
-                $"Biome: {Biome.GetBiome((int)camPosition.X, (int)camPosition.Z)}\n" +
-                $"Subbiome: {Biome.GetSubbiome((int)camPosition.X, (int)camPosition.Z)}\n\n" +
+                $"Biome: {Biome.GetBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
+                $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n\n" +
                 $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Global.SEED}\n" +
                 $"Triangles: {Voxel.triangleCounter}",

@@ -12,13 +12,13 @@ namespace minecraft_kurwa {
         internal const int TEMPERATE_INLAND_BIOME_COUNT = 4;
         internal const int COLD_BIOME_COUNT = 4;
 
-        internal static BiomeType GetBiome(int x, int z) {
+        internal static BiomeType GetBiome(ushort x, ushort z) {
             return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE 
                 ? (BiomeType)(Global.BIOME_MAP[x, z] - (Global.BIOME_MAP[x, z] % 10))
                 : BiomeType.VOID;
         }
 
-        internal static BiomeType GetSubbiome(int x, int z) {
+        internal static BiomeType GetSubbiome(ushort x, ushort z) {
             return x >= 0 && z >= 0 && x < Global.WORLD_SIZE && z < Global.WORLD_SIZE
                 ? (BiomeType)Global.BIOME_MAP[x, z]
                 : BiomeType.VOID;
@@ -29,7 +29,7 @@ namespace minecraft_kurwa {
             if (biome == BiomeType.TROPICAL_DRY_DESERT_STONY) return VoxelType.STONE;
             if (biome == BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return VoxelType.GRAVEL;
             if (biome == BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return VoxelType.TERRACOTTA;
-            if ((int)biome >= 50) return VoxelType.SNOW;
+            if ((byte)biome >= 50) return VoxelType.SNOW;
 
             return VoxelType.GRASS;
         }

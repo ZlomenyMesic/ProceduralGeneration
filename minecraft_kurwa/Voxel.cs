@@ -20,10 +20,10 @@ namespace minecraft_kurwa {
         private readonly ushort[] indices;
         private readonly VertexPositionColor[] vertices;
 
-        private int vertexCounter = 0, indexCounter = 0;
+        private ushort vertexCounter = 0, indexCounter = 0;
 
-        private const int VERTEX_COUNT = 24;
-        private const int INDEX_COUNT = 36;
+        private const byte VERTEX_COUNT = 24;
+        private const byte INDEX_COUNT = 36;
 
         internal static BasicEffect basicEffect;
         internal static int triangleCounter = 0;
@@ -48,50 +48,50 @@ namespace minecraft_kurwa {
             Vector3 originalColor = color.ToVector3();
             Vector3 adjustedColor;
          
-            if ((int)position.Z - 1 < 0 || Global.VOXEL_MAP[(int)position.X, (int)position.Z - 1, (int)position.Y] == null ) {
+            if (position.Z - 1 < 0 || Global.VOXEL_MAP[(short)position.X, (short)position.Z - 1, (short)position.Y] == null ) {
                 adjustedColor = originalColor * ColorManager.FRONT_SHADOW;   // front
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor);
                 AddTriangle(0, 1, 2); AddTriangle(2, 3, 0);
             }
 
-            if ((int)position.X - 1 < 0 || Global.VOXEL_MAP[(int)position.X - 1, (int)position.Z, (int)position.Y] == null) {
+            if (position.X - 1 < 0 || Global.VOXEL_MAP[(short)position.X - 1, (short)position.Z, (short)position.Y] == null) {
                 adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // right
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
-                AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1);
+                AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
             }
 
-            if ((int)position.Z + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(int)position.X, (int)position.Z + 1, (int)position.Y] == null) {
+            if (position.Z + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X, (short)position.Z + 1, (short)position.Y] == null) {
                 adjustedColor = originalColor * ColorManager.BACK_SHADOW;    // back
                 AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
-                AddTriangle(vertexCounter - 2, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 2, vertexCounter - 1, vertexCounter - 3);
+                AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
             }
 
-            if ((int)position.X + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(int)position.X + 1, (int)position.Z, (int)position.Y] == null) {
+            if (position.X + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X + 1, (short)position.Z, (short)position.Y] == null) {
                 adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // left
                 AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
-                AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1); AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4);
+                AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
             }
 
-            if ((int)position.Y - 1 < 0 || Global.VOXEL_MAP[(int)position.X, (int)position.Z, (int)position.Y - 1] == null) {
+            if (position.Y - 1 < 0 || Global.VOXEL_MAP[(short)position.X, (short)position.Z, (short)position.Y - 1] == null) {
                 adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW;  // bottom
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(1, 0, 0, adjustedColor); AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor);
-                AddTriangle(vertexCounter - 1, vertexCounter - 3, vertexCounter - 4); AddTriangle(vertexCounter - 4, vertexCounter - 2, vertexCounter - 1);
+                AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
             }
 
-            if ((int)position.Y + 1 == Global.HEIGHT_LIMIT || Global.VOXEL_MAP[(int)position.X, (int)position.Z, (int)position.Y + 1] == null) {
+            if (position.Y + 1 == Global.HEIGHT_LIMIT || Global.VOXEL_MAP[(short)position.X, (short)position.Z, (short)position.Y + 1] == null) {
                 adjustedColor = originalColor * ColorManager.TOP_SHADOW;     // top
                 AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
-                AddTriangle(vertexCounter - 3, vertexCounter - 4, vertexCounter - 2); AddTriangle(vertexCounter - 2, vertexCounter - 1, vertexCounter - 3);
+                AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
             }
 
             if (vertexCounter == 0) return;
 
             VertexPositionColor[] newVertices = new VertexPositionColor[vertexCounter];
             ushort[] newIndices = new ushort[indexCounter];
-            for (int i = 0; i < vertexCounter; i++) {
+            for (byte i = 0; i < vertexCounter; i++) {
                 newVertices[i] = vertices[i];
             }
-            for (int i = 0; i < indexCounter; i++) {
+            for (byte i = 0; i < indexCounter; i++) {
                 newIndices[i] = indices[i];
             }
             
@@ -103,11 +103,11 @@ namespace minecraft_kurwa {
             vertices[vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
         }
 
-        private void AddTriangle(int a, int b, int c) {
+        private void AddTriangle(ushort a, ushort b, ushort c) {
             triangleCounter++;
-            indices[indexCounter++] = (ushort)a;
-            indices[indexCounter++] = (ushort)b;
-            indices[indexCounter++] = (ushort)c;
+            indices[indexCounter++] = a;
+            indices[indexCounter++] = b;
+            indices[indexCounter++] = c;
         }
 
         internal void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
@@ -122,7 +122,7 @@ namespace minecraft_kurwa {
             basicEffect.View = viewMatrix;
             basicEffect.World = transform;
 
-            for (int i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
+            for (ushort i = 0; i < basicEffect.CurrentTechnique.Passes.Count; i++) {
                 basicEffect.CurrentTechnique.Passes[i].Apply();
                 graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCounter / 3);
             }
