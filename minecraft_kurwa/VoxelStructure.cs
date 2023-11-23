@@ -32,7 +32,7 @@ namespace minecraft_kurwa {
         }
 
         internal void AddVoxel(Vector3 position, Color color, float transparency = 1.0f) {
-            voxels[voxelCounter++] = new(Matrix.CreateTranslation(position), indexCounter);
+            voxels[voxelCounter++] = new(Matrix.CreateTranslation(position), indexCounter, transparency);
 
             Vector3 originalColor = !Global.INVERT_COLORS 
                 ? color.ToVector3()
@@ -105,10 +105,9 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.SetVertexBuffer(vertexBuffer);
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
-            basicEffect.Alpha = 1.0f;
-
             for (int i = 0; i < voxelCounter; i++) {
                 basicEffect.World = voxels[i].transform;
+                basicEffect.Alpha = voxels[i].transparency;
 
                 int triangles = i != voxelCounter - 1
                     ? (voxels[i + 1].indexStart - voxels[i].indexStart) / 3
@@ -126,10 +125,12 @@ namespace minecraft_kurwa {
         private struct VoxelStruct {
             internal Matrix transform;
             internal ushort indexStart;
+            internal float transparency;
 
-            internal VoxelStruct(Matrix transform, ushort indexStart) {
+            internal VoxelStruct(Matrix transform, ushort indexStart, float transparency) {
                 this.transform = transform;
                 this.indexStart = indexStart;
+                this.transparency = transparency;
             }
         }
     }

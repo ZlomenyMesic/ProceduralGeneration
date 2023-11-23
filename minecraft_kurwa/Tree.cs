@@ -3,6 +3,7 @@
 // ZlomenyMesic, KryKom
 //
 
+using SharpDX.DirectWrite;
 using System;
 
 namespace minecraft_kurwa {
@@ -19,12 +20,14 @@ namespace minecraft_kurwa {
                 if (Global.HEIGHT_MAP[x, z] <= Global.WATER_LEVEL) continue;
 
                 if (biome == 32 || biome == 42) {
-                    byte treeType = (byte)random.Next(0, 12);
-                    if (treeType == 0) BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1);
-                    else if (treeType == 1) BuildBasicDeciduousTree(random.Next(13, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD);
-                    else if (treeType == 2 || treeType == 3) BuildBasicDeciduousTree(random.Next(13, 16), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.MAPLE_LEAVES, VoxelType.MAPLE_WOOD);
-                    else if (treeType == 4) BuildPoplarTree(random.Next(22, 25), x, z, Global.HEIGHT_MAP[x, z] + 1);
-                    else BuildBasicDeciduousTree(random.Next(10, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.OAK_LEAVES, VoxelType.OAK_WOOD);
+                    switch (random.Next(0, 50)) {
+                        case 0: BuildBasicDeciduousTree(random.Next(15, 19), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.CHERRY_LEAVES, VoxelType.CHERRY_WOOD); break;
+                        case 1 or 2 or 3: BuildSpruceTree(random.Next(16, 22), x, z, Global.HEIGHT_MAP[x, z] + 1); break;
+                        case 4 or 5 or 6 or 7: BuildBasicDeciduousTree(random.Next(13, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD); break;
+                        case 8 or 9 or 10 or 11: BuildPoplarTree(random.Next(22, 25), x, z, Global.HEIGHT_MAP[x, z] + 1); break;
+                        case 12 or 13 or 14 or 15 or 16 or 17: BuildBasicDeciduousTree(random.Next(13, 16), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.MAPLE_LEAVES, VoxelType.MAPLE_WOOD); break;
+                        default: BuildBasicDeciduousTree(random.Next(10, 18), x, z, Global.HEIGHT_MAP[x, z] + 1, VoxelType.OAK_LEAVES, VoxelType.OAK_WOOD); break;
+                    }
                 }
                 else if (biome == 11) {
                     BuildKapokTree(random.Next(15, 18), x, z, Global.HEIGHT_MAP[x, z] + 1);
@@ -158,7 +161,11 @@ namespace minecraft_kurwa {
 
                 if (z >= height * 1.5 / 5 && z <= height * 4.5 / 5) {
                     for (sbyte x = -2; x <= 2; x++) {
+                        if (posX + x < 0 || posX + x >= Global.WORLD_SIZE) continue;
+
                         for (sbyte y = -2; y <= 2; y++) {
+                            if (posY + y < 0 || posY + y >= Global.WORLD_SIZE) continue;
+
                             if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
                             }

@@ -74,5 +74,8 @@ namespace minecraft_kurwa {
 
         POPLAR_LEAVES = 19,
         POPLAR_WOOD = 20,
+
+        CHERRY_LEAVES = 21,
+        CHERRY_WOOD = 22,
     }
 }
