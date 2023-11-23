@@ -23,7 +23,7 @@ namespace minecraft_kurwa {
             new(185, 232, 234), // 4 - ice
             new(179, 86, 66),   // 5 - terracotta
             new(83, 84, 78),    // 6 - gravel
-            new(255, 255, 255), // 7 - snow
+            new(225, 225, 225), // 7 - snow
             new(105, 170, 5),   // 8 - oak leaves
             new(90, 85, 54),    // 9 - oak wood
             new(55, 124, 20),   // 10 - kapok leaves
@@ -37,6 +37,8 @@ namespace minecraft_kurwa {
             new(23, 75, 144),   // 18 - water
             new(93, 146, 37),   // 19 - poplar leaves
             new(120, 113, 100), // 20 - poplar wood
+            new(255, 183, 197), // 21 - cherry leaves
+            new(71, 52, 39),    // 22 - cherry wood
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
@@ -44,12 +46,12 @@ namespace minecraft_kurwa {
 
             if (voxelType == 1) {
                 switch (biome) {
-                    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 23: color += new Vector3(70, 7, 20); break;  // super dry
-                    case 20: case 21: case 22: case 24: case 25: color += new Vector3(50, 5, 15); break;                      // dry
-                    case 10: case 11: case 12: color += new Vector3(15, 5, -2); break;                                        // rainy
-                    case 50: case 51: case 52: case 53: case 54: color += new Vector3(0, -24, 5); break;                      // cold
-                    case 31: case 41: color += new Vector3(57, -55, 10); break;                                               // dark soil
-                    default: break;                                                                                           // no shade
+                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color += new Vector3(70, 7, 20); break;  // super dry
+                    case 20 or 21 or 22 or 24 or 25: color += new Vector3(50, 5, 15); break;             // dry
+                    case 10 or 11 or 12: color += new Vector3(15, 5, -2); break;                         // rainy
+                    case 50 or 51 or 52 or 53 or 54: color += new Vector3(0, -24, 5); break;             // cold
+                    case 31 or 41: color += new Vector3(57, -55, 10); break;                             // dark soil
+                    default: break;                                                                      // no shade
                 }
             }
             else if (voxelType == 8) {
@@ -62,7 +64,7 @@ namespace minecraft_kurwa {
             else if (voxelType == 10) {
                 switch (new Random(Global.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-17, -15, -2); break;  // dark shade
-                    case 1: color += new Vector3(8, 12, 3); break;     // light shade
+                    case 1: color += new Vector3(8, 12, 3); break;      // light shade
                     default: break;                                     // no shade
                 }
             }
@@ -80,13 +82,20 @@ namespace minecraft_kurwa {
                     default: break;                                    // no shade
                 }
             }
+            else if (voxelType == 21) {
+                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                    case 0: color += new Vector3(0, 0, 12); break;   // more purple shade
+                    case 1: color += new Vector3(0, -7, -7); break;  // more reddish shade
+                    default: break;                                  // no shade
+                }
+            }
 
             return new(color.X / 255, color.Y / 255, color.Z / 255);
         }
 
         internal static float GetVoxelTransparency(byte? voxelType) {
             return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 => 0.9f,
+                8 or 10 or 12 or 14 or 16 or 19 or 21 => 0.9f,
                 _ => 1.0f,
             };
         }

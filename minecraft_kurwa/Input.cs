@@ -7,13 +7,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace minecraft_kurwa {
-    internal static class Movement {
+    internal static class Input {
         internal static float leftRightRot = 0;
         internal static float upDownRot = 0;
 
-        internal static bool Update(ref Vector3 camTarget, ref Vector3 camPosition) {
+        private static bool lastDebugModeState = false;
+
+        internal static bool Update(ref Vector3 camTarget, ref Vector3 camPosition, ref bool debugMenuOpen) {
             HandleMouse();
-            return HandleKeyboard(ref camTarget, ref camPosition);
+            return HandleKeyboard(ref camTarget, ref camPosition, ref debugMenuOpen);
         }
 
         private static void HandleMouse() {
@@ -28,9 +30,16 @@ namespace minecraft_kurwa {
             Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
         }
 
-        private static bool HandleKeyboard(ref Vector3 camTarget, ref Vector3 camPosition) {
+        private static bool HandleKeyboard(ref Vector3 camTarget, ref Vector3 camPosition, ref bool debugMenuOpen) {
             KeyboardState keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Escape)) return true;
+
+            if (keyboard.IsKeyDown(Keys.E)) {
+                if (!lastDebugModeState) {
+                    debugMenuOpen = !debugMenuOpen;
+                }
+                lastDebugModeState = true;
+            } else lastDebugModeState = false;
 
             float speed = 1 / Global.MOVEMENT_SPEED * 10_000;
 
