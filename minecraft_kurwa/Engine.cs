@@ -12,7 +12,9 @@ using System.Diagnostics;
 namespace minecraft_kurwa {
 
     public class Engine : Game {
-        private readonly Stopwatch stopWatch;
+        private readonly Stopwatch loadTime;
+        private readonly Stopwatch totalTime;
+        private uint frames;
 
         internal SpriteBatch spriteBatch;
         internal GraphicsDeviceManager graphics;
@@ -28,14 +30,17 @@ namespace minecraft_kurwa {
         internal SpriteFont defaultFont;
 
         internal VoxelStructure[] world;
-        internal int voxelCounter = 0;
+        private int voxelCounter = 0;
 
-        internal int voxelStructCount = 0;
-        internal int currentVoxelCount = 0;
+        private int voxelStructCount = 0;
+        private int currentVoxelCount = 0;
+
+        private bool debugMenuOpen = true;
 
         public Engine() {
-            stopWatch = new();
-            stopWatch.Start();
+            loadTime = new();
+            totalTime = new();
+            loadTime.Start();
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -84,10 +89,12 @@ namespace minecraft_kurwa {
                     }
                 }
             }
+
+            totalTime.Start();
         }
 
         protected override void Update(GameTime gameTime) {
-            if (Movement.Update(ref camTarget, ref camPosition)) Exit();
+            if (Input.Update(ref camTarget, ref camPosition, ref debugMenuOpen)) Exit();
             UpdateViewMatrix();
             base.Update(gameTime);
         }
@@ -110,20 +117,21 @@ namespace minecraft_kurwa {
             spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT), Color.White);
             spriteBatch.End();
 
-            if (stopWatch.IsRunning) stopWatch.Stop();
+            if (loadTime.IsRunning) loadTime.Stop();
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(defaultFont,
+            if (debugMenuOpen) spriteBatch.DrawString(defaultFont,
                 $"Camera position:\n" +
                 $"X: {camPosition.X}\n" +
                 $"Y: {camPosition.Y}\n" +
                 $"Z: {camPosition.Z}\n" +
                 $"Biome: {Biome.GetBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n\n" +
-                $"Generated in: {stopWatch.ElapsedMilliseconds} ms\n" +
+                $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Global.SEED}\n" +
                 $"Voxels: {voxelCounter}\n" +
-                $"Triangles: {VoxelStructure.triangleCounter}",
+                $"Triangles: {VoxelStructure.triangleCounter}\n" +
+                $"Frames per second: {Math.Round((double)(++frames * 1000) / totalTime.ElapsedMilliseconds, 0)}",
                 new(30, 30), Color.White);
             spriteBatch.End();
 
@@ -131,9 +139,9 @@ namespace minecraft_kurwa {
         }
 
         internal void UpdateViewMatrix() {
-            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(Movement.leftRightRot)) + camPosition;
+            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(Input.leftRightRot)) + camPosition;
 
-            camTarget.Y += Movement.upDownRot;
+            camTarget.Y += Input.upDownRot;
             camTarget.Y = MathHelper.Min(camTarget.Y, camPosition.Y + 600);
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 

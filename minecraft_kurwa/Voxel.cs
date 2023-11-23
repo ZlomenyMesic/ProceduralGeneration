@@ -98,7 +98,7 @@ namespace minecraft_kurwa {
         }
 
         private void AddVertex(float x, float y, float z, Vector3 color) {
-            vertices[vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
+            vertices[vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color((Global.INVERT_COLORS ? 255 : 0) - color.X, (Global.INVERT_COLORS ? 255 : 0) - color.Y, (Global.INVERT_COLORS ? 255 : 0) - color.Z));
         }
 
         private void AddTriangle(ushort a, ushort b, ushort c) {

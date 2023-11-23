@@ -22,7 +22,7 @@ namespace minecraft_kurwa {
             new(185, 232, 234), // 4 - ice
             new(179, 86, 66),   // 5 - terracotta
             new(83, 84, 78),    // 6 - gravel
-            new(255, 255, 255), // 7 - snow
+            new(225, 225, 225), // 7 - snow
             new(105, 170, 5),   // 8 - oak leaves
             new(90, 85, 54),    // 9 - oak wood
             new(55, 124, 20),   // 10 - kapok leaves

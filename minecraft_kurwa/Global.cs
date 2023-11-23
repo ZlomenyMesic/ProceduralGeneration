@@ -24,6 +24,8 @@ namespace minecraft_kurwa {
         internal const float START_POS_Y = 100;
         internal const float START_POS_Z = 0;
 
+        internal const bool INVERT_COLORS = false;
+
         internal const int WORLD_SIZE = 250;
         internal const int HEIGHT_LIMIT = 140;
         internal const int SEED = 21;
