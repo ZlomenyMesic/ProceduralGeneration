@@ -40,7 +40,6 @@ namespace minecraft_kurwa {
             new(255, 183, 197), // 21 - cherry leaves
             new(71, 52, 39),    // 22 - cherry wood
             new(255, 285, 87),  // 23 - sandstone
-            new(147, 192, 139)  // 24 - frozen grass
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
@@ -48,12 +47,13 @@ namespace minecraft_kurwa {
 
             if (voxelType == 1) {
                 switch (biome) {
-                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color += new Vector3(70, 7, 20); break;  // super dry
-                    case 20 or 21 or 22 or 24 or 25: color += new Vector3(50, 5, 15); break;             // dry
-                    case 10 or 11 or 12: color += new Vector3(15, 5, -2); break;                         // rainy
-                    case 50 or 51 or 52 or 53 or 54: color += new Vector3(0, -24, 5); break;             // cold
-                    case 31 or 41: color += new Vector3(57, -55, 10); break;                             // dark soil
-                    default: break;                                                                      // no shade
+                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color += new Vector3(70, 7, 20); break;    // super dry
+                    case 20 or 21 or 22 or 24 or 25: color += new Vector3(50, 5, 15); break;               // dry
+                    case 10 or 11 or 12: color += new Vector3(15, 5, -2); break;                           // rainy
+                    case 50 or 52 or 60 or 62 or 63 or 64: color = new(147, 192, 139); break;              // frozen
+                    case 51 or 61: color = new(173, 135, 101); break;                                      // frozen dark soil
+                    case 31 or 41: color += new Vector3(57, -55, 10); break;                               // dark soil
+                    default: break;                                                                        // no shade
                 }
             }
             else if (voxelType == 8) {
@@ -79,16 +79,16 @@ namespace minecraft_kurwa {
             } 
             else if (voxelType == 16) {
                 switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color += new Vector3(-30, 16, -3); break;  // green shade
-                    case 1: color += new Vector3(-40, 23, -7); break;  // greener shade
-                    default: break;                                    // no shade
+                    case 0: color += new Vector3(-30, 16, -3); break;   // green shade
+                    case 1: color += new Vector3(-40, 23, -7); break;   // greener shade
+                    default: break;                                     // no shade
                 }
             }
             else if (voxelType == 21) {
                 switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color += new Vector3(0, 0, 12); break;   // more purple shade
-                    case 1: color += new Vector3(0, -7, -7); break;  // more reddish shade
-                    default: break;                                  // no shade
+                    case 0: color += new Vector3(0, 0, 12); break;      // more purple shade
+                    case 1: color += new Vector3(0, -7, -7); break;     // more reddish shade
+                    default: break;                                     // no shade
                 }
             }
 

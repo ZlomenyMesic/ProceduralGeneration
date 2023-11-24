@@ -13,8 +13,8 @@ namespace minecraft_kurwa {
             Random random = new(Settings.SEED + 69);
 
             for (ushort i = 0; i < amount; i++) {
-                ushort x = (ushort)random.Next(Global.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Global.TREE_EDGE_OFFSET - 1);
-                ushort z = (ushort)random.Next(Global.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Global.TREE_EDGE_OFFSET - 1);
+                ushort x = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
+                ushort z = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
                 byte biome = Global.BIOME_MAP[x, z];
 
                 if (Global.HEIGHT_MAP[x, z] <= Settings.WATER_LEVEL) continue;
