@@ -13,13 +13,13 @@ namespace minecraft_kurwa {
         internal const int COLD_BIOME_COUNT = 4;
 
         internal static BiomeType GetBiome(ushort x, ushort z) {
-            return x < Global.WORLD_SIZE && z < Global.WORLD_SIZE 
+            return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE 
                 ? (BiomeType)(Global.BIOME_MAP[x, z] - (Global.BIOME_MAP[x, z] % 10))
                 : BiomeType.VOID;
         }
 
         internal static BiomeType GetSubbiome(ushort x, ushort z) {
-            return x < Global.WORLD_SIZE && z < Global.WORLD_SIZE
+            return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
                 ? (BiomeType)Global.BIOME_MAP[x, z]
                 : BiomeType.VOID;
         }
@@ -29,6 +29,7 @@ namespace minecraft_kurwa {
             if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_STONY) return (byte)VoxelType.STONE;
             if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return (byte)VoxelType.GRAVEL;
             if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return (byte)VoxelType.TERRACOTTA;
+            if (biome == (byte)BiomeType.POLAR_HIGHLAND) return (byte)VoxelType.ICE;
             if (biome >= 50) return (byte)VoxelType.SNOW;
 
             return (byte)VoxelType.GRASS;
@@ -69,11 +70,15 @@ namespace minecraft_kurwa {
         TEMPERATE_INLAND_BROADLEAF_FOREST = 42,
         TEMPERATE_INLAND_PLAINS = 43,
         TEMPERATE_INLAND_MEADOW = 44,
+        
+        SUBPOLAR = 50,
+        SUBPOLAR_FOREST = 51,
+        SUBPOLAR_PLAINS = 52,
 
-        COLD = 50,
-        COLD_TAIGA = 51,
-        COLD_HIGHLAND = 52,
-        COLD_TUNDRA = 53,
-        COLD_ICEBERG = 54
+        POLAR = 50,
+        POLAR_TAIGA = 51,
+        POLAR_HIGHLAND = 52,
+        POLAR_TUNDRA = 53,
+        POLAR_ICEBERG = 54
     }
 }

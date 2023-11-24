@@ -55,35 +55,35 @@ namespace minecraft_kurwa {
                 }
             }
             else if (voxelType == 8) {
-                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-17, -15, -2); break;  // dark shade
                     case 1: color += new Vector3(15, 12, 3); break;     // light shade
                     default: break;                                     // no shade
                 }
             }
             else if (voxelType == 10) {
-                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-17, -15, -2); break;  // dark shade
                     case 1: color += new Vector3(8, 12, 3); break;      // light shade
                     default: break;                                     // no shade
                 }
             }
             else if (voxelType == 14) {
-                switch (new Random(Global.SEED * seed).Next(0, 4)) {
+                switch (new Random(Settings.SEED * seed).Next(0, 4)) {
                     case 0: color += new Vector3(-15, 14, -20); break;  // green shade
                     case 1: color += new Vector3(-18, 20, -27); break;  // greener shade
                     default: break;                                     // no shade
                 }
             } 
             else if (voxelType == 16) {
-                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-30, 16, -3); break;  // green shade
                     case 1: color += new Vector3(-40, 23, -7); break;  // greener shade
                     default: break;                                    // no shade
                 }
             }
             else if (voxelType == 21) {
-                switch (new Random(Global.SEED * seed).Next(0, 3)) {
+                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(0, 0, 12); break;   // more purple shade
                     case 1: color += new Vector3(0, -7, -7); break;  // more reddish shade
                     default: break;                                  // no shade

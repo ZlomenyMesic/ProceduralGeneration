@@ -22,12 +22,12 @@ namespace minecraft_kurwa {
             Vector2 difference;
             MouseState mouseState = Mouse.GetState();
 
-            difference.X = (Global.WINDOW_WIDTH / 2) - mouseState.X;
-            difference.Y = (Global.WINDOW_HEIGHT / 2) - mouseState.Y;
-            leftRightRot = Global.SENSIBILITY * difference.X / 100_000;
-            upDownRot = Global.SENSIBILITY * difference.Y / 400;
+            difference.X = (Settings.WINDOW_WIDTH / 2) - mouseState.X;
+            difference.Y = (Settings.WINDOW_HEIGHT / 2) - mouseState.Y;
+            leftRightRot = Settings.SENSIBILITY * difference.X / 100_000;
+            upDownRot = Settings.SENSIBILITY * difference.Y / 400;
 
-            Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
+            Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
         }
 
         private static bool HandleKeyboard(ref Vector3 camTarget, ref Vector3 camPosition, ref bool debugMenuOpen) {
@@ -41,7 +41,7 @@ namespace minecraft_kurwa {
                 lastDebugModeState = true;
             } else lastDebugModeState = false;
 
-            float speed = 1 / Global.MOVEMENT_SPEED * 10_000;
+            float speed = 1 / Settings.MOVEMENT_SPEED * 10_000;
 
             float differenceX = (camTarget.X - camPosition.X) / speed;
             float differenceZ = (camTarget.Z - camPosition.Z) / speed;

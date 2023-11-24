@@ -12,27 +12,27 @@ using System.Diagnostics;
 namespace minecraft_kurwa {
 
     public class Engine : Game {
-        private readonly Stopwatch loadTime;
-        private readonly Stopwatch totalTime;
-        private uint frames;
+        private readonly Stopwatch loadTime; // how much time did it take to generate the terrain and startup the application
+        private readonly Stopwatch totalTime; // time since the application was started
+        private uint frames; // frames rendered since the application was started
 
-        internal SpriteBatch spriteBatch;
-        internal GraphicsDeviceManager graphics;
+        internal SpriteBatch spriteBatch; // TODO
+        internal GraphicsDeviceManager graphics; // TODO
 
-        internal Vector3 camTarget;
-        internal Vector3 camPosition;
+        internal Vector3 camTarget; // position the camera is pointed to
+        internal Vector3 camPosition; // camera position
 
-        internal Matrix projectionMatrix;
-        internal Matrix viewMatrix;
+        internal Matrix projectionMatrix; // TODO
+        internal Matrix viewMatrix; // TODO
 
-        internal RenderTarget2D MainTarget;
+        internal RenderTarget2D MainTarget; // TODO
 
-        internal SpriteFont defaultFont;
+        internal SpriteFont defaultFont; // font
 
-        internal VoxelStructure[] world;
-        private int voxelCounter = 0;
+        internal VoxelStructure[] world; // array of voxel structures that are made out of voxels
+        private int voxelCounter = 0; // hoh many voxels is in the scene
 
-        private int voxelStructCount = 0;
+        private int voxelStructCount = 0; 
         private int currentVoxelCount = 0;
 
         private bool debugMenuOpen = true;
@@ -46,8 +46,8 @@ namespace minecraft_kurwa {
             Content.RootDirectory = "Content";
             Window.Title = "minecraft?";
 
-            graphics.PreferredBackBufferHeight = Global.WINDOW_HEIGHT;
-            graphics.PreferredBackBufferWidth = Global.WINDOW_WIDTH;
+            graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
+            graphics.PreferredBackBufferWidth = Settings.WINDOW_WIDTH;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             IsFixedTimeStep = true;
@@ -61,16 +61,16 @@ namespace minecraft_kurwa {
 
             camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
             camTarget = new Vector3(camPosition.X, camPosition.Y - 350, camPosition.Z + 300f);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Global.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio, 1f, Global.RENDER_DISTANCE);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio, 1f, Settings.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
-            MainTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            MainTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(Global.GRAPHICS_DEVICE);
 
             defaultFont = Content.Load<SpriteFont>("default");
 
-            Mouse.SetPosition(Global.WINDOW_WIDTH / 2, Global.WINDOW_HEIGHT / 2);
+            Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
 
             VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
@@ -78,11 +78,11 @@ namespace minecraft_kurwa {
 
             GeneratorController.GenerateWorld();
 
-            world = new VoxelStructure[Global.WORLD_SIZE * Global.WORLD_SIZE];
+            world = new VoxelStructure[Settings.WORLD_SIZE * Settings.WORLD_SIZE];
 
-            for (ushort x = 0; x < Global.WORLD_SIZE; x++) {
-                for (ushort y = 0; y < Global.WORLD_SIZE; y++) {
-                    for (ushort z = 0; z < Global.HEIGHT_LIMIT; z++) {
+            for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                    for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
                             AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
                         }
@@ -114,7 +114,7 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
-            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT), Color.White);
+            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), Color.White);
             spriteBatch.End();
 
             if (loadTime.IsRunning) loadTime.Stop();
@@ -126,9 +126,10 @@ namespace minecraft_kurwa {
                 $"Y: {camPosition.Y}\n" +
                 $"Z: {camPosition.Z}\n" +
                 $"Biome: {Biome.GetBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
-                $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n\n" +
+                $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
+                $"World size: {Settings.WORLD_SIZE}\n\n" +
                 $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
-                $"Seed: {Global.SEED}\n" +
+                $"Seed: {Settings.SEED}\n" +
                 $"Voxels: {voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
                 $"Frames per second: {Math.Round((double)(++frames * 1000) / totalTime.ElapsedMilliseconds, 0)}",

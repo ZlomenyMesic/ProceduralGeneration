@@ -51,13 +51,13 @@ namespace minecraft_kurwa {
                 AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
             }
 
-            if (position.Z + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X, (short)position.Z + 1, (short)position.Y] == null) {
+            if (position.Z + 1 == Settings.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X, (short)position.Z + 1, (short)position.Y] == null) {
                 adjustedColor = originalColor * ColorManager.BACK_SHADOW;    // back
                 AddVertex(0, 0, 1, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
                 AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
             }
 
-            if (position.X + 1 == Global.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X + 1, (short)position.Z, (short)position.Y] == null) {
+            if (position.X + 1 == Settings.WORLD_SIZE || Global.VOXEL_MAP[(short)position.X + 1, (short)position.Z, (short)position.Y] == null) {
                 adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // left
                 AddVertex(1, 0, 0, adjustedColor); AddVertex(1, 1, 0, adjustedColor); AddVertex(1, 0, 1, adjustedColor); AddVertex(1, 1, 1, adjustedColor);
                 AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
@@ -69,7 +69,7 @@ namespace minecraft_kurwa {
                 AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
             }
 
-            if (position.Y + 1 == Global.HEIGHT_LIMIT || Global.VOXEL_MAP[(short)position.X, (short)position.Z, (short)position.Y + 1] == null) {
+            if (position.Y + 1 == Settings.HEIGHT_LIMIT || Global.VOXEL_MAP[(short)position.X, (short)position.Z, (short)position.Y + 1] == null) {
                 adjustedColor = originalColor * ColorManager.TOP_SHADOW;     // top
                 AddVertex(1, 1, 0, adjustedColor); AddVertex(0, 1, 0, adjustedColor); AddVertex(1, 1, 1, adjustedColor); AddVertex(0, 1, 1, adjustedColor);
                 AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
