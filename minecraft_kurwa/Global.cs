@@ -34,7 +34,7 @@ namespace minecraft_kurwa {
         internal const float SENSIBILITY = 200; // higher value => faster mouse
         internal const float MOVEMENT_SPEED = 40; // higher value => faster movement
 
-        internal const int WORLD_SIZE = 250;
+        internal const int WORLD_SIZE = 350;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 30;
@@ -82,5 +82,6 @@ namespace minecraft_kurwa {
         CHERRY_WOOD = 22,
         
         SANDSTONE = 23,
+        FROZEN_GRASS = 24,
     }
 }

@@ -40,6 +40,7 @@ namespace minecraft_kurwa {
             new(255, 183, 197), // 21 - cherry leaves
             new(71, 52, 39),    // 22 - cherry wood
             new(255, 285, 87),  // 23 - sandstone
+            new(147, 192, 139)  // 24 - frozen grass
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
