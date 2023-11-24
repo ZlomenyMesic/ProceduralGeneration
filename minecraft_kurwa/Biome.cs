@@ -10,7 +10,8 @@ namespace minecraft_kurwa {
         internal const int SUBTROPICAL_BIOME_COUNT = 5;
         internal const int TEMPERATE_OCEANIC_BIOME_COUNT = 4;
         internal const int TEMPERATE_INLAND_BIOME_COUNT = 4;
-        internal const int COLD_BIOME_COUNT = 4;
+        internal const int SUBPOLAR_BIOME_COUNT = 2;
+        internal const int POLAR_BIOME_COUNT = 4;
 
         internal static BiomeType GetBiome(ushort x, ushort z) {
             return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE 
@@ -24,15 +25,16 @@ namespace minecraft_kurwa {
                 : BiomeType.VOID;
         }
 
-        internal static byte GetTopBlock(byte biome) {
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_SANDY) return (byte)VoxelType.SAND;
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_STONY) return (byte)VoxelType.STONE;
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return (byte)VoxelType.GRAVEL;
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return (byte)VoxelType.TERRACOTTA;
-            if (biome == (byte)BiomeType.POLAR_HIGHLAND) return (byte)VoxelType.ICE;
-            if (biome >= 50) return (byte)VoxelType.SNOW;
+        internal static byte[] GetTopBlocks(byte biome) {
+            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_SANDY) return new[] {(byte) VoxelType.SAND, (byte) VoxelType.SANDSTONE};
+            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_STONY) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.STONE, (byte) VoxelType.GRAVEL};
+            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.GRAVEL, (byte) VoxelType.GRAVEL};
+            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return new[] {(byte) VoxelType.TERRACOTTA, (byte) VoxelType.SAND};
+            if (biome is (byte) BiomeType.SUBPOLAR_FOREST or (byte) BiomeType.SUBPOLAR_PLAINS or (byte) BiomeType.SUBPOLAR) return new[] {(byte) VoxelType.SNOW, (byte) VoxelType.SNOW, (byte) VoxelType.GRASS};
+            if (biome == (byte) BiomeType.POLAR_HIGHLAND) return new[] {(byte) VoxelType.SNOW, (byte) VoxelType.ICE};
+            if (biome >= 50) return new[] {(byte) VoxelType.SNOW};
 
-            return (byte)VoxelType.GRASS;
+            return new[] { (byte)VoxelType.GRASS };
         }
     }
 
@@ -75,10 +77,10 @@ namespace minecraft_kurwa {
         SUBPOLAR_FOREST = 51,
         SUBPOLAR_PLAINS = 52,
 
-        POLAR = 50,
-        POLAR_TAIGA = 51,
-        POLAR_HIGHLAND = 52,
-        POLAR_TUNDRA = 53,
-        POLAR_ICEBERG = 54
+        POLAR = 60,
+        POLAR_TAIGA = 61,
+        POLAR_HIGHLAND = 62,
+        POLAR_TUNDRA = 63,
+        POLAR_ICEBERG = 64
     }
 }

@@ -80,5 +80,7 @@ namespace minecraft_kurwa {
 
         CHERRY_LEAVES = 21,
         CHERRY_WOOD = 22,
+        
+        SANDSTONE = 23,
     }
 }
