@@ -11,8 +11,8 @@ namespace minecraft_kurwa {
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 
-        private IndexBuffer indexBuffer;
-        private VertexBuffer vertexBuffer;
+        private readonly IndexBuffer indexBuffer;
+        private readonly VertexBuffer vertexBuffer;
 
         private readonly ushort[] indices;
         private readonly VertexPositionColor[] vertices;
