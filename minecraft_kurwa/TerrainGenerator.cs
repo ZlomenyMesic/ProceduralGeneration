@@ -8,14 +8,14 @@ using System;
 namespace minecraft_kurwa {
     internal class TerrainGenerator {
 
-        internal static short[,] GenerateHeightMap() {
+        internal static ushort[,] GenerateHeightMap() {
             PerlinNoise perlinNoise = new(Settings.SEED);
 
-            short[,] output = new short[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+            ushort[,] output = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                    output[x, y] = (short)Math.Abs(Math.Round(perlinNoise.Noise((double)x / Settings.MAIN_NOISE_SCALE, (double)y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2));
+                    output[x, y] = (ushort)Math.Abs(Math.Round(perlinNoise.Noise((double)x / Settings.MAIN_NOISE_SCALE, (double)y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2));
                 }
             }
 

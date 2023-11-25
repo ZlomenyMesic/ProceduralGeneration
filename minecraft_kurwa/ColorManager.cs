@@ -20,7 +20,7 @@ namespace minecraft_kurwa {
             new(19, 133, 16),   // 1 - grass
             new(100, 110, 106), // 2 - rock
             new(194, 178, 128), // 3 - sand
-            new(185, 232, 234), // 4 - ice
+            new(167, 242, 237), // 4 - ice
             new(179, 86, 66),   // 5 - terracotta
             new(83, 84, 78),    // 6 - gravel
             new(225, 225, 225), // 7 - snow
