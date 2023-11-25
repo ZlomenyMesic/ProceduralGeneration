@@ -155,7 +155,7 @@ namespace minecraft_kurwa {
             world[voxelStructCount] ??= new();
             world[voxelStructCount].AddVoxel(position, color, transparency);
 
-            if (++currentVoxelCount > 6) {
+            if (++currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
                 currentVoxelCount = 0;
                 voxelStructCount++;
             }

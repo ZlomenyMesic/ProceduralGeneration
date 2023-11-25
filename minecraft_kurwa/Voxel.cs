@@ -11,8 +11,8 @@ namespace minecraft_kurwa {
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 
-        private readonly IndexBuffer indexBuffer;
-        private readonly VertexBuffer vertexBuffer;
+        private IndexBuffer indexBuffer;
+        private VertexBuffer vertexBuffer;
 
         private readonly ushort[] indices;
         private readonly VertexPositionColor[] vertices;
@@ -22,13 +22,17 @@ namespace minecraft_kurwa {
         internal static BasicEffect basicEffect;
         internal static int triangleCounter = 0;
 
-        internal VoxelStructure() {
-            voxels = new Voxel[7];
-            vertices = new VertexPositionColor[168];
-            indices = new ushort[252];
+        internal const ushort MAX_VOXEL_COUNT = 1820; // maximum possible
+        internal const ushort MAX_VERTEX_COUNT = MAX_VOXEL_COUNT * 24;
+        internal const ushort MAX_INDEX_COUNT = MAX_VOXEL_COUNT * 36;
 
-            vertexBuffer = new VertexBuffer(Global.GRAPHICS_DEVICE, typeof(VertexPositionColor), 168, BufferUsage.WriteOnly);
-            indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), 252, BufferUsage.WriteOnly);
+        internal VoxelStructure() {
+            voxels = new Voxel[MAX_VOXEL_COUNT];
+            vertices = new VertexPositionColor[MAX_VERTEX_COUNT];
+            indices = new ushort[MAX_INDEX_COUNT]; 
+
+            vertexBuffer = new VertexBuffer(Global.GRAPHICS_DEVICE, typeof(VertexPositionColor), MAX_VERTEX_COUNT, BufferUsage.WriteOnly);
+            indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), MAX_INDEX_COUNT, BufferUsage.WriteOnly);
         }
 
         internal void AddVoxel(Vector3 position, Color color, float transparency = 1.0f) {
@@ -92,10 +96,10 @@ namespace minecraft_kurwa {
 
             VertexPositionColor[] newVertices = new VertexPositionColor[vertexCounter];
             ushort[] newIndices = new ushort[indexCounter];
-            for (byte i = 0; i < vertexCounter; i++) {
+            for (ushort i = 0; i < vertexCounter; i++) {
                 newVertices[i] = vertices[i];
             }
-            for (byte i = 0; i < indexCounter; i++) {
+            for (ushort i = 0; i < indexCounter; i++) {
                 newIndices[i] = indices[i];
             }
 
@@ -106,6 +110,7 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
+                
                 basicEffect.World = voxels[i].transform;
                 basicEffect.Alpha = voxels[i].transparency;
 
