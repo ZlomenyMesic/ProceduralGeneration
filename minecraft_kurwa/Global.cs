@@ -36,9 +36,9 @@ namespace minecraft_kurwa {
         internal const float RENDER_DISTANCE = 8000;
         
         internal const float SENSIBILITY = 200; // higher value => faster mouse
-        internal const float MOVEMENT_SPEED = 20; // higher value => faster movement
+        internal const float MOVEMENT_SPEED = 25; // higher value => faster movement
 
-        internal const int WORLD_SIZE = 450;
+        internal const int WORLD_SIZE = 350;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 60;

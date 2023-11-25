@@ -28,7 +28,7 @@ namespace minecraft_kurwa {
             // subbiome type
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                    subbiomeType[x, y, 0] = (byte)((int)(p.Noise((double)x / Settings.SUBBIOME_SCALE, (double)y / Settings.SUBBIOME_SCALE) * 5) + 3);
+                    subbiomeType[x, y, 0] = (byte)((int)(p.Noise((double)x / Settings.SUBBIOME_SCALE, (double)y / Settings.SUBBIOME_SCALE) * 3) + 3);
                 }
             }
 
@@ -58,7 +58,7 @@ namespace minecraft_kurwa {
                     if ((byte) BiomeType.TEMPERATE_INLAND  + Biome.TEMPERATE_INLAND_BIOME_COUNT  < biomeType[x, y, 0] && biomeType[x, y, 0] < (byte) BiomeType.SUBPOLAR)          biomeType[x, y, 0] = 41;
                     if ((byte) BiomeType.SUBPOLAR          + Biome.SUBPOLAR_BIOME_COUNT          < biomeType[x, y, 0] && biomeType[x, y, 0] < (byte) BiomeType.POLAR)             biomeType[x, y, 0] = 51;
                     if ((byte) BiomeType.POLAR             + Biome.POLAR_BIOME_COUNT             < biomeType[x, y, 0] && biomeType[x, y, 0] < (byte) BiomeType.OCEAN)             biomeType[x, y, 0] = 61;
-                    if ((byte) BiomeType.OCEAN                                                   < biomeType[x, y, 0])                                                            biomeType[x, y, 0] = 70;
+                    if ((byte) BiomeType.OCEAN                                                   < biomeType[x, y, 0])                                                            biomeType[x, y, 0] = 62;
                 }
             }
 
@@ -92,30 +92,32 @@ namespace minecraft_kurwa {
                     }
                 }
             }
-            
+
             // spread the biome blend values
-            for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-                for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                    if (Global.BIOME_MAP[x, y, 1] > 0) {
+            for (int i = 0; i < Settings.BIOME_BLENDING; i++) {
+                for (int x = 0; x < Settings.WORLD_SIZE; x++) {
+                    for (int y = 0; y < Settings.WORLD_SIZE; y++) {
+                        if (Global.BIOME_MAP[x, y, 1] > 0) {
                         
-                        if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x + 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                            Global.BIOME_MAP[x + 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                            Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2];
-                        }
+                            if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x + 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
+                                Global.BIOME_MAP[x + 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
+                                Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                            }
                         
-                        if (x > 0) if (Global.BIOME_MAP[x - 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                            Global.BIOME_MAP[x - 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);  
-                            Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2];
-                        }
+                            if (x > 0) if (Global.BIOME_MAP[x - 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
+                                Global.BIOME_MAP[x - 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);  
+                                Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                            }
                         
-                        if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y + 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                            Global.BIOME_MAP[x, y + 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                            Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];
-                        }
+                            if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y + 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
+                                Global.BIOME_MAP[x, y + 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
+                                Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];
+                            }
                         
-                        if (y > 0) if (Global.BIOME_MAP[x, y - 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                            Global.BIOME_MAP[x, y - 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                            Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2];
+                            if (y > 0) if (Global.BIOME_MAP[x, y - 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
+                                Global.BIOME_MAP[x, y - 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
+                                Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2];
+                            }
                         }
                     }
                 }
@@ -157,7 +159,7 @@ namespace minecraft_kurwa {
         }
 
         internal static byte[] GetTopBlocks(byte biome) {
-            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_SANDY) return new[] {(byte) VoxelType.SAND, (byte) VoxelType.SANDSTONE};
+            if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_SANDY) return new[] {(byte) VoxelType.SAND, (byte) VoxelType.SAND, (byte) VoxelType.SANDSTONE};
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_STONY) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.STONE, (byte) VoxelType.GRAVEL};
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.GRAVEL, (byte) VoxelType.GRAVEL};
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return new[] {(byte) VoxelType.TERRACOTTA, (byte) VoxelType.SAND};
