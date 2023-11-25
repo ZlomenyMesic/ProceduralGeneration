@@ -39,7 +39,7 @@ namespace minecraft_kurwa {
         internal const float SENSIBILITY = 200; // higher value => faster mouse
         internal const float MOVEMENT_SPEED = 25; // higher value => faster movement
 
-        internal const int WORLD_SIZE = 350;
+        internal const int WORLD_SIZE = 550;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 60;
@@ -56,5 +56,7 @@ namespace minecraft_kurwa {
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal const byte BIOME_BLENDING = 50;
+
+        internal const ushort TERRAIN_COLLAPSE_LIMIT = 2;
     }
 }
