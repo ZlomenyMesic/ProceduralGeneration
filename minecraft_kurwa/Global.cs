@@ -19,7 +19,7 @@ namespace minecraft_kurwa {
         internal const bool INVERT_COLORS = false;
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
-        internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+        internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
         
         // [x, y, mode]
         // mode == 0 -> primary biome
@@ -39,7 +39,7 @@ namespace minecraft_kurwa {
         internal const float SENSIBILITY = 200; // higher value => faster mouse
         internal const float MOVEMENT_SPEED = 20; // higher value => faster movement
 
-        internal const int WORLD_SIZE = 300;
+        internal const int WORLD_SIZE = 350;
         internal const int SEED = 21;
 
         internal const int MAIN_NOISE_SHARPNESS = 60;
