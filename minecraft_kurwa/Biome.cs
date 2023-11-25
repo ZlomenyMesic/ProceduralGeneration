@@ -30,7 +30,7 @@ namespace minecraft_kurwa {
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_STONY) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.STONE, (byte) VoxelType.GRAVEL};
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return new[] {(byte) VoxelType.STONE, (byte) VoxelType.GRAVEL, (byte) VoxelType.GRAVEL};
             if (biome == (byte) BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return new[] {(byte) VoxelType.TERRACOTTA, (byte) VoxelType.SAND};
-            if (biome is (byte) BiomeType.SUBPOLAR_FOREST or (byte) BiomeType.SUBPOLAR_PLAINS or (byte) BiomeType.SUBPOLAR) return new[] {(byte) VoxelType.FROZEN_GRASS, (byte) VoxelType.SNOW};
+            if (biome is (byte) BiomeType.SUBPOLAR_FOREST or (byte) BiomeType.SUBPOLAR_PLAINS or (byte) BiomeType.SUBPOLAR) return new[] {(byte) VoxelType.GRASS, (byte) VoxelType.SNOW};
             if (biome == (byte) BiomeType.POLAR_HIGHLAND) return new[] {(byte) VoxelType.SNOW, (byte) VoxelType.ICE};
             if (biome >= 50) return new[] {(byte) VoxelType.SNOW};
 

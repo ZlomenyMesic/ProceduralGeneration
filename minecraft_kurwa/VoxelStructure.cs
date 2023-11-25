@@ -9,7 +9,7 @@ using System;
 
 namespace minecraft_kurwa {
     internal class VoxelStructure {
-        private readonly VoxelStruct[] voxels;
+        private readonly Voxel[] voxels;
 
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
@@ -23,7 +23,7 @@ namespace minecraft_kurwa {
         internal static int triangleCounter = 0;
 
         internal VoxelStructure() {
-            voxels = new VoxelStruct[7];
+            voxels = new Voxel[7];
             vertices = new VertexPositionColor[168];
             indices = new ushort[252];
 
@@ -122,12 +122,12 @@ namespace minecraft_kurwa {
             }
         }
 
-        private struct VoxelStruct {
+        private struct Voxel {
             internal Matrix transform;
             internal ushort indexStart;
             internal float transparency;
 
-            internal VoxelStruct(Matrix transform, ushort indexStart, float transparency) {
+            internal Voxel(Matrix transform, ushort indexStart, float transparency) {
                 this.transform = transform;
                 this.indexStart = indexStart;
                 this.transparency = transparency;

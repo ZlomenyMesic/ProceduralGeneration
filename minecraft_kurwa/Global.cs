@@ -17,7 +17,6 @@ namespace minecraft_kurwa {
         internal const float START_POS_Z = Settings.WORLD_SIZE / 2;
 
         internal const bool INVERT_COLORS = false;
-        internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.WORLD_SIZE];
@@ -46,6 +45,7 @@ namespace minecraft_kurwa {
         internal const int HEIGHT_LIMIT = 200;
 
         internal const int TREE_DENSITY = 130;
+        internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
     }
 
     internal enum VoxelType {
@@ -82,6 +82,5 @@ namespace minecraft_kurwa {
         CHERRY_WOOD = 22,
         
         SANDSTONE = 23,
-        FROZEN_GRASS = 24,
     }
 }
