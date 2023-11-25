@@ -175,7 +175,7 @@ namespace minecraft_kurwa {
         /// </summary>
         /// <param name="biome" />
         /// <returns>an array of strings with a operation and numbers associated with the operation</returns>
-        internal static (string, float)[] GetGeneratorValues(BiomeType biome) {
+        internal static (string, float)[] GetTerrainGeneratorValues(BiomeType biome) {
             switch (biome) {
                 case BiomeType.OCEAN: return new []{("*", 0f)};
                 case BiomeType.POLAR_HIGHLAND: return new []{("*", 0.1f), ("+", 100f)};

@@ -20,7 +20,7 @@ namespace minecraft_kurwa {
 
                     // primary height
                     ushort pHeight = (ushort) Math.Abs(perlinNoise.Noise((double) x / Settings.MAIN_NOISE_SCALE, (double) y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5/2 + Settings.MAIN_NOISE_SHARPNESS * 3/2);
-                    (string operation, float numerator)[] pOperations = Biome.GetGeneratorValues((BiomeType) Global.BIOME_MAP[x, y, 0]);
+                    (string operation, float numerator)[] pOperations = Biome.GetTerrainGeneratorValues((BiomeType) Global.BIOME_MAP[x, y, 0]);
 
                     for (byte i = 0; i < pOperations.Length; i++) {
                         if (pOperations[i].operation == "*") {
