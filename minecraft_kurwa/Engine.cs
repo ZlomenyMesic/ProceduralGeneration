@@ -84,7 +84,7 @@ namespace minecraft_kurwa {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
-                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y, 0], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
+                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y, 0], z, x * y * z), Settings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]) : 1.0f);
                         }
                     }
                 }
@@ -155,7 +155,7 @@ namespace minecraft_kurwa {
             world[voxelStructCount] ??= new();
             world[voxelStructCount].AddVoxel(position, color, transparency);
 
-            if (++currentVoxelCount > 6) {
+            if (++currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
                 currentVoxelCount = 0;
                 voxelStructCount++;
             }

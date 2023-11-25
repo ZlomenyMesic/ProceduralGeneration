@@ -34,6 +34,7 @@ namespace minecraft_kurwa {
         
         internal const float FIELD_OF_VIEW = 60; // in degrees
         internal const float RENDER_DISTANCE = 8000;
+        internal const bool TRANSPARENT_TEXTURES = true;
         
         internal const float SENSIBILITY = 200; // higher value => faster mouse
         internal const float MOVEMENT_SPEED = 25; // higher value => faster movement
