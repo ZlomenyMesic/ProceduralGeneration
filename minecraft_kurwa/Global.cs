@@ -19,7 +19,7 @@ namespace minecraft_kurwa {
         internal const bool INVERT_COLORS = false;
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
-        internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+        internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
         
         // [x, y, mode]
         // mode == 0 -> primary biome

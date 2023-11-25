@@ -29,12 +29,6 @@ namespace minecraft_kurwa {
 
         internal SpriteFont defaultFont; // font
 
-        internal VoxelStructure[] world; // array of voxel structures that are made out of voxels
-        private int voxelCounter = 0; // hoh many voxels is in the scene
-
-        private int voxelStructCount = 0; 
-        private int currentVoxelCount = 0;
-
         private bool debugMenuOpen = true;
 
         public Engine() {
@@ -78,17 +72,8 @@ namespace minecraft_kurwa {
 
             GeneratorController.GenerateWorld();
 
-            world = new VoxelStructure[Settings.WORLD_SIZE * Settings.WORLD_SIZE];
-
-            for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
-                for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                    for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
-                        if (Global.VOXEL_MAP[x, y, z] != null) {
-                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y, 0], z, x * y * z), Settings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]) : 1.0f);
-                        }
-                    }
-                }
-            }
+            VoxelConnector.CreateGrid();
+            VoxelConnector.GenerateWorld();
 
             totalTime.Start();
         }
@@ -107,8 +92,8 @@ namespace minecraft_kurwa {
             VoxelStructure.basicEffect.Projection = projectionMatrix;
             VoxelStructure.basicEffect.View = viewMatrix;
 
-            for (int i = 0; i < world.Length; i++) {
-                world[i]?.Draw();
+            for (int i = 0; i < VoxelConnector.world.Length; i++) {
+                VoxelConnector.world[i]?.Draw();
             }
 
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);
@@ -132,7 +117,7 @@ namespace minecraft_kurwa {
                 $"World size: {Settings.WORLD_SIZE}\n\n" +
                 $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Settings.SEED}\n" +
-                $"Voxels: {voxelCounter}\n" +
+                $"Voxels: {VoxelConnector.voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
                 $"Frames per second: {Math.Round((double)(++frames * 1000) / totalTime.ElapsedMilliseconds, 0)}",
                 new(30, 30), Color.White);
@@ -149,18 +134,6 @@ namespace minecraft_kurwa {
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
-        }
-
-        internal void AddVoxel(Vector3 position, Color color, float transparency = 1.0f) {
-            world[voxelStructCount] ??= new();
-            world[voxelStructCount].AddVoxel(position, color, transparency);
-
-            if (++currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
-                currentVoxelCount = 0;
-                voxelStructCount++;
-            }
-
-            voxelCounter++;
         }
     }
 }
