@@ -16,7 +16,8 @@ namespace minecraft_kurwa {
         internal const float START_POS_Y = 100;
         internal const float START_POS_Z = Settings.WORLD_SIZE / 2;
 
-        internal const bool INVERT_COLORS = false;
+        internal const bool INVERT_COLORS = true;
+        internal const bool LOW_RESOLUTION = true;
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];

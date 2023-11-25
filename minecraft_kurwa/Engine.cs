@@ -25,7 +25,7 @@ namespace minecraft_kurwa {
         internal Matrix projectionMatrix; // TODO
         internal Matrix viewMatrix; // TODO
 
-        internal RenderTarget2D MainTarget; // TODO
+        internal RenderTarget2D renderTarget; // TODO
 
         internal SpriteFont defaultFont; // font
 
@@ -58,7 +58,7 @@ namespace minecraft_kurwa {
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio, 1f, Settings.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
-            MainTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            renderTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Settings.WINDOW_WIDTH / (int)(Global.LOW_RESOLUTION ? 10 : 0.5f), Settings.WINDOW_HEIGHT / (int)(Global.LOW_RESOLUTION ? 10 : 0.5f), false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(Global.GRAPHICS_DEVICE);
 
@@ -85,7 +85,7 @@ namespace minecraft_kurwa {
         }
 
         protected override void Draw(GameTime gameTime) {
-            Global.GRAPHICS_DEVICE.SetRenderTarget(MainTarget);
+            Global.GRAPHICS_DEVICE.SetRenderTarget(renderTarget);
             Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
@@ -99,7 +99,7 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
-            spriteBatch.Draw(MainTarget, new Rectangle(0, 0, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), Color.White);
+            spriteBatch.Draw(renderTarget, new Rectangle(0, 0, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), Color.White);
             spriteBatch.End();
 
             if (loadTime.IsRunning) loadTime.Stop();

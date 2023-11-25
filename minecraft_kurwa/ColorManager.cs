@@ -9,6 +9,8 @@ using System.Diagnostics;
 
 namespace minecraft_kurwa {
     internal static class ColorManager {
+
+        // original color is multiplied by shadow
         internal static readonly Vector3 FRONT_SHADOW = new(0.7f, 0.7f, 0.7f);
         internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
         internal static readonly Vector3 BACK_SHADOW = new(0.7f, 0.7f, 0.7f);

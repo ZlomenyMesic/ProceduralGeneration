@@ -67,6 +67,7 @@ namespace minecraft_kurwa {
             return output;
         }
 
+        // removes everything under the water level and shifts the world down
         internal static void ShiftWorld() {
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
