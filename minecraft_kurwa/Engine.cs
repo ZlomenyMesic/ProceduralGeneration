@@ -84,7 +84,7 @@ namespace minecraft_kurwa {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] != null) {
-                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
+                            AddVoxel(new(x, z, y), ColorManager.GetVoxelColor(Global.VOXEL_MAP[x, y, z], Global.BIOME_MAP[x, y, 0], z, x * y * z), ColorManager.GetVoxelTransparency(Global.VOXEL_MAP[x, y, z]));
                         }
                     }
                 }
@@ -127,6 +127,8 @@ namespace minecraft_kurwa {
                 $"Z: {camPosition.Z}\n" +
                 $"Biome: {Biome.GetBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
+                $"Secondary biome: {Biome.GetSecondaryBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
+                $"Biomeblending: {Biome.GetBiomeBlending((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"World size: {Settings.WORLD_SIZE}\n\n" +
                 $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
                 $"Seed: {Settings.SEED}\n" +

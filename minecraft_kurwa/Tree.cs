@@ -15,7 +15,7 @@ namespace minecraft_kurwa {
             for (ushort i = 0; i < amount; i++) {
                 ushort x = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
                 ushort z = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
-                byte biome = Global.BIOME_MAP[x, z];
+                byte biome = Global.BIOME_MAP[x, z, 0];
 
                 if (Global.HEIGHT_MAP[x, z] <= Settings.WATER_LEVEL) continue;
 
