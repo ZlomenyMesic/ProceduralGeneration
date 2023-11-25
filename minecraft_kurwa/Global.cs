@@ -16,9 +16,6 @@ namespace minecraft_kurwa {
         internal const float START_POS_Y = 100;
         internal const float START_POS_Z = Settings.WORLD_SIZE / 2;
 
-        internal const bool INVERT_COLORS = true;
-        internal const bool LOW_RESOLUTION = true;
-
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
         
@@ -59,5 +56,16 @@ namespace minecraft_kurwa {
         internal const byte BIOME_BLENDING = 50;
 
         internal const ushort TERRAIN_COLLAPSE_LIMIT = 2;
+    }
+
+    internal static class ExperimentalSettings {
+        internal const int RENDER_TARGET_WIDTH = Settings.WINDOW_WIDTH / 10; // resolution
+        internal const int RENDER_TARGET_HEIGHT = Settings.WINDOW_HEIGHT / 10; // window size * 2 for good quality (real)
+
+        internal const float ASPECT_RATIO = 16 / 3; // default 16 / 9
+
+        internal const float ANTI_RENDER_DISTANCE = 30f; // minimum distance to render (1f is optimal)
+
+        internal const bool INVERT_COLORS = true; // nightmare fuel
     }
 }

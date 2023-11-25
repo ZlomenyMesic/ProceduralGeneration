@@ -55,10 +55,10 @@ namespace minecraft_kurwa {
 
             camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
             camTarget = new Vector3(camPosition.X, camPosition.Y - 350, camPosition.Z + 300f);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio, 1f, Settings.RENDER_DISTANCE);
+            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
-            renderTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, Settings.WINDOW_WIDTH / (int)(Global.LOW_RESOLUTION ? 10 : 0.5f), Settings.WINDOW_HEIGHT / (int)(Global.LOW_RESOLUTION ? 10 : 0.5f), false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            renderTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, ExperimentalSettings.RENDER_TARGET_WIDTH, ExperimentalSettings.RENDER_TARGET_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
 
             spriteBatch = new SpriteBatch(Global.GRAPHICS_DEVICE);
 
