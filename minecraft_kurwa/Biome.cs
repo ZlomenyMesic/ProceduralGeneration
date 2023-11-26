@@ -10,8 +10,8 @@ namespace minecraft_kurwa {
     internal class BiomeGenerator {
 
         internal static byte[,,] GenerateBiomeMap() {
-            byte[,,] biomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 3];
-            byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 3];
+            byte[,,] biomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
+            byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
 
             PerlinNoise p = new(Settings.SEED);
 
@@ -66,7 +66,13 @@ namespace minecraft_kurwa {
         }
 
         public static void GenerateBiomeBlending() {
-            byte[,] auxiliary = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+            
+            for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                    Global.BIOME_MAP[x, y, 2] = (byte) BiomeType.UNKNOWN;
+                    Global.BIOME_MAP[x, y, 3] = (byte) BiomeType.UNKNOWN;
+                }
+            }
 
             // make the borders of the biomes blend 50 : 50 and save what is the secondary biome
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -88,7 +94,7 @@ namespace minecraft_kurwa {
 
                     if (y > 0) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x, y - 1, 0] / 10) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0];
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0]; 
                     }
                 }
             }
@@ -98,25 +104,25 @@ namespace minecraft_kurwa {
                 for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                     for (int y = 0; y < Settings.WORLD_SIZE; y++) {
                         if (Global.BIOME_MAP[x, y, 1] > 0) {
-                        
+                            
                             if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x + 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x + 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x + 1, y, 2] == 0) Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x + 1, y, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (x > 0) if (Global.BIOME_MAP[x - 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x - 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);  
-                                Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x - 1, y, 2] == 0) Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x - 1, y, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y + 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x, y + 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x, y + 1, 2] == 0) Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];else Global.BIOME_MAP[x, y + 1, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (y > 0) if (Global.BIOME_MAP[x, y - 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x, y - 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x, y - 1, 2] == 0) Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x, y - 1, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         }
                     }
@@ -149,6 +155,12 @@ namespace minecraft_kurwa {
         internal static BiomeType GetSecondaryBiome(ushort x, ushort z) {
             return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
                 ? (BiomeType)Global.BIOME_MAP[x, z, 2]
+                : BiomeType.VOID;
+        }
+        
+        internal static BiomeType GetTertiaryBiome(ushort x, ushort z) {
+            return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
+                ? (BiomeType)Global.BIOME_MAP[x, z, 3]
                 : BiomeType.VOID;
         }
 
@@ -229,6 +241,8 @@ namespace minecraft_kurwa {
         POLAR_TUNDRA = 63,
         POLAR_ICEBERG = 64,
         
-        OCEAN = 70
+        OCEAN = 70,
+        
+        UNKNOWN = 255,
     }
 }

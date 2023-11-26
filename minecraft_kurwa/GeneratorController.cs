@@ -12,7 +12,7 @@ namespace minecraft_kurwa {
             Global.BIOME_MAP = BiomeGenerator.GenerateBiomeMap();
             BiomeGenerator.GenerateBiomeBlending();
 
-            Global.HEIGHT_MAP = TerrainGenerator.GenerateHeightMap();
+            TerrainGenerator.GenerateHeightMap();
             
             Random random = new Random(Settings.SEED);
 

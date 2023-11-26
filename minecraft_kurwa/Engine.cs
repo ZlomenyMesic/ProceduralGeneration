@@ -113,6 +113,7 @@ namespace minecraft_kurwa {
                 $"Biome: {Biome.GetBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Subbiome: {Biome.GetSubbiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Secondary biome: {Biome.GetSecondaryBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
+                $"Tertiary biome: {Biome.GetTertiaryBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Biomeblending: {Biome.GetBiomeBlending((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"World size: {Settings.WORLD_SIZE}\n\n" +
                 $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
