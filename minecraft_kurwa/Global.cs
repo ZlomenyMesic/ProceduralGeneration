@@ -3,6 +3,7 @@
 // ZlomenyMesic, KryKom
 //
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace minecraft_kurwa {
@@ -59,5 +60,16 @@ namespace minecraft_kurwa {
 
         internal const ushort TERRAIN_COLLAPSE_LIMIT = 2;
         internal const ushort TERRAIN_SMOOTHING_RADIUS = 3;
+    }
+
+    internal static class ExperimentalSettings {
+        internal const int RENDER_TARGET_WIDTH = Settings.WINDOW_WIDTH * 2; // resolution
+        internal const int RENDER_TARGET_HEIGHT = Settings.WINDOW_HEIGHT * 2; // window size * 2 for good quality (real)
+
+        internal const float ASPECT_RATIO = 16 / 9; // default 16 / 9
+
+        internal const float ANTI_RENDER_DISTANCE = 1f; // minimum distance to render (1f is optimal)
+
+        internal const bool INVERT_COLORS = false; // nightmare fuel
     }
 }

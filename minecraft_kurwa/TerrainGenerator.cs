@@ -12,6 +12,7 @@ namespace minecraft_kurwa {
             PerlinNoise perlinNoise = new(Settings.SEED);
             Random random = new Random(Settings.SEED);
 
+
             // main generation handling
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
@@ -55,57 +56,64 @@ namespace minecraft_kurwa {
                             tHeight = (ushort) (tHeight + tOperations[i].numerator);
                         }
                     }
+
+                    if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                        Global.HEIGHT_MAP[x, y] = pHeight;
                     
-                    Global.HEIGHT_MAP[x, y] = (ushort) ((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1] / 2 + tHeight * Global.BIOME_MAP[x, y, 1] / 2) / 300);
+                    if (Global.BIOME_MAP[x, y, 2] != (byte) BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte) BiomeType.UNKNOWN)
+                        Global.HEIGHT_MAP[x, y] = (ushort) ((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 200);
+                    
+                    if (Global.BIOME_MAP[x, y, 2] != (byte) BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] != (byte) BiomeType.UNKNOWN)
+                        Global.HEIGHT_MAP[x, y] = (ushort) ((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1] / 2 + tHeight * Global.BIOME_MAP[x, y, 1] / 2) / 300);
                 }
             }
             
             // terrain collapse
-            // for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
-            //     for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
-            //         for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-            //             if (x < Settings.WORLD_SIZE - 1) {
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x + 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x + 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //             }
-            //
-            //             if (x > 0) {
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x - 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x - 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //             }
-            //
-            //             if (y < Settings.WORLD_SIZE - 1) {
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x, y + 1] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x, y + 1] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //             }
-            //
-            //             if (y > 0) {
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x, y - 1] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //
-            //                 if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-            //                     Global.HEIGHT_MAP[x, y - 1] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
+            for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
+                for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                    for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                        if (x < Settings.WORLD_SIZE - 1) {
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x + 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+            
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x + 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+                        }
+            
+                        if (x > 0) {
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x - 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+            
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x - 1, y] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+                        }
+            
+                        if (y < Settings.WORLD_SIZE - 1) {
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x, y + 1] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+            
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x, y + 1] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+                        }
+            
+                        if (y > 0) {
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x, y - 1] = (ushort) (Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+            
+                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                Global.HEIGHT_MAP[x, y - 1] = (ushort) (Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                            }
+                        }
+                    }
+                }
+            }
             
             // terrain smoothing
             // for (ushort x = Settings.TERRAIN_SMOOTHING_RADIUS - 1; x < Settings.WORLD_SIZE - Settings.TERRAIN_SMOOTHING_RADIUS + 2; x++) {
@@ -131,6 +139,7 @@ namespace minecraft_kurwa {
             // }
         }
 
+        // removes everything under the water level and shifts the world down
         internal static void ShiftWorld() {
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {

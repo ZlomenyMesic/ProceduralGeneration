@@ -14,6 +14,7 @@ namespace minecraft_kurwa {
         private static int voxelStructCount = 0;
         private static int currentVoxelCount = 0;
 
+        // creates a grid with identical voxels connected into bigger blocks
         internal static void CreateGrid() {
             grid = new Voxel[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
             byte?[,,] voxelMap = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
@@ -26,6 +27,7 @@ namespace minecraft_kurwa {
                 }
             }
 
+            // x-axis connections
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                 for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
 
@@ -47,6 +49,7 @@ namespace minecraft_kurwa {
                 }
             }
 
+            // y-axis connection
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
 
@@ -74,6 +77,7 @@ namespace minecraft_kurwa {
                 }
             }
 
+            // single voxels are placed separately
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
@@ -86,6 +90,7 @@ namespace minecraft_kurwa {
             }
         }
 
+        // transforms the grid into a VoxelStructure array
         internal static void GenerateWorld() {
             world = new VoxelStructure[Settings.WORLD_SIZE * Settings.HEIGHT_LIMIT];
 

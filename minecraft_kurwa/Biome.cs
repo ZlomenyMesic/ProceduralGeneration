@@ -66,7 +66,13 @@ namespace minecraft_kurwa {
         }
 
         public static void GenerateBiomeBlending() {
-            byte[,] auxiliary = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+            
+            for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                    Global.BIOME_MAP[x, y, 2] = (byte) BiomeType.UNKNOWN;
+                    Global.BIOME_MAP[x, y, 3] = (byte) BiomeType.UNKNOWN;
+                }
+            }
 
             // make the borders of the biomes blend 50 : 50 and save what is the secondary biome
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -88,7 +94,7 @@ namespace minecraft_kurwa {
 
                     if (y > 0) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x, y - 1, 0] / 10) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0];
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0]; 
                     }
                 }
             }
@@ -235,6 +241,8 @@ namespace minecraft_kurwa {
         POLAR_TUNDRA = 63,
         POLAR_ICEBERG = 64,
         
-        OCEAN = 70
+        OCEAN = 70,
+        
+        UNKNOWN = 255,
     }
 }
