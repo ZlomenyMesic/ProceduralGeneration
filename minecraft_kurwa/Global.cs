@@ -49,7 +49,7 @@ namespace minecraft_kurwa {
         internal const int WATER_LEVEL = 4;
         internal const int OCEAN_SCALE = 90;
         
-        internal const int HEIGHT_LIMIT = 200;
+        internal const int HEIGHT_LIMIT = 220;
 
         internal const int TREE_DENSITY = 130;
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
