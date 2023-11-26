@@ -50,7 +50,11 @@ namespace minecraft_kurwa {
         
         internal const int WATER_LEVEL = 4;
         internal const int OCEAN_SCALE = 90;
-        
+        internal const int POND_DENSITY = 50;
+        internal const int FREEZING_DISTANCE = 20;     // any water block closer to a polar biome than this will freeze
+        internal const int MIN_FREEZING_DISTANCE = 45; // minimum distance from a polar biome to freeze
+        internal const int ICE_HOLES = 0;              // 0 and less => no holes in ice; 100 and more => no ice
+
         internal const int HEIGHT_LIMIT = 220;
 
         internal const int TREE_DENSITY = 130;
@@ -63,7 +67,7 @@ namespace minecraft_kurwa {
     }
 
     internal static class ExperimentalSettings {
-        internal const int RENDER_TARGET_WIDTH = Settings.WINDOW_WIDTH * 2; // resolution
+        internal const int RENDER_TARGET_WIDTH = Settings.WINDOW_WIDTH * 2;   // resolution
         internal const int RENDER_TARGET_HEIGHT = Settings.WINDOW_HEIGHT * 2; // window size * 2 for good quality (real)
 
         internal const float ASPECT_RATIO = 16 / 9; // default 16 / 9
