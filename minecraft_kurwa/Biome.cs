@@ -10,8 +10,8 @@ namespace minecraft_kurwa {
     internal class BiomeGenerator {
 
         internal static byte[,,] GenerateBiomeMap() {
-            byte[,,] biomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 3];
-            byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 3];
+            byte[,,] biomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
+            byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
 
             PerlinNoise p = new(Settings.SEED);
 
@@ -98,25 +98,25 @@ namespace minecraft_kurwa {
                 for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                     for (int y = 0; y < Settings.WORLD_SIZE; y++) {
                         if (Global.BIOME_MAP[x, y, 1] > 0) {
-                        
+                            
                             if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x + 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x + 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x + 1, y, 2] == 0) Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x + 1, y, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (x > 0) if (Global.BIOME_MAP[x - 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x - 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);  
-                                Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x - 1, y, 2] == 0) Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x - 1, y, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y + 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x, y + 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x, y + 1, 2] == 0) Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2];else Global.BIOME_MAP[x, y + 1, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         
                             if (y > 0) if (Global.BIOME_MAP[x, y - 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                                 Global.BIOME_MAP[x, y - 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2];
+                                if (Global.BIOME_MAP[x, y - 1, 2] == 0) Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x, y - 1, 3] = Global.BIOME_MAP[x, y, 2];
                             }
                         }
                     }
@@ -149,6 +149,12 @@ namespace minecraft_kurwa {
         internal static BiomeType GetSecondaryBiome(ushort x, ushort z) {
             return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
                 ? (BiomeType)Global.BIOME_MAP[x, z, 2]
+                : BiomeType.VOID;
+        }
+        
+        internal static BiomeType GetTertiaryBiome(ushort x, ushort z) {
+            return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
+                ? (BiomeType)Global.BIOME_MAP[x, z, 3]
                 : BiomeType.VOID;
         }
 

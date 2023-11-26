@@ -37,7 +37,7 @@ namespace minecraft_kurwa {
         internal void AddVoxel(Vector3 position, Vector3 size, Color color, float transparency = 1.0f) {
             voxels[voxelCounter++] = new(Matrix.CreateTranslation(position), indexCounter, transparency);
 
-            Vector3 originalColor = !Global.INVERT_COLORS 
+            Vector3 originalColor = !Settings.INVERT_COLORS 
                 ? color.ToVector3()
                 : new(1 - (color.R / 255f), 1 - (color.G / 255f), 1 - (color.B / 255f));
             Vector3 adjustedColor;
