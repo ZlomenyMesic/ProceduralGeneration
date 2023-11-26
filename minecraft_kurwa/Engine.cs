@@ -92,8 +92,10 @@ namespace minecraft_kurwa {
             VoxelStructure.basicEffect.Projection = projectionMatrix;
             VoxelStructure.basicEffect.View = viewMatrix;
 
-            for (int i = 0; i < VoxelConnector.world.Length; i++) {
-                VoxelConnector.world[i]?.Draw();
+            if (camPosition.Y >= 0) {
+                for (int i = 0; i < VoxelConnector.world.Length; i++) {
+                    VoxelConnector.world[i]?.Draw();
+                }
             }
 
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);

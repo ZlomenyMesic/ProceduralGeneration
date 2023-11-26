@@ -3,7 +3,6 @@
 // ZlomenyMesic, KryKom
 //
 
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace minecraft_kurwa {

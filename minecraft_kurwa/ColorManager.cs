@@ -12,10 +12,10 @@ namespace minecraft_kurwa {
 
         // original color is multiplied by shadow
         internal static readonly Vector3 FRONT_SHADOW = new(0.7f, 0.7f, 0.7f);
-        internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
         internal static readonly Vector3 BACK_SHADOW = new(0.7f, 0.7f, 0.7f);
-        internal static readonly Vector3 BOTTOM_SHADOW = new(0.6f, 0.6f, 0.6f);
+        internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
         internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
+        internal static readonly Vector3 BOTTOM_SHADOW = new(0.6f, 0.6f, 0.6f);
 
         private static readonly Color[] COLORS = {
             new(255, 0, 255),   // 0 - purple
