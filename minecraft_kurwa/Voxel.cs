@@ -42,23 +42,23 @@ namespace minecraft_kurwa {
                 : new(1 - (color.R / 255f), 1 - (color.G / 255f), 1 - (color.B / 255f));
             Vector3 adjustedColor;
 
-            adjustedColor = originalColor * ColorManager.FRONT_SHADOW;   // front
+            adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
             AddVertex(0, 0, 0, adjustedColor); AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor);
             AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 4));
 
-            adjustedColor = originalColor * ColorManager.BACK_SHADOW;    // back
+            adjustedColor = originalColor * ColorManager.BACK_SHADOW;        // back
             AddVertex(0, 0, size.Z, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
             AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // right
+            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // right
             AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, size.Z, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
             AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;    // left
+            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // left
             AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
             AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
 
-            adjustedColor = originalColor * ColorManager.TOP_SHADOW;     // top
+            adjustedColor = originalColor * ColorManager.TOP_SHADOW;         // top
             AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
             AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
 
@@ -99,7 +99,6 @@ namespace minecraft_kurwa {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                
                 basicEffect.World = voxels[i].transform;
                 basicEffect.Alpha = voxels[i].transparency;
 

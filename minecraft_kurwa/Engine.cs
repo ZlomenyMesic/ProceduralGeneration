@@ -64,7 +64,7 @@ namespace minecraft_kurwa {
 
             defaultFont = Content.Load<SpriteFont>("default");
 
-            Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
+            Sky.Initialize(Content);
 
             VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
@@ -74,6 +74,8 @@ namespace minecraft_kurwa {
 
             VoxelConnector.CreateGrid();
             VoxelConnector.GenerateWorld();
+
+            Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
 
             totalTime.Start();
         }
@@ -87,6 +89,11 @@ namespace minecraft_kurwa {
         protected override void Draw(GameTime gameTime) {
             Global.GRAPHICS_DEVICE.SetRenderTarget(renderTarget);
             Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
+            Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
+
+            Sky.Draw(projectionMatrix, viewMatrix);
+            Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
+            Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
             VoxelStructure.basicEffect.Projection = projectionMatrix;
