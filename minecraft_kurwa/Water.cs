@@ -93,7 +93,6 @@ namespace minecraft_kurwa {
 
         private static (ushort, ushort) GetPondHeightDifferences(ushort x, ushort y, ushort sizeX, ushort sizeY) {
             ushort[] heights = new ushort[9];
-            bool canGenerate = true;
 
             byte index = 0;
             for (short x2 = -1; x2 <= 1; x2++) {
@@ -107,7 +106,7 @@ namespace minecraft_kurwa {
             }
 
             ushort waterLevel = heights.Min();
-            if (waterLevel == Settings.WATER_LEVEL) canGenerate = false;
+            if (waterLevel == Settings.WATER_LEVEL) goto cannotGenerate;
 
             for (short x2 = (short)((-sizeX / 2) - 1); x2 <= (sizeX / 2) + 1; x2++) {
                 if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
@@ -115,13 +114,15 @@ namespace minecraft_kurwa {
                 for (short y2 = (short)((-sizeY / 2) - 1); y2 <= (sizeY / 2) + 1; y2++) {
                     if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
 
-                    if (Global.HEIGHT_MAP[x + x2, y + y2] < waterLevel) canGenerate = false;
+                    if (Global.HEIGHT_MAP[x + x2, y + y2] < waterLevel) goto cannotGenerate;
                 }
             }
 
-            ushort maxDifference = (ushort)(canGenerate ? heights.Max() - waterLevel : 69);
+            ushort maxDifference = (ushort)(heights.Max() - waterLevel);
 
             return (maxDifference, waterLevel);
+
+            cannotGenerate: return (100, 0);
         }
 
         private static void Freeze(Random random) {
