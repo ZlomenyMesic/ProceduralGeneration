@@ -10,42 +10,36 @@ using System;
 
 namespace minecraft_kurwa {
     internal static class Sky {
-        private static Model model;
-        private static float rotation = 0;
+        private static Model model; // hemisphere model (stolen)
+        private static float rotation = 0; // dome is slowly rotating
         private static Matrix transform;  // used to adjust starting position of dome
-        private static Texture2D texture;
+        private static Texture2D customTexture; // custom sky texture
 
         internal static void Initialize(ContentManager content) {
-            transform = Matrix.CreateTranslation(0, -20, 0);
+            transform = Matrix.CreateTranslation(0, -30, 0);
             model = content.Load<Model>(Global.SKY_DOME_MODEL_SOURCE);
-            texture = content.Load<Texture2D>(Global.SKY_DOME_TEXTURE_SOURCE);
+
+            try {
+                customTexture = content.Load<Texture2D>(Global.SKY_DOME_TEXTURE_SOURCE);
+            } catch { }
         }
 
         internal static void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullNone;
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.None;
-            
+
             viewMatrix.Translation = Vector3.Zero;
 
-            for (int i = 0; i < model.Meshes.Count; i++) {
-                for (int j = 0; j < model.Meshes[i].Effects.Count; j++) {
-                    BasicEffect effect = (BasicEffect)model.Meshes[i].Effects[j];
+            BasicEffect basicEffect = (BasicEffect)model.Meshes[0].Effects[0];
 
-                    if (i == 0) {
-                        effect.Texture = texture;
-                        Global.GRAPHICS_DEVICE.BlendState = BlendState.Additive;
-                        effect.World = Matrix.CreateFromYawPitchRoll(rotation, (float)-Math.PI / 2, 0) * transform;
-                        rotation += 0.002f;
-                    } 
-                    else effect.World = Matrix.CreateFromYawPitchRoll(0, (float)-Math.PI / 2, 0) * transform;
+            if (customTexture != null) basicEffect.Texture = customTexture;
+            basicEffect.World = Matrix.CreateFromYawPitchRoll(rotation, (float)-Math.PI / 2, 0) * transform;
+            basicEffect.View = viewMatrix;
+            basicEffect.Projection = projectionMatrix;
 
-                    effect.LightingEnabled = false;
-                    effect.View = viewMatrix;
-                    effect.Projection = projectionMatrix;                  
-                    effect.TextureEnabled = true;                   
-                }
-                model.Meshes[i].Draw();
-            }
+            model.Meshes[0].Draw();
+
+            rotation += Global.SKY_ROTATION_SPEED / 100;
         }
     }
 }

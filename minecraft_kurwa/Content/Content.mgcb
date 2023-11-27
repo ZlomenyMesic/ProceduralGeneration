@@ -63,7 +63,7 @@
 /processorParam:TextureFormat=Compressed
 /build:sky_model.FBX
 
-#begin skydome1.png
+#begin skydome.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -73,5 +73,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:skydome1.png
+/build:skydome.jpg;skydome_0.jpg
 

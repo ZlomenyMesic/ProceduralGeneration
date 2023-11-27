@@ -17,8 +17,8 @@ namespace minecraft_kurwa {
         internal const float START_POS_Z = Settings.WORLD_SIZE / 2;
 
         internal const string SKY_DOME_MODEL_SOURCE = "sky_model";
-        internal const string SKY_DOME_TEXTURE_SOURCE = "josh"; // skydome1
-        internal const string CLOUD_LAYER_TEXTURE_SOURCE = "cloud_layer";
+        internal const string SKY_DOME_TEXTURE_SOURCE = ""; // default skydome_0
+        internal const float SKY_ROTATION_SPEED = 0.2f;
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
