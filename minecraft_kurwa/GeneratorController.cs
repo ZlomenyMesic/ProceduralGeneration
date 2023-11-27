@@ -9,7 +9,7 @@ using System.Drawing;
 namespace minecraft_kurwa {
     internal class GeneratorController {
         internal static void GenerateWorld() {
-            Global.BIOME_MAP = BiomeGenerator.GenerateBiomeMap();
+            BiomeGenerator.GenerateBiomeMap();
             BiomeGenerator.GenerateBiomeBlending();
 
             TerrainGenerator.GenerateHeightMap();
