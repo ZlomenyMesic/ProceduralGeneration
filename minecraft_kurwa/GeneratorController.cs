@@ -9,12 +9,12 @@ using System.Drawing;
 namespace minecraft_kurwa {
     internal class GeneratorController {
         internal static void GenerateWorld() {
-            Global.BIOME_MAP = BiomeGenerator.GenerateBiomeMap();
+            BiomeGenerator.GenerateBiomeMap();
             BiomeGenerator.GenerateBiomeBlending();
 
             TerrainGenerator.GenerateHeightMap();
             
-            Random random = new Random(Settings.SEED);
+            Random random = new(Settings.SEED);
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
