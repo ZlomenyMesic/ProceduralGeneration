@@ -8,8 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.colors;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa.src.voxels
-{
+namespace minecraft_kurwa.src.voxels {
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 

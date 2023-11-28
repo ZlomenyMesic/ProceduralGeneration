@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.colors;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa.src.voxels
-{
+namespace minecraft_kurwa.src.voxels {
     internal static class VoxelConnector {
         internal static VoxelStructure[] world;
         private static Voxel[,,] grid;
