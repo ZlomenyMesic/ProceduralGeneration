@@ -9,7 +9,7 @@ using minecraft_kurwa.src.global;
 
 namespace minecraft_kurwa.src.input {
     internal static class KeyboardHandler {
-        internal static bool debugMenuStateOpen = false;
+        internal static bool debugMenuStateOpen = true; // also default debug state
         private static bool lastDebugMenuState = false;
 
         internal static bool HandleKeyboard(ref Vector3 camTarget, ref Vector3 camPosition) {

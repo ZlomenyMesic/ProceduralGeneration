@@ -31,10 +31,10 @@ namespace minecraft_kurwa
             }
 
             WaterGenerator.Generate();
-            TerrainGenerator.FillGaps();
+            TerrainFinalization.FillGaps();
 
             TreeGenerator.Generate();
-            TerrainGenerator.ShiftWorld();
+            TerrainFinalization.ShiftWorld();
         }
     }
 }
