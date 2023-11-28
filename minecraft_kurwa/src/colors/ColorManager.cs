@@ -4,10 +4,11 @@
 //
 
 using Microsoft.Xna.Framework;
+using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.voxels;
 using System;
-using System.Diagnostics;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.colors {
     internal static class ColorManager {
 
         // original color is multiplied by shadow
@@ -78,7 +79,7 @@ namespace minecraft_kurwa {
                     case 1: color += new Vector3(-18, 20, -27); break;  // greener shade
                     default: break;                                     // no shade
                 }
-            } 
+            }
             else if (voxelType == (byte)VoxelType.MAPLE_LEAVES) {
                 switch (new Random(Settings.SEED * seed).Next(0, 3)) {
                     case 0: color += new Vector3(-30, 16, -3); break;   // green shade

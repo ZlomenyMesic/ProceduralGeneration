@@ -6,10 +6,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using minecraft_kurwa.src.biomes;
+using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.input;
+using minecraft_kurwa.src.sky;
+using minecraft_kurwa.src.voxels;
 using System;
 using System.Diagnostics;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa
+{
 
     public class Engine : Game {
         private readonly Stopwatch loadTime; // how much time did it take to generate the terrain and startup the application
@@ -29,7 +35,7 @@ namespace minecraft_kurwa {
 
         internal SpriteFont defaultFont; // font
 
-        private bool debugMenuOpen = true;
+        private bool debugMenuStateOpen = true;
 
         public Engine() {
             loadTime = new();
@@ -81,7 +87,8 @@ namespace minecraft_kurwa {
         }
 
         protected override void Update(GameTime gameTime) {
-            if (Input.Update(ref camTarget, ref camPosition, ref debugMenuOpen)) Exit();
+            if (Input.Update(ref camTarget, ref camPosition)) Exit();
+            debugMenuStateOpen = KeyboardHandler.debugMenuStateOpen;
             UpdateViewMatrix();
             base.Update(gameTime);
         }
@@ -114,7 +121,7 @@ namespace minecraft_kurwa {
             if (loadTime.IsRunning) loadTime.Stop();
 
             spriteBatch.Begin();
-            if (debugMenuOpen) spriteBatch.DrawString(defaultFont,
+            if (debugMenuStateOpen) spriteBatch.DrawString(defaultFont,
                 $"Camera position:\n" +
                 $"X: {camPosition.X}\n" +
                 $"Y: {camPosition.Y}\n" +
@@ -137,9 +144,9 @@ namespace minecraft_kurwa {
         }
 
         internal void UpdateViewMatrix() {
-            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(Input.leftRightRot)) + camPosition;
+            camTarget = Vector3.Transform(camTarget - camPosition, Matrix.CreateRotationY(MouseHandler.leftRightRot)) + camPosition;
 
-            camTarget.Y += Input.upDownRot;
+            camTarget.Y += MouseHandler.upDownRot;
             camTarget.Y = MathHelper.Min(camTarget.Y, camPosition.Y + 600);
             camTarget.Y = MathHelper.Max(camTarget.Y, camPosition.Y - 600);
 

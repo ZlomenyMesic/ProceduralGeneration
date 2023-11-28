@@ -5,8 +5,14 @@
 
 using System;
 using System.Drawing;
+using minecraft_kurwa.src.biomes;
+using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.terrain;
+using minecraft_kurwa.src.trees;
+using minecraft_kurwa.src.water;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa
+{
     internal class GeneratorController {
         internal static void GenerateWorld() {
             BiomeGenerator.GenerateBiomeMap();
@@ -24,10 +30,10 @@ namespace minecraft_kurwa {
                 }
             }
 
-            Water.Generate();
+            WaterGenerator.Generate();
             TerrainGenerator.FillGaps();
 
-            Tree.GenerateTrees();
+            TreeGenerator.Generate();
             TerrainGenerator.ShiftWorld();
         }
     }

@@ -5,8 +5,11 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using minecraft_kurwa.src.colors;
+using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.voxels
+{
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 
@@ -28,7 +31,7 @@ namespace minecraft_kurwa {
         internal VoxelStructure() {
             voxels = new Voxel[MAX_VOXEL_COUNT];
             vertices = new VertexPositionColor[MAX_VERTEX_COUNT];
-            indices = new ushort[MAX_INDEX_COUNT]; 
+            indices = new ushort[MAX_INDEX_COUNT];
 
             vertexBuffer = new VertexBuffer(Global.GRAPHICS_DEVICE, typeof(VertexPositionColor), MAX_VERTEX_COUNT, BufferUsage.WriteOnly);
             indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), MAX_INDEX_COUNT, BufferUsage.WriteOnly);
@@ -36,10 +39,10 @@ namespace minecraft_kurwa {
 
         internal void AddVoxel(Vector3 position, Vector3 size, Color color, float transparency = 1.0f) {
             voxels[voxelCounter++] = new(Matrix.CreateTranslation(position), indexCounter, transparency);
-            
-            Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS 
+
+            Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS
                 ? color.ToVector3()
-                : new(1 - (color.R / 255f), 1 - (color.G / 255f), 1 - (color.B / 255f));
+                : new(1 - color.R / 255f, 1 - color.G / 255f, 1 - color.B / 255f);
             Vector3 adjustedColor;
 
             adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
@@ -126,41 +129,5 @@ namespace minecraft_kurwa {
                 this.transparency = transparency;
             }
         }
-    }
-    
-    internal enum VoxelType {
-        AIR = 0,
-        GRASS = 1,
-        STONE = 2,
-        SAND = 3,
-        ICE = 4,
-        TERRACOTTA = 5,
-        GRAVEL = 6,
-        SNOW = 7,
-
-        OAK_LEAVES = 8,
-        OAK_WOOD = 9,
-
-        KAPOK_LEAVES = 10,
-        KAPOK_WOOD = 11,
-
-        SPRUCE_LEAVES = 12,
-        SPRUCE_WOOD = 13,
-
-        BEECH_LEAVES = 14,
-        BEECH_WOOD = 15,
-
-        MAPLE_LEAVES = 16,
-        MAPLE_WOOD = 17,
-
-        WATER = 18,
-
-        POPLAR_LEAVES = 19,
-        POPLAR_WOOD = 20,
-
-        CHERRY_LEAVES = 21,
-        CHERRY_WOOD = 22,
-        
-        SANDSTONE = 23,
     }
 }

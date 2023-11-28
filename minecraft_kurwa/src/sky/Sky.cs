@@ -6,9 +6,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using minecraft_kurwa.src.global;
 using System;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.sky {
     internal static class Sky {
         private static Model model; // hemisphere model (stolen)
         private static float rotation = 0; // dome is slowly rotating
@@ -21,7 +22,8 @@ namespace minecraft_kurwa {
 
             try {
                 customTexture = content.Load<Texture2D>(Global.SKY_DOME_TEXTURE_SOURCE);
-            } catch { }
+            }
+            catch { }
         }
 
         internal static void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
