@@ -59,7 +59,7 @@ namespace minecraft_kurwa {
 
         internal const int HEIGHT_LIMIT = 220;
 
-        internal const int TREE_DENSITY = 130;
+        internal const int TREE_DENSITY = 10;
         internal const int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
 
         internal const byte BIOME_BLENDING = 50;

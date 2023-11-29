@@ -47,7 +47,7 @@ namespace minecraft_kurwa {
             //     }
             // }
 
-            // prevention of setting of a not existing biome
+            // prevention of generation of a not existing biome
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     if ((byte) BiomeType.TROPICAL_DRY      + Biome.TROPICAL_DRY_BIOME_COUNT      < Global.BIOME_MAP[x, y, 0] && Global.BIOME_MAP[x, y, 0] < (byte) BiomeType.TROPICAL_RAINY)    Global.BIOME_MAP[x, y, 0] = 1;
@@ -64,6 +64,7 @@ namespace minecraft_kurwa {
 
         public static void GenerateBiomeBlending() {
             
+            // set all non-primary biomes to be UNKNOWN
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     Global.BIOME_MAP[x, y, 2] = (byte) BiomeType.UNKNOWN;
@@ -178,12 +179,7 @@ namespace minecraft_kurwa {
 
             return new[] { (byte)VoxelType.GRASS };
         }
-
-        /// <summary>
-        /// retuns values that tell the generator how to process the biomes
-        /// </summary>
-        /// <param name="biome" />
-        /// <returns>an array of strings with a operation and numbers associated with the operation</returns>
+        
         internal static (string, float)[] GetTerrainGeneratorValues(BiomeType biome) {
             switch (biome) {
                 case BiomeType.OCEAN: return new []{("*", 0f)};

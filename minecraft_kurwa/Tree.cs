@@ -156,9 +156,11 @@ namespace minecraft_kurwa {
         internal static void BuildPoplarTree(int height, int posX, int posY, int posZ) {
             Random random = new(Settings.SEED * posX * posY * posZ * height);
             for (byte z = (byte)(height / random.Next(4, 6)); z < height; z++) {
-                if (posX + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                if (posX + 1 < Settings.WORLD_SIZE)
+                    Global.VOXEL_MAP[posX + 1, posY, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
                 if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
-                if (posY + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                if (posY + 1 < Settings.WORLD_SIZE)
+                    Global.VOXEL_MAP[posX, posY + 1, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
                 if (posY - 1 >= 0) Global.VOXEL_MAP[posX, posY - 1, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
 
                 if (z >= height * 1.5 / 5 && z <= height * 4.5 / 5) {
@@ -168,8 +170,10 @@ namespace minecraft_kurwa {
                         for (sbyte y = -2; y <= 2; y++) {
                             if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                            if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
-                                if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
+                            if (Math.Sqrt(x * x + y * y) <= 2 &&
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
+                                if (random.Next(0, 4) != 0)
+                                    Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)VoxelType.POPLAR_LEAVES;
                             }
                         }
                     }
@@ -177,7 +181,8 @@ namespace minecraft_kurwa {
             }
 
             for (byte z = 0; z <= height; z++) {
-                Global.VOXEL_MAP[posX, posY, posZ + z] = z != height ? (byte)VoxelType.POPLAR_WOOD : (byte)VoxelType.POPLAR_LEAVES;
+                Global.VOXEL_MAP[posX, posY, posZ + z] =
+                    z != height ? (byte)VoxelType.POPLAR_WOOD : (byte)VoxelType.POPLAR_LEAVES;
             }
         }
     }
