@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa.src.generator.voxels {
+namespace minecraft_kurwa.src.voxels {
     internal static class VoxelConnector {
         internal static VoxelStructure[] world;
         private static Voxel[,,] grid;
@@ -104,14 +104,14 @@ namespace minecraft_kurwa.src.generator.voxels {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (grid[x, y, z].type != null) {
-                            AddBlock(new(x, z, y), grid[x, y, z].size, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), Settings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : 1.0f);
+                            AddBlock(new(x, z, y), grid[x, y, z].size, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), Settings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
                         }
                     }
                 }
             }
         }
 
-        private static void AddBlock(Vector3 position, Vector3 size, Color color, float transparency = 1.0f) {
+        private static void AddBlock(Vector3 position, Vector3 size, Color color, byte transparency = 100) {
             world[voxelStructCount] ??= new();
             world[voxelStructCount].AddVoxel(position, size, color, transparency);
 

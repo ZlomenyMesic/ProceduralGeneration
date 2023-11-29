@@ -11,7 +11,7 @@ using minecraft_kurwa.src.generator;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.gui.input;
 using minecraft_kurwa.src.gui.sky;
-using minecraft_kurwa.src.generator.voxels;
+using minecraft_kurwa.src.voxels;
 using System;
 using System.Diagnostics;
 
@@ -124,7 +124,7 @@ namespace minecraft_kurwa.src.gui {
 
             if (!fpsCounter.IsRunning) fpsCounter.Start();
             if (fpsCounter.IsRunning && fpsCounter.ElapsedMilliseconds > 1000) {
-                lastFPS = (byte)Math.Round((double)(frames * 1000f / fpsCounter.ElapsedMilliseconds), 0);
+                lastFPS = (byte)Math.Round(frames * 1000d / fpsCounter.ElapsedMilliseconds, 0);
                 frames = 0;
                 fpsCounter.Restart();
             }

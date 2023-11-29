@@ -5,7 +5,7 @@
 
 using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.generator.voxels;
+using minecraft_kurwa.src.voxels;
 using System;
 
 namespace minecraft_kurwa.src.gui.colors {
@@ -104,10 +104,10 @@ namespace minecraft_kurwa.src.gui.colors {
             return new(color.X / 255, color.Y / 255, color.Z / 255);
         }
 
-        internal static float GetVoxelTransparency(byte? voxelType) {
+        internal static byte GetVoxelTransparency(byte? voxelType) {
             return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 or 21 => 0.9f,
-                _ => 1.0f,
+                8 or 10 or 12 or 14 or 16 or 19 or 21 => 90,
+                _ => 100
             };
         }
     }

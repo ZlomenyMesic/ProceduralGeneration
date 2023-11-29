@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.generator.voxels;
+using minecraft_kurwa.src.voxels;
 using System.Linq;
 using System;
 using Microsoft.Xna.Framework;

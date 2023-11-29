@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa.src.generator.voxels {
+namespace minecraft_kurwa.src.voxels {
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 
@@ -36,7 +36,7 @@ namespace minecraft_kurwa.src.generator.voxels {
             indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), MAX_INDEX_COUNT, BufferUsage.WriteOnly);
         }
 
-        internal void AddVoxel(Vector3 position, Vector3 size, Color color, float transparency = 1.0f) {
+        internal void AddVoxel(Vector3 position, Vector3 size, Color color, byte transparency = 100) {
             voxels[voxelCounter++] = new(position, size, indexCounter, transparency);
 
             Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS
@@ -104,12 +104,10 @@ namespace minecraft_kurwa.src.generator.voxels {
                 if ((voxels[i].position.X + voxels[i].size.X < VoxelCulling.MIN_RENDER_X)
                 || (voxels[i].position.X                    > VoxelCulling.MAX_RENDER_X)
                 || (voxels[i].position.Z + voxels[i].size.Z < VoxelCulling.MIN_RENDER_Y)
-                || (voxels[i].position.Z                    > VoxelCulling.MAX_RENDER_Y)
-                || (voxels[i].position.Y + voxels[i].size.Y < VoxelCulling.MIN_RENDER_Z)
-                || (voxels[i].position.Y                    > VoxelCulling.MAX_RENDER_Z)) continue;
+                || (voxels[i].position.Z                    > VoxelCulling.MAX_RENDER_Y)) continue;
 
                 basicEffect.World = Matrix.CreateTranslation(voxels[i].position);
-                basicEffect.Alpha = voxels[i].transparency;
+                basicEffect.Alpha = voxels[i].transparency / 100f;
 
                 int triangles = i != voxelCounter - 1
                     ? (voxels[i + 1].indexStart - voxels[i].indexStart) / 3
@@ -128,9 +126,9 @@ namespace minecraft_kurwa.src.generator.voxels {
             internal Vector3 position;
             internal Vector3 size;
             internal ushort indexStart;
-            internal float transparency;
+            internal byte transparency;
 
-            internal Voxel(Vector3 position, Vector3 size, ushort indexStart, float transparency) {
+            internal Voxel(Vector3 position, Vector3 size, ushort indexStart, byte transparency) {
                 this.position = position;
                 this.size = size;
                 this.indexStart = indexStart;
