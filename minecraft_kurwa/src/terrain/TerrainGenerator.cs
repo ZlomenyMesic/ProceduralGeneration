@@ -6,8 +6,10 @@
 using System;
 using minecraft_kurwa.src.biomes;
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.noise;
 
-namespace minecraft_kurwa.src.terrain {
+namespace minecraft_kurwa.src.terrain
+{
     internal class TerrainGenerator {
 
         internal static void GenerateHeightMap() {

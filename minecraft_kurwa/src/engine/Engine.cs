@@ -14,13 +14,13 @@ using minecraft_kurwa.src.voxels;
 using System;
 using System.Diagnostics;
 
-namespace minecraft_kurwa
-{
+namespace minecraft_kurwa.src.engine {
 
     public class Engine : Game {
         private readonly Stopwatch loadTime; // how much time did it take to generate the terrain and startup the application
-        private readonly Stopwatch totalTime; // time since the application was started
-        private uint frames; // frames rendered since the application was started
+        private readonly Stopwatch fpsCounter; // used to count frames per second
+        private uint frames; // frames rendered in last second
+        private byte lastFPS; // last value
 
         internal SpriteBatch spriteBatch; // TODO
         internal GraphicsDeviceManager graphics; // TODO
@@ -39,7 +39,7 @@ namespace minecraft_kurwa
 
         public Engine() {
             loadTime = new();
-            totalTime = new();
+            fpsCounter = new();
             loadTime.Start();
 
             graphics = new GraphicsDeviceManager(this);
@@ -72,18 +72,17 @@ namespace minecraft_kurwa
 
             Sky.Initialize(Content);
 
-            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
+            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE)
+            {
                 VertexColorEnabled = true
             };
 
-            GeneratorController.GenerateWorld();
+            WorldGenerator.GenerateWorld();
 
             VoxelConnector.CreateGrid();
             VoxelConnector.GenerateWorld();
 
             Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
-
-            totalTime.Start();
         }
 
         protected override void Update(GameTime gameTime) {
@@ -120,6 +119,14 @@ namespace minecraft_kurwa
 
             if (loadTime.IsRunning) loadTime.Stop();
 
+            if (!fpsCounter.IsRunning) fpsCounter.Start();
+            if (fpsCounter.IsRunning && fpsCounter.ElapsedMilliseconds > 1000) {
+                lastFPS = (byte)Math.Round((double)(frames * 1000f / fpsCounter.ElapsedMilliseconds), 0);
+                frames = 0;
+                fpsCounter.Restart();
+            } else frames++;
+
+
             spriteBatch.Begin();
             if (debugMenuStateOpen) spriteBatch.DrawString(defaultFont,
                 $"Camera position:\n" +
@@ -136,7 +143,7 @@ namespace minecraft_kurwa
                 $"Seed: {Settings.SEED}\n" +
                 $"Voxels: {VoxelConnector.voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
-                $"Frames per second: {Math.Round((double)(++frames * 1000) / totalTime.ElapsedMilliseconds, 0)}",
+                $"Frames per second: {lastFPS}",
                 new(30, 30), Color.White);
             spriteBatch.End();
 

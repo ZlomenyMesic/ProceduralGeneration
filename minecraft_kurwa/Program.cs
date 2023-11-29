@@ -15,5 +15,5 @@ try {
     else _ = LoadNvApi32();
 } catch { }
 
-var engine = new minecraft_kurwa.Engine();
+var engine = new minecraft_kurwa.src.engine.Engine();
 engine.Run();

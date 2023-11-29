@@ -5,7 +5,7 @@
 
 using System;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.noise {
     internal class PerlinNoise {
         internal double seed;
         private long defaultSize;
@@ -41,7 +41,8 @@ namespace minecraft_kurwa {
                 215, 61, 156, 180 };
             defaultSize = 35;
 
-            for (int i = 0; i < 256; i++) {
+            for (int i = 0; i < 256; i++)
+            {
                 p[256 + i] = p[i] = permutation[i];
             }
         }

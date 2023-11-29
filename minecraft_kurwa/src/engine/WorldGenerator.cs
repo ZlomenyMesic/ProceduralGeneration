@@ -4,22 +4,20 @@
 //
 
 using System;
-using System.Drawing;
 using minecraft_kurwa.src.biomes;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.terrain;
 using minecraft_kurwa.src.trees;
 using minecraft_kurwa.src.water;
 
-namespace minecraft_kurwa
-{
-    internal class GeneratorController {
+namespace minecraft_kurwa.src.engine {
+    internal class WorldGenerator {
         internal static void GenerateWorld() {
             BiomeGenerator.GenerateBiomeMap();
             BiomeGenerator.GenerateBiomeBlending();
 
             TerrainGenerator.GenerateHeightMap();
-            
+
             Random random = new(Settings.SEED);
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {

@@ -4,8 +4,10 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.noise;
 
-namespace minecraft_kurwa.src.biomes {
+namespace minecraft_kurwa.src.biomes
+{
     internal class BiomeGenerator {
         internal static void GenerateBiomeMap() {
             byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
