@@ -6,17 +6,6 @@
 FBXHeaderExtension:  {
     FBXHeaderVersion: 1003
     FBXVersion: 7200
-    CreationTimeStamp:  {
-        Version: 1000
-        Year: 2019
-        Month: 4
-        Day: 13
-        Hour: 22
-        Minute: 39
-        Second: 52
-        Millisecond: 493
-    }
-    Creator: "FBX SDK/FBX Plugins version 2012.0"
     SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
         Type: "UserData"
         Version: 100
@@ -28,21 +17,6 @@ FBXHeaderExtension:  {
             Keywords: ""
             Revision: ""
             Comment: ""
-        }
-        Properties70:  {
-            P: "DocumentUrl", "KString", "Url", "", "C:\Users\JEI\Documents\3dsMax\export\skydome1.FBX"
-            P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\JEI\Documents\3dsMax\export\skydome1.FBX"
-            P: "Original", "Compound", "", ""
-            P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
-            P: "Original|ApplicationName", "KString", "", "", "3ds Max"
-            P: "Original|ApplicationVersion", "KString", "", "", "2012"
-            P: "Original|DateTime_GMT", "DateTime", "", "", "14/04/2019 04:39:52.492"
-            P: "Original|FileName", "KString", "", "", "C:\Users\JEI\Documents\3dsMax\export\skydome1.FBX"
-            P: "LastSaved", "Compound", "", ""
-            P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
-            P: "LastSaved|ApplicationName", "KString", "", "", "3ds Max"
-            P: "LastSaved|ApplicationVersion", "KString", "", "", "2012"
-            P: "LastSaved|DateTime_GMT", "DateTime", "", "", "14/04/2019 04:39:52.492"
         }
     }
 }
@@ -558,11 +532,11 @@ a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
     Video: 80413312, "Video::Map #1", "Clip" {
         Type: "Clip"
         Properties70:  {
-            P: "Path", "KString", "XRefUrl", "", "..\Content\skydome1.png"
+            P: "Path", "KString", "XRefUrl", "", "..\Content\skydome.jpg"
         }
         UseMipMap: 0
-        Filename: "..\Content\skydome1.png"
-        RelativeFilename: "..\Content\skydome1.png"
+        Filename: "..\Content\skydome.jpg"
+        RelativeFilename: "..\Content\skydome.jpg"
     }
     Video: 80410736, "Video::Map #2", "Clip" {
         Type: "Clip"
@@ -582,8 +556,8 @@ a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
             P: "UseMaterial", "bool", "", "",1
         }
         Media: "Video::Map #1"
-        FileName: "..\Content\skydome1.png"
-        RelativeFilename: "..\Content\skydome1.png"
+        FileName: "..\Content\skydome.jpg"
+        RelativeFilename: "..\Content\skydome.jpg"
         ModelUVTranslation: 0,0
         ModelUVScaling: 1,1
         Texture_Alpha_Source: "None"
