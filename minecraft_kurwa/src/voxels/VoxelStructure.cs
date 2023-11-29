@@ -37,7 +37,7 @@ namespace minecraft_kurwa.src.voxels {
         }
 
         internal void AddVoxel(Vector3 position, Vector3 size, Color color, float transparency = 1.0f) {
-            voxels[voxelCounter++] = new(Matrix.CreateTranslation(position), indexCounter, transparency);
+            voxels[voxelCounter++] = new(position, size, indexCounter, transparency);
 
             Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS
                 ? color.ToVector3()
@@ -101,7 +101,14 @@ namespace minecraft_kurwa.src.voxels {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                basicEffect.World = voxels[i].transform;
+                if ((voxels[i].position.X + voxels[i].size.X < VoxelCulling.MIN_RENDER_X)
+                || (voxels[i].position.X                    > VoxelCulling.MAX_RENDER_X)
+                || (voxels[i].position.Z + voxels[i].size.Z < VoxelCulling.MIN_RENDER_Y)
+                || (voxels[i].position.Z                    > VoxelCulling.MAX_RENDER_Y)
+                || (voxels[i].position.Y + voxels[i].size.Y < VoxelCulling.MIN_RENDER_Z)
+                || (voxels[i].position.Y                    > VoxelCulling.MAX_RENDER_Z)) continue;
+
+                basicEffect.World = Matrix.CreateTranslation(voxels[i].position);
                 basicEffect.Alpha = voxels[i].transparency;
 
                 int triangles = i != voxelCounter - 1
@@ -118,12 +125,14 @@ namespace minecraft_kurwa.src.voxels {
         }
 
         private struct Voxel {
-            internal Matrix transform;
+            internal Vector3 position;
+            internal Vector3 size;
             internal ushort indexStart;
             internal float transparency;
 
-            internal Voxel(Matrix transform, ushort indexStart, float transparency) {
-                this.transform = transform;
+            internal Voxel(Vector3 position, Vector3 size, ushort indexStart, float transparency) {
+                this.position = position;
+                this.size = size;
                 this.indexStart = indexStart;
                 this.transparency = transparency;
             }

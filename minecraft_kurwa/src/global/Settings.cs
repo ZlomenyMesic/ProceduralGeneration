@@ -15,7 +15,7 @@ namespace minecraft_kurwa.src.global {
         internal static float SENSIBILITY = 200; // higher value => faster mouse
         internal static float MOVEMENT_SPEED = 25; // higher value => faster movement
 
-        internal static int WORLD_SIZE = 500;
+        internal static int WORLD_SIZE = 700;
         internal static int SEED = 21;
 
         internal static int MAIN_NOISE_SHARPNESS = 60;

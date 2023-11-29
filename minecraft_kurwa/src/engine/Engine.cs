@@ -60,7 +60,7 @@ namespace minecraft_kurwa.src.engine {
             Global.GRAPHICS_DEVICE = GraphicsDevice;
 
             camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
-            camTarget = new Vector3(camPosition.X, camPosition.Y - 350, camPosition.Z + 300f);
+            camTarget = new Vector3(camPosition.X + VoxelCulling.defaultCTPosition.X, camPosition.Y + VoxelCulling.defaultCTPosition.Z, camPosition.Z + VoxelCulling.defaultCTPosition.Y);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
 
@@ -93,6 +93,8 @@ namespace minecraft_kurwa.src.engine {
         }
 
         protected override void Draw(GameTime gameTime) {
+            VoxelCulling.UpdateRenderCoordinates(camPosition, camTarget);
+
             Global.GRAPHICS_DEVICE.SetRenderTarget(renderTarget);
             Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
