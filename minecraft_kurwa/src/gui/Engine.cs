@@ -60,7 +60,7 @@ namespace minecraft_kurwa.src.gui {
 
             Global.GRAPHICS_DEVICE = GraphicsDevice;
 
-            camPosition = new Vector3(Global.START_POS_X, Global.START_POS_Y, Global.START_POS_Z);
+            camPosition = new Vector3(Settings.WORLD_SIZE / 2, 100, Settings.WORLD_SIZE / 2);
             camTarget = new Vector3(camPosition.X + VoxelCulling.defaultCTPosition.X, camPosition.Y + VoxelCulling.defaultCTPosition.Z, camPosition.Z + VoxelCulling.defaultCTPosition.Y);
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
             viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);

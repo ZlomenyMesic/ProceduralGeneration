@@ -104,7 +104,7 @@ namespace minecraft_kurwa.src.voxels {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (grid[x, y, z].type != null) {
-                            AddBlock(new(x, z, y), grid[x, y, z].size, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), Settings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
+                            AddBlock(new(x, z, y), grid[x, y, z].size, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), ExperimentalSettings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
                         }
                     }
                 }

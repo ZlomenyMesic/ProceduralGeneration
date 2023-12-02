@@ -23,10 +23,10 @@ namespace minecraft_kurwa.src.gui.input {
                 lastDebugMenuState = true;
             } else lastDebugMenuState = false;
 
-            float speed = 1 / Settings.MOVEMENT_SPEED * 10_000;
+            float speed = 1f / Settings.MOVEMENT_SPEED * 10_000f;
 
-            float differenceX = (camTarget.X - camPosition.X) / speed;
-            float differenceZ = (camTarget.Z - camPosition.Z) / speed;
+            float differenceX = (camTarget.X - camPosition.X) / (float)speed;
+            float differenceZ = (camTarget.Z - camPosition.Z) / (float)speed;
 
             if (keyboard.IsKeyDown(Controls.FORWARD)) {
                 camPosition.X += differenceX;
