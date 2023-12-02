@@ -132,7 +132,6 @@ namespace minecraft_kurwa {
             numericUpDown4.Name = "numericUpDown4";
             numericUpDown4.Size = new System.Drawing.Size(240, 39);
             numericUpDown4.TabIndex = 7;
-            numericUpDown4.Value = new decimal(new int[] { Settings.RENDER_DISTANCE, 0, 0, 0 });
             // 
             // numericUpDown3
             // 
@@ -141,7 +140,6 @@ namespace minecraft_kurwa {
             numericUpDown3.Name = "numericUpDown3";
             numericUpDown3.Size = new System.Drawing.Size(240, 39);
             numericUpDown3.TabIndex = 6;
-            numericUpDown3.Value = new decimal(new int[] { Settings.FIELD_OF_VIEW, 0, 0, 0 });
             // 
             // numericUpDown2
             // 
@@ -150,7 +148,6 @@ namespace minecraft_kurwa {
             numericUpDown2.Name = "numericUpDown2";
             numericUpDown2.Size = new System.Drawing.Size(240, 39);
             numericUpDown2.TabIndex = 5;
-            numericUpDown2.Value = new decimal(new int[] { Settings.WINDOW_HEIGHT, 0, 0, 0 });
             // 
             // numericUpDown1
             // 
@@ -159,7 +156,6 @@ namespace minecraft_kurwa {
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new System.Drawing.Size(240, 39);
             numericUpDown1.TabIndex = 4;
-            numericUpDown1.Value = new decimal(new int[] { Settings.WINDOW_WIDTH, 0, 0, 0 });
             // 
             // label4
             // 
@@ -217,7 +213,6 @@ namespace minecraft_kurwa {
             numericUpDown5.Name = "numericUpDown5";
             numericUpDown5.Size = new System.Drawing.Size(240, 39);
             numericUpDown5.TabIndex = 5;
-            numericUpDown5.Value = new decimal(new int[] { Settings.SENSIBILITY, 0, 0, 0 });
             // 
             // numericUpDown6
             // 
@@ -226,7 +221,6 @@ namespace minecraft_kurwa {
             numericUpDown6.Name = "numericUpDown6";
             numericUpDown6.Size = new System.Drawing.Size(240, 39);
             numericUpDown6.TabIndex = 4;
-            numericUpDown6.Value = new decimal(new int[] { Settings.MOVEMENT_SPEED, 0, 0, 0 });
             // 
             // label7
             // 
@@ -268,7 +262,6 @@ namespace minecraft_kurwa {
             numericUpDown7.Name = "numericUpDown7";
             numericUpDown7.Size = new System.Drawing.Size(240, 39);
             numericUpDown7.TabIndex = 6;
-            numericUpDown7.Value = new decimal(new int[] { Settings.SEED, 0, 0, 0 });
             // 
             // numericUpDown8
             // 
@@ -277,7 +270,6 @@ namespace minecraft_kurwa {
             numericUpDown8.Name = "numericUpDown8";
             numericUpDown8.Size = new System.Drawing.Size(240, 39);
             numericUpDown8.TabIndex = 5;
-            numericUpDown8.Value = new decimal(new int[] { Settings.HEIGHT_LIMIT, 0, 0, 0 });
             // 
             // numericUpDown9
             // 
@@ -286,7 +278,6 @@ namespace minecraft_kurwa {
             numericUpDown9.Name = "numericUpDown9";
             numericUpDown9.Size = new System.Drawing.Size(240, 39);
             numericUpDown9.TabIndex = 4;
-            numericUpDown9.Value = new decimal(new int[] { Settings.WORLD_SIZE, 0, 0, 0 });
             // 
             // label6
             // 
@@ -339,7 +330,6 @@ namespace minecraft_kurwa {
             numericUpDown10.Name = "numericUpDown10";
             numericUpDown10.Size = new System.Drawing.Size(240, 39);
             numericUpDown10.TabIndex = 7;
-            numericUpDown10.Value = new decimal(new int[] { Settings.SUBBIOME_SCALE, 0, 0, 0 });
             // 
             // numericUpDown11
             // 
@@ -348,7 +338,6 @@ namespace minecraft_kurwa {
             numericUpDown11.Name = "numericUpDown11";
             numericUpDown11.Size = new System.Drawing.Size(240, 39);
             numericUpDown11.TabIndex = 6;
-            numericUpDown11.Value = new decimal(new int[] { Settings.BIOME_SCALE, 0, 0, 0 });
             // 
             // numericUpDown12
             // 
@@ -357,7 +346,6 @@ namespace minecraft_kurwa {
             numericUpDown12.Name = "numericUpDown12";
             numericUpDown12.Size = new System.Drawing.Size(240, 39);
             numericUpDown12.TabIndex = 5;
-            numericUpDown12.Value = new decimal(new int[] { Settings.MAIN_NOISE_SCALE, 0, 0, 0 });
             // 
             // numericUpDown13
             // 
@@ -366,7 +354,6 @@ namespace minecraft_kurwa {
             numericUpDown13.Name = "numericUpDown13";
             numericUpDown13.Size = new System.Drawing.Size(240, 39);
             numericUpDown13.TabIndex = 4;
-            numericUpDown13.Value = new decimal(new int[] { Settings.MAIN_NOISE_SHARPNESS, 0, 0, 0 });
             // 
             // label5
             // 
@@ -430,9 +417,9 @@ namespace minecraft_kurwa {
             label19.AutoSize = true;
             label19.Location = new System.Drawing.Point(20, 265);
             label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(197, 32);
+            label19.Size = new System.Drawing.Size(187, 32);
             label19.TabIndex = 11;
-            label19.Text = "Ice holes density:";
+            label19.Text = "Ice hole density:";
             // 
             // label18
             // 
@@ -450,7 +437,6 @@ namespace minecraft_kurwa {
             numericUpDown19.Name = "numericUpDown19";
             numericUpDown19.Size = new System.Drawing.Size(240, 39);
             numericUpDown19.TabIndex = 9;
-            numericUpDown19.Value = new decimal(new int[] { Settings.ICE_HOLES, 0, 0, 0 });
             // 
             // numericUpDown18
             // 
@@ -459,7 +445,6 @@ namespace minecraft_kurwa {
             numericUpDown18.Name = "numericUpDown18";
             numericUpDown18.Size = new System.Drawing.Size(240, 39);
             numericUpDown18.TabIndex = 8;
-            numericUpDown18.Value = new decimal(new int[] { Settings.MAX_FREEZING_DISTANCE, 0, 0, 0 });
             // 
             // numericUpDown14
             // 
@@ -468,7 +453,6 @@ namespace minecraft_kurwa {
             numericUpDown14.Name = "numericUpDown14";
             numericUpDown14.Size = new System.Drawing.Size(240, 39);
             numericUpDown14.TabIndex = 7;
-            numericUpDown14.Value = new decimal(new int[] { Settings.FREEZING_DISTANCE, 0, 0, 0 });
             // 
             // numericUpDown15
             // 
@@ -477,7 +461,6 @@ namespace minecraft_kurwa {
             numericUpDown15.Name = "numericUpDown15";
             numericUpDown15.Size = new System.Drawing.Size(240, 39);
             numericUpDown15.TabIndex = 6;
-            numericUpDown15.Value = new decimal(new int[] { Settings.POND_DENSITY, 0, 0, 0 });
             // 
             // numericUpDown16
             // 
@@ -486,7 +469,6 @@ namespace minecraft_kurwa {
             numericUpDown16.Name = "numericUpDown16";
             numericUpDown16.Size = new System.Drawing.Size(240, 39);
             numericUpDown16.TabIndex = 5;
-            numericUpDown16.Value = new decimal(new int[] { Settings.OCEAN_SCALE, 0, 0, 0 });
             // 
             // numericUpDown17
             // 
@@ -495,7 +477,6 @@ namespace minecraft_kurwa {
             numericUpDown17.Name = "numericUpDown17";
             numericUpDown17.Size = new System.Drawing.Size(240, 39);
             numericUpDown17.TabIndex = 4;
-            numericUpDown17.Value = new decimal(new int[] { Settings.WATER_LEVEL, 0, 0, 0 });
             // 
             // label14
             // 
@@ -553,7 +534,6 @@ namespace minecraft_kurwa {
             numericUpDown20.Name = "numericUpDown20";
             numericUpDown20.Size = new System.Drawing.Size(240, 39);
             numericUpDown20.TabIndex = 5;
-            numericUpDown20.Value = new decimal(new int[] { Settings.TREE_EDGE_OFFSET, 0, 0, 0 });
             // 
             // numericUpDown21
             // 
@@ -562,7 +542,6 @@ namespace minecraft_kurwa {
             numericUpDown21.Name = "numericUpDown21";
             numericUpDown21.Size = new System.Drawing.Size(240, 39);
             numericUpDown21.TabIndex = 4;
-            numericUpDown21.Value = new decimal(new int[] { Settings.TREE_DENSITY, 0, 0, 0 });
             // 
             // label20
             // 
