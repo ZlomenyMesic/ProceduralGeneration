@@ -10,11 +10,41 @@ namespace minecraft_kurwa {
     public partial class minecraft_kurwa_launcher : Form {
         public minecraft_kurwa_launcher() {
             InitializeComponent();
+            LoadDefaultSettings();
         }
 
         private void StartEngineButtonClick(object sender, System.EventArgs e) {
             UpdateSettings();
             DialogResult = DialogResult.OK;
+        }
+
+        private void LoadDefaultSettings() {
+            numericUpDown1.Value = Settings.WINDOW_WIDTH;
+            numericUpDown2.Value = Settings.WINDOW_HEIGHT;
+            numericUpDown3.Value = Settings.FIELD_OF_VIEW;
+            numericUpDown4.Value = Settings.RENDER_DISTANCE;
+
+            numericUpDown5.Value = Settings.SENSIBILITY;
+            numericUpDown6.Value = Settings.MOVEMENT_SPEED;
+
+            numericUpDown9.Value = Settings.WORLD_SIZE;
+            numericUpDown8.Value = Settings.HEIGHT_LIMIT;
+            numericUpDown7.Value = Settings.SEED;
+
+            numericUpDown13.Value = Settings.MAIN_NOISE_SHARPNESS;
+            numericUpDown12.Value = Settings.MAIN_NOISE_SCALE;
+            numericUpDown11.Value = Settings.BIOME_SCALE;
+            numericUpDown10.Value = Settings.SUBBIOME_SCALE;
+
+            numericUpDown17.Value = Settings.WATER_LEVEL;
+            numericUpDown16.Value = Settings.OCEAN_SCALE;
+            numericUpDown15.Value = Settings.POND_DENSITY;
+            numericUpDown14.Value = Settings.FREEZING_DISTANCE;
+            numericUpDown18.Value = Settings.MAX_FREEZING_DISTANCE;
+            numericUpDown19.Value = Settings.ICE_HOLES;
+
+            numericUpDown21.Value = Settings.TREE_DENSITY;
+            numericUpDown20.Value = Settings.TREE_EDGE_OFFSET;
         }
 
         private void UpdateSettings() {
