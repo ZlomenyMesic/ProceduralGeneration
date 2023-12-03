@@ -17,7 +17,7 @@ static class Program {
     static extern int LoadNvApi32();
 
     static void Main() {
-        var launcher = new minecraft_kurwa_launcher();
+        var launcher = new MCKurwaLauncher();
 
         if (launcher.ShowDialog() == DialogResult.OK) {
             RunEngine();

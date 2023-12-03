@@ -6,7 +6,7 @@
 using minecraft_kurwa.src.global;
 
 namespace minecraft_kurwa {
-    partial class minecraft_kurwa_launcher {
+    partial class MCKurwaLauncher {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -564,7 +564,7 @@ namespace minecraft_kurwa {
             // button1
             // 
             button1.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            button1.Location = new System.Drawing.Point(1114, 650);
+            button1.Location = new System.Drawing.Point(781, 678);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(474, 214);
             button1.TabIndex = 6;
@@ -572,11 +572,11 @@ namespace minecraft_kurwa {
             button1.UseVisualStyleBackColor = true;
             button1.Click += StartEngineButtonClick;
             // 
-            // minecraft_kurwa_launcher
+            // MCKurwaLauncher
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1894, 1009);
+            ClientSize = new System.Drawing.Size(1379, 916);
             Controls.Add(button1);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
@@ -585,7 +585,7 @@ namespace minecraft_kurwa {
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             MaximizeBox = false;
-            Name = "minecraft_kurwa_launcher";
+            Name = "MCKurwaLauncher";
             Text = "tf is a launcher??";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
