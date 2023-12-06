@@ -38,6 +38,5 @@ namespace minecraft_kurwa.src.global {
         internal static byte BIOME_BLENDING = 50;
 
         internal static ushort TERRAIN_COLLAPSE_LIMIT = 2;
-        internal static ushort TERRAIN_SMOOTHING_RADIUS = 3;
     }
 }

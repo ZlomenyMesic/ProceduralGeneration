@@ -13,15 +13,11 @@ using minecraft_kurwa.src.gui.input;
 using minecraft_kurwa.src.gui.sky;
 using minecraft_kurwa.src.voxels;
 using System;
-using System.Diagnostics;
 
 namespace minecraft_kurwa.src.gui {
 
     public class Engine : Game {
-        private readonly Stopwatch loadTime; // how much time did it take to generate the terrain and startup the application
-        private readonly Stopwatch fpsCounter; // used to count frames per second
-        private uint frames; // frames rendered in last second
-        private byte lastFPS; // last value
+
 
         internal SpriteBatch spriteBatch; // TODO
         internal GraphicsDeviceManager graphics; // TODO
@@ -36,12 +32,8 @@ namespace minecraft_kurwa.src.gui {
 
         internal SpriteFont defaultFont; // font
 
-        private bool debugMenuStateOpen = true;
-
         public Engine() {
-            loadTime = new();
-            fpsCounter = new();
-            loadTime.Start();
+            Time.Initialize();
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -73,8 +65,7 @@ namespace minecraft_kurwa.src.gui {
 
             Sky.Initialize(Content);
 
-            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE)
-            {
+            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
             };
 
@@ -87,20 +78,24 @@ namespace minecraft_kurwa.src.gui {
         }
 
         protected override void Update(GameTime gameTime) {
+            // returns true if Controls.EXIT is pressed
             if (Input.Update(ref camTarget, ref camPosition)) Exit();
-            debugMenuStateOpen = KeyboardHandler.debugMenuStateOpen;
+
             UpdateViewMatrix();
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {
             VoxelCulling.UpdateRenderCoordinates(camPosition, camTarget);
 
+            // create a render target
             Global.GRAPHICS_DEVICE.SetRenderTarget(renderTarget);
             Global.GRAPHICS_DEVICE.Clear(0, Color.Black, 1.0f, 0);
-            Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
+            // sky is a part of the render target
             Sky.Draw(projectionMatrix, viewMatrix);
+
             Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
@@ -108,6 +103,7 @@ namespace minecraft_kurwa.src.gui {
             VoxelStructure.basicEffect.Projection = projectionMatrix;
             VoxelStructure.basicEffect.View = viewMatrix;
 
+            // add blocks to the render target
             if (camPosition.Y >= 0) {
                 for (int i = 0; i < VoxelConnector.world.Length; i++) {
                     VoxelConnector.world[i]?.Draw();
@@ -116,23 +112,13 @@ namespace minecraft_kurwa.src.gui {
 
             Global.GRAPHICS_DEVICE.SetRenderTarget(null);
 
+            // draw render target
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
             spriteBatch.Draw(renderTarget, new Rectangle(0, 0, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), Color.White);
             spriteBatch.End();
 
-            if (loadTime.IsRunning) loadTime.Stop();
-
-            if (!fpsCounter.IsRunning) fpsCounter.Start();
-            if (fpsCounter.IsRunning && fpsCounter.ElapsedMilliseconds > 1000) {
-                lastFPS = (byte)Math.Round(frames * 1000d / fpsCounter.ElapsedMilliseconds, 0);
-                frames = 0;
-                fpsCounter.Restart();
-            }
-            else frames++;
-
-
             spriteBatch.Begin();
-            if (debugMenuStateOpen) spriteBatch.DrawString(defaultFont,
+            if (KeyboardHandler.debugMenuStateOpen) spriteBatch.DrawString(defaultFont,
                 $"Camera position:\n" +
                 $"X: {camPosition.X}\n" +
                 $"Y: {camPosition.Y}\n" +
@@ -143,13 +129,15 @@ namespace minecraft_kurwa.src.gui {
                 $"Tertiary biome: {Biome.GetTertiaryBiome((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"Biomeblending: {Biome.GetBiomeBlending((ushort)camPosition.X, (ushort)camPosition.Z)}\n" +
                 $"World size: {Settings.WORLD_SIZE}\n\n" +
-                $"Generated in: {loadTime.ElapsedMilliseconds} ms\n" +
+                $"Generated in: {Time.LoadTime} ms\n" +
                 $"Seed: {Settings.SEED}\n" +
                 $"Voxels: {VoxelConnector.voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
-                $"Frames per second: {lastFPS}",
+                $"Frames per second: {Time.LastFPS}",
                 new(30, 30), Color.White);
             spriteBatch.End();
+
+            Time.Update();
 
             base.Draw(gameTime);
         }
