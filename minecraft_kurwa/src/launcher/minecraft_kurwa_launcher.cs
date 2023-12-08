@@ -6,7 +6,7 @@
 using System.Windows.Forms;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.launcher {
     public partial class MCKurwaLauncher : Form {
         public MCKurwaLauncher() {
             InitializeComponent();

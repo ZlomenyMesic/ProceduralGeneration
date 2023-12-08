@@ -4,12 +4,14 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.voxels;
+using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.trees {
-    internal static class BasicDeciduousTree {
-        internal static void Build(int height, int posX, int posY, int posZ, VoxelType leaves, VoxelType wood) {
+namespace minecraft_kurwa.src.generator.feature.trees.models {
+    internal class BasicDeciduousTree : Tree {
+        internal BasicDeciduousTree(ushort posX, ushort posY, ushort posZ, byte height, VoxelType leaveType, VoxelType woodType) : base(posX, posY, posZ, height, leaveType, woodType) { }
+
+        internal override void Build() {
             Random random = new(Settings.SEED * posX * posY * posZ * height);
             byte crownRadius = (byte)(height / 2.5f);
 
@@ -25,7 +27,7 @@ namespace minecraft_kurwa.src.generator.feature.trees {
                         if (distanceFromCenter < crownRadius / 2 && random.Next(0, 2) == 0
                             || distanceFromCenter <= crownRadius && random.Next(0, 4) == 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + height * 2 / 3 + z] == null) {
-                                Global.VOXEL_MAP[posX + x, posY + y, posZ + height * 2 / 3 + z] = (byte)leaves;
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + height * 2 / 3 + z] = leaveType;
                             }
                         }
                     }
@@ -33,7 +35,7 @@ namespace minecraft_kurwa.src.generator.feature.trees {
             }
 
             for (ushort z = 0; z < height * 2 / 3; z++) {
-                Global.VOXEL_MAP[posX, posY, posZ + z] = (byte)wood;
+                Global.VOXEL_MAP[posX, posY, posZ + z] = woodType;
             }
         }
     }

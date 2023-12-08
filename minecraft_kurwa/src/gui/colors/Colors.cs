@@ -5,7 +5,7 @@
 
 using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.voxels;
+using minecraft_kurwa.src.renderer.voxels;
 using System;
 
 namespace minecraft_kurwa.src.gui.colors {

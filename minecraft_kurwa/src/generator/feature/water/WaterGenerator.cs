@@ -5,7 +5,7 @@
 
 using System;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.voxels;
+using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class WaterGenerator {

@@ -25,9 +25,11 @@ namespace minecraft_kurwa.src.gui {
         }
 
         internal static void Update() {
-            if (loadTime.IsRunning) loadTime.Stop();
+            if (loadTime.IsRunning)
+                loadTime.Stop();
 
-            if (!fpsCounter.IsRunning) fpsCounter.Start();
+            if (!fpsCounter.IsRunning)
+                fpsCounter.Start();
 
             // we are over one second so we restart the timer and reset the frames
             if (fpsCounter.IsRunning && fpsCounter.ElapsedMilliseconds > 1000) {

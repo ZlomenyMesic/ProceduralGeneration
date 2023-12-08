@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.voxels;
+using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes {
     internal static class Biome {

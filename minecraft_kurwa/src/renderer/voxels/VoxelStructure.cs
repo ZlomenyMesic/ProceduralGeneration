@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
 
-namespace minecraft_kurwa.src.voxels {
+namespace minecraft_kurwa.src.renderer.voxels {
     internal class VoxelStructure {
         private readonly Voxel[] voxels;
 
@@ -37,7 +37,7 @@ namespace minecraft_kurwa.src.voxels {
         }
 
         internal void AddVoxel(Vector3 position, Vector3 size, Color color, byte transparency = 100) {
-            voxels[voxelCounter++] = new(position, size, indexCounter, transparency);
+            voxels[voxelCounter++] = new((ushort)position.X, (ushort)position.Y, (ushort)position.Z, (ushort)size.X, (ushort)size.Y, (ushort)size.Z, null, indexCounter, transparency);
 
             Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS
                 ? color.ToVector3()
@@ -101,12 +101,12 @@ namespace minecraft_kurwa.src.voxels {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                if ((voxels[i].position.X + voxels[i].size.X < VoxelCulling.MIN_RENDER_X)
-                || (voxels[i].position.X                    > VoxelCulling.MAX_RENDER_X)
-                || (voxels[i].position.Z + voxels[i].size.Z < VoxelCulling.MIN_RENDER_Y)
-                || (voxels[i].position.Z                    > VoxelCulling.MAX_RENDER_Y)) continue;
+                if ((voxels[i].posX + voxels[i].sizeX < VoxelCulling.minRenderX)
+                || (voxels[i].posX                    > VoxelCulling.maxRenderX)
+                || (voxels[i].posZ + voxels[i].sizeZ  < VoxelCulling.minRenderY)
+                || (voxels[i].posZ                    > VoxelCulling.maxRenderY)) continue;
 
-                basicEffect.World = Matrix.CreateTranslation(voxels[i].position);
+                basicEffect.World = Matrix.CreateTranslation(new(voxels[i].posX, voxels[i].posY, voxels[i].posZ));
                 basicEffect.Alpha = voxels[i].transparency / 100f;
 
                 int triangles = i != voxelCounter - 1
@@ -119,20 +119,6 @@ namespace minecraft_kurwa.src.voxels {
                     basicEffect.CurrentTechnique.Passes[j].Apply();
                     Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, voxels[i].indexStart, triangles);
                 }
-            }
-        }
-
-        private struct Voxel {
-            internal Vector3 position;
-            internal Vector3 size;
-            internal ushort indexStart;
-            internal byte transparency;
-
-            internal Voxel(Vector3 position, Vector3 size, ushort indexStart, byte transparency) {
-                this.position = position;
-                this.size = size;
-                this.indexStart = indexStart;
-                this.transparency = transparency;
             }
         }
     }

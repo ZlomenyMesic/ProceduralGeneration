@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.global;
 using System;
 
-namespace minecraft_kurwa.src.gui.sky {
+namespace minecraft_kurwa.src.renderer.sky {
     internal static class Sky {
         private static Model model; // hemisphere model (stolen)
-        private static float rotation = 0; // dome is slowly rotating
+        private static float rotation = 0; // slow rotation
         private static Matrix transform;  // used to adjust starting position of dome
         private static Texture2D customTexture; // custom sky texture
 
@@ -22,22 +22,22 @@ namespace minecraft_kurwa.src.gui.sky {
 
             try {
                 customTexture = content.Load<Texture2D>(Global.SKY_DOME_TEXTURE_SOURCE);
-            }
-            catch { }
+            } catch { }
         }
 
-        internal static void Draw(Matrix projectionMatrix, Matrix viewMatrix) {
+        internal static void Draw() {
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullNone;
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.None;
 
+            Matrix viewMatrix = Renderer.VIEW_MATRIX;
             viewMatrix.Translation = Vector3.Zero;
 
             BasicEffect basicEffect = (BasicEffect)model.Meshes[0].Effects[0];
 
             if (customTexture != null) basicEffect.Texture = customTexture;
             basicEffect.World = Matrix.CreateFromYawPitchRoll(rotation, (float)-Math.PI / 2, 0) * transform;
+            basicEffect.Projection = Renderer.PROJECTION_MATRIX;
             basicEffect.View = viewMatrix;
-            basicEffect.Projection = projectionMatrix;
 
             model.Meshes[0].Draw();
 

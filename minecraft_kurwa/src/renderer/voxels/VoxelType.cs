@@ -3,8 +3,10 @@
 // ZlomenyMesic, KryKom
 //
 
-namespace minecraft_kurwa.src.voxels {
+namespace minecraft_kurwa.src.renderer.voxels {
     internal enum VoxelType {
+        UNKNOWN = -1,
+
         AIR = 0,
         GRASS = 1,
         STONE = 2,

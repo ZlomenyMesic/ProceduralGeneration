@@ -3,9 +3,7 @@
 // ZlomenyMesic, KryKom
 //
 
-using minecraft_kurwa.src.global;
-
-namespace minecraft_kurwa {
+namespace minecraft_kurwa.src.launcher {
     partial class MCKurwaLauncher {
         /// <summary>
         /// Required designer variable.

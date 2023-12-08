@@ -6,7 +6,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using minecraft_kurwa;
+using minecraft_kurwa.src.launcher;
 using minecraft_kurwa.src.gui;
 
 static class Program {
