@@ -23,7 +23,6 @@ namespace minecraft_kurwa.src.gui {
             Time.Initialize();
 
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
             Window.Title = "minecraft?";
 
             graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
@@ -39,9 +38,9 @@ namespace minecraft_kurwa.src.gui {
 
             Global.GRAPHICS_DEVICE = GraphicsDevice;
 
-            Renderer.Initialize(Content);
+            global.resources.Content.Load(Content);
 
-            Sky.Initialize(Content);
+            Renderer.Initialize();
 
             VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
@@ -56,8 +55,7 @@ namespace minecraft_kurwa.src.gui {
         }
 
         protected override void Update(GameTime gameTime) {
-            // returns true if Controls.EXIT is pressed
-            if (Input.Update()) Exit();
+            if (Input.Update()) Exit(); // exit if Controls.EXIT is pressed
 
             Renderer.UpdateViewMatrix();
 

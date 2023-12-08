@@ -23,14 +23,13 @@ namespace minecraft_kurwa.src.renderer {
         internal static Matrix PROJECTION_MATRIX;
         internal static Matrix VIEW_MATRIX;
 
-        internal static void Initialize(ContentManager content) {
+        internal static void Initialize() {
             Global.CAM_POSITION = new Vector3(Settings.WORLD_SIZE / 2, 100, Settings.WORLD_SIZE / 2);
             Global.CAM_TARGET = new Vector3(Global.CAM_POSITION.X + VoxelCulling.defaultCTPosition.X, Global.CAM_POSITION.Y + VoxelCulling.defaultCTPosition.Z, Global.CAM_POSITION.Z + VoxelCulling.defaultCTPosition.Y);
             PROJECTION_MATRIX = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
             VIEW_MATRIX = Matrix.CreateLookAt(Global.CAM_POSITION, Global.CAM_TARGET, Vector3.Up);
 
             spriteBatch = new SpriteBatch(Global.GRAPHICS_DEVICE);
-            defaultFont = content.Load<SpriteFont>("default");
             renderTarget = new RenderTarget2D(Global.GRAPHICS_DEVICE, ExperimentalSettings.RENDER_TARGET_WIDTH, ExperimentalSettings.RENDER_TARGET_HEIGHT, false, Global.GRAPHICS_DEVICE.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
         }
 

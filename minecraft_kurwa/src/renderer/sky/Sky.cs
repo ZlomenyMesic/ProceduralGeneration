@@ -11,19 +11,12 @@ using System;
 
 namespace minecraft_kurwa.src.renderer.sky {
     internal static class Sky {
-        private static Model model; // hemisphere model (stolen)
+        internal static Model model; // hemisphere model (stolen)
+        internal static Texture2D customTexture; // custom sky texture
+
+        private static Matrix transform = Matrix.CreateTranslation(0, -30, 0);  // used to adjust starting position of dome
+
         private static float rotation = 0; // slow rotation
-        private static Matrix transform;  // used to adjust starting position of dome
-        private static Texture2D customTexture; // custom sky texture
-
-        internal static void Initialize(ContentManager content) {
-            transform = Matrix.CreateTranslation(0, -30, 0);
-            model = content.Load<Model>(Global.SKY_DOME_MODEL_SOURCE);
-
-            try {
-                customTexture = content.Load<Texture2D>(Global.SKY_DOME_TEXTURE_SOURCE);
-            } catch { }
-        }
 
         internal static void Draw() {
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullNone;
