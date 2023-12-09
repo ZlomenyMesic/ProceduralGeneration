@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
+using System;
+using SharpDX.MediaFoundation;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal class VoxelStructure {
@@ -44,27 +46,39 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 : new(1 - color.R / 255f, 1 - color.G / 255f, 1 - color.B / 255f);
             Vector3 adjustedColor;
 
-            adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
-            AddVertex(0, 0, 0, adjustedColor); AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor);
-            AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 4));
+            bool[] visible = GetVisibleSides(position, size);
 
-            adjustedColor = originalColor * ColorManager.BACK_SHADOW;        // back
-            AddVertex(0, 0, size.Z, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
-            AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+            if (visible[0]) {
+                adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
+                AddVertex(0, 0, 0, adjustedColor); AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor);
+                AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 4));
+            }
+            
+            if (visible[1]) {
+                adjustedColor = originalColor * ColorManager.BACK_SHADOW;        // back
+                AddVertex(0, 0, size.Z, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
+                AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+            }
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // right
-            AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, size.Z, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
-            AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
+            if (visible[2]) {
+                adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // right
+                AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, size.Z, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
+                AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
+            }
 
-            adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // left
-            AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
-            AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
+            if (visible[3]) {
+                adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // left
+                AddVertex(size.X, 0, 0, adjustedColor); AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor);
+                AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
+            }
 
-            adjustedColor = originalColor * ColorManager.TOP_SHADOW;         // top
-            AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
-            AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+            if (visible[4]) {
+                adjustedColor = originalColor * ColorManager.TOP_SHADOW;         // top
+                AddVertex(size.X, size.Y, 0, adjustedColor); AddVertex(0, size.Y, 0, adjustedColor); AddVertex(size.X, size.Y, size.Z, adjustedColor); AddVertex(0, size.Y, size.Z, adjustedColor);
+                AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+            }
 
-            if (Global.HEIGHT_MAP[(int)position.X, (int)position.Z] != position.Y) {
+            if (visible[5]) {
                 adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW;  // bottom
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(size.X, 0, 0, adjustedColor); AddVertex(0, 0, size.Z, adjustedColor); AddVertex(size.X, 0, size.Z, adjustedColor);
                 AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
@@ -120,6 +134,45 @@ namespace minecraft_kurwa.src.renderer.voxels {
                     Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, voxels[i].indexStart, triangles);
                 }
             }
+        }
+
+        /// <summary>
+        /// used to hide non visible areas
+        /// </summary>
+        /// <returns>
+        /// front, back, right, left, top, bottom
+        /// true = is visible
+        /// </returns>
+        private static bool[] GetVisibleSides(Vector3 position, Vector3 size) {
+            bool[] output = new bool[6];
+
+            for (ushort x = (ushort)position.X; x < position.X + size.X; x++) {
+                if (position.Z == 0 || Global.VOXEL_MAP[x, (int)position.Z - 1, (int)position.Y] == null || Global.VOXEL_MAP[x, (int)position.Z - 1, (int)position.Y] == (byte)VoxelType.AIR) {
+                    output[0] = true;
+                }
+
+                if (position.Z + size.Z == Settings.WORLD_SIZE || Global.VOXEL_MAP[x, (int)position.Z + (int)size.Z, (int)position.Y] == null || Global.VOXEL_MAP[x, (int)position.Z + (int)size.Z, (int)position.Y] == (byte)VoxelType.AIR) {
+                    output[1] = true;
+                }
+            }
+
+            for (ushort y = (ushort)position.Z; y < position.Z + size.Z; y++) {
+                if (position.X == 0 || Global.VOXEL_MAP[(int)position.X - 1, y, (int)position.Y] == null || Global.VOXEL_MAP[(int)position.X - 1, y, (int)position.Y] == (byte)VoxelType.AIR) {
+                    output[2] = true;
+                }
+
+                if (position.X + size.X == Settings.WORLD_SIZE || Global.VOXEL_MAP[(int)position.X + (int)size.X, y, (int)position.Y] == null || Global.VOXEL_MAP[(int)position.X + (int)size.X, y, (int)position.Y] == (byte)VoxelType.AIR) {
+                    output[3] = true;
+                }
+            }
+
+            if (Global.HEIGHT_MAP[(int)position.X, (int)position.Z] != position.Y) {
+                output[5] = true;
+            }
+
+            output[4] = true; // maybe something in the future
+
+            return output;
         }
     }
 }
