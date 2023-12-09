@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using minecraft_kurwa.src.generator;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.gui.input;
-using minecraft_kurwa.src.renderer.sky;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 using minecraft_kurwa.src.renderer;
