@@ -24,6 +24,9 @@ namespace minecraft_kurwa.src.renderer {
         internal static Matrix VIEW_MATRIX;
 
         internal static void Initialize() {
+            Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
+            Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
+
             Global.CAM_POSITION = new Vector3(Settings.WORLD_SIZE / 2, 100, Settings.WORLD_SIZE / 2);
             Global.CAM_TARGET = new Vector3(Global.CAM_POSITION.X + VoxelCulling.defaultCTPosition.X, Global.CAM_POSITION.Y + VoxelCulling.defaultCTPosition.Z, Global.CAM_POSITION.Z + VoxelCulling.defaultCTPosition.Y);
             PROJECTION_MATRIX = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
@@ -51,8 +54,6 @@ namespace minecraft_kurwa.src.renderer {
             // sky is a part of the render target
             Sky.Draw();
 
-            Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
-            Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
             Global.GRAPHICS_DEVICE.DepthStencilState = DepthStencilState.Default;
 
             VoxelStructure.basicEffect.Projection = PROJECTION_MATRIX;

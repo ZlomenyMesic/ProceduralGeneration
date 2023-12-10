@@ -16,8 +16,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
         internal static ushort minRenderY = 0;
         internal static ushort maxRenderY = (ushort)(Settings.WORLD_SIZE - 1);
 
-        private const ushort MAX_DIFFERENCE_VALUE = 300; // maximum possible xDiff and yDiff
-        private const ushort MIN_DIFFERENCE = 25; // minimum camPosition and camTarget coordinates difference to cull
+        private static readonly ushort MAX_DIFFERENCE_VALUE = 300; // maximum possible xDiff and yDiff
+        private static readonly ushort MIN_DIFFERENCE = (ushort)(25 + ((Settings.WORLD_SIZE - 500) / 50)); // minimum camPosition and camTarget coordinates difference to cull
 
         internal static void UpdateRenderCoordinates() {
             short xDiff = (short)(Global.CAM_POSITION.X - Global.CAM_TARGET.X);

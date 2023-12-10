@@ -104,16 +104,20 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (grid[x, y, z].type != null) {
-                            AddBlock(new(x, z, y), new(grid[x, y, z].sizeX, grid[x, y, z].sizeY, grid[x, y, z].sizeZ), ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), ExperimentalSettings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
+                            AddBlock(x, z, y, grid[x, y, z].sizeX, grid[x, y, z].sizeY, grid[x, y, z].sizeZ, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), ExperimentalSettings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
                         }
                     }
                 }
             }
+
+            for (int i = 0; i < voxelStructCount; i++) {
+                world[i].PrepareBuffers();
+            }
         }
 
-        private static void AddBlock(Vector3 position, Vector3 size, Color color, byte transparency = 100) {
+        private static void AddBlock(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ, Color color, byte transparency = 100) {
             world[voxelStructCount] ??= new();
-            world[voxelStructCount].AddVoxel(position, size, color, transparency);
+            world[voxelStructCount].AddVoxel(posX, posY, posZ, sizeX, sizeY, sizeZ, color, transparency);
 
             if (++currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
                 currentVoxelCount = 0;
