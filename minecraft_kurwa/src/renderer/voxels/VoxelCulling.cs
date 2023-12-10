@@ -19,7 +19,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
         private static readonly ushort MAX_DIFFERENCE_VALUE = 300; // maximum possible xDiff and yDiff
         private static readonly ushort MIN_DIFFERENCE = (ushort)(25 + ((Settings.WORLD_SIZE - 500) / 50)); // minimum camPosition and camTarget coordinates difference to cull
 
-        internal static void UpdateRenderCoordinates() {
+        internal static void Update() {
             short xDiff = (short)(Global.CAM_POSITION.X - Global.CAM_TARGET.X);
             short yDiff = (short)(Global.CAM_POSITION.Z - Global.CAM_TARGET.Z);
 
@@ -42,6 +42,51 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 short maxRenderY = (short)(Global.CAM_POSITION.Z + MAX_DIFFERENCE_VALUE - yDiff + (Global.CAM_POSITION.Y / 2));
                 VoxelCulling.maxRenderY = (ushort)(maxRenderY < 0 ? 0 : maxRenderY);
             } else maxRenderY = (ushort)(Settings.WORLD_SIZE - 1);
+        }
+
+        /// <summary>
+        /// used to hide non visible sides of rendered voxels
+        /// </summary>
+        /// <returns>
+        /// front, back, right, left, top, bottom
+        /// true = is visible
+        /// </returns>
+        internal static bool[] GetVisibleSides(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ) {
+            bool[] output = new bool[6];
+
+            for (ushort x = posX; x < posX + sizeX; x++) {
+                if (posZ == 0 || Global.VOXEL_MAP[x, posZ - 1, posY] == null || Global.VOXEL_MAP[x, posZ - 1, posY] == (byte)VoxelType.AIR) {
+                    output[0] = true;
+                }
+
+                if (posZ + sizeZ == Settings.WORLD_SIZE || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == null || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == (byte)VoxelType.AIR) {
+                    output[1] = true;
+                }
+            }
+
+            for (ushort y = posZ; y < posZ + sizeZ; y++) {
+                if (posX == 0 || Global.VOXEL_MAP[posX - 1, y, posY] == null || Global.VOXEL_MAP[posX - 1, y, posY] == (byte)VoxelType.AIR) {
+                    output[2] = true;
+                }
+
+                if (posX + sizeX == Settings.WORLD_SIZE || Global.VOXEL_MAP[posX + sizeX, y, posY] == null || Global.VOXEL_MAP[posX + sizeX, y, posY] == (byte)VoxelType.AIR) {
+                    output[3] = true;
+                }
+            }
+
+            for (ushort x = posX; x < posX + sizeX; x++) {
+                for (ushort y = posZ; y < posZ + sizeZ; y++) {
+                    if (posY + sizeY == Settings.HEIGHT_LIMIT || Global.VOXEL_MAP[x, y, posY + sizeY] == null || Global.VOXEL_MAP[x, y, posY + sizeY] == null) {
+                        output[4] = true;
+                    }
+
+                    if (Global.HEIGHT_MAP[posX, posZ] != posY && (Global.VOXEL_MAP[x, y, posY - 1] == null || Global.VOXEL_MAP[x, y, posY - 1] == null)) {
+                        output[5] = true;
+                    }
+                }
+            }
+
+            return output;
         }
     }
 }

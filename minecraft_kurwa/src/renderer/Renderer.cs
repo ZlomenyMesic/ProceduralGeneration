@@ -10,8 +10,10 @@ using minecraft_kurwa.src.generator.terrain.biomes;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.gui;
 using minecraft_kurwa.src.gui.input;
+using minecraft_kurwa.src.renderer.rays;
 using minecraft_kurwa.src.renderer.sky;
 using minecraft_kurwa.src.renderer.voxels;
+using System;
 
 namespace minecraft_kurwa.src.renderer {
     internal static class Renderer {
@@ -79,6 +81,7 @@ namespace minecraft_kurwa.src.renderer {
                 $"X: {Global.CAM_POSITION.X}\n" +
                 $"Y: {Global.CAM_POSITION.Y}\n" +
                 $"Z: {Global.CAM_POSITION.Z}\n" +
+                $"Camera rotation: {Math.Round(Rays.VIEW_ROTATION, 0)} deg\n" +
                 $"Biome: {Biome.GetBiome((ushort)Global.CAM_POSITION.X, (ushort)Global.CAM_POSITION.Z)}\n" +
                 $"Subbiome: {Biome.GetSubbiome((ushort)Global.CAM_POSITION.X, (ushort)Global.CAM_POSITION.Z)}\n" +
                 $"Secondary biome: {Biome.GetSecondaryBiome((ushort)Global.CAM_POSITION.X, (ushort)Global.CAM_POSITION.Z)}\n" +

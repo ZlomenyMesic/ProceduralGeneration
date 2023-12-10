@@ -45,7 +45,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 : new(1 - color.R / 255f, 1 - color.G / 255f, 1 - color.B / 255f);
             Vector3 adjustedColor;
 
-            bool[] visible = GetVisibleSides(posX, posY, posZ, sizeX, sizeY, sizeZ);
+            bool[] visible = VoxelCulling.GetVisibleSides(posX, posY, posZ, sizeX, sizeY, sizeZ);
 
             if (visible[0]) {
                 adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
@@ -129,51 +129,6 @@ namespace minecraft_kurwa.src.renderer.voxels {
                     Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, voxels[i].indexStart, triangles);
                 }
             }
-        }
-
-        /// <summary>
-        /// used to hide non visible areas
-        /// </summary>
-        /// <returns>
-        /// front, back, right, left, top, bottom
-        /// true = is visible
-        /// </returns>
-        private static bool[] GetVisibleSides(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ) {
-            bool[] output = new bool[6];
-
-            for (ushort x = posX; x < posX + sizeX; x++) {
-                if (posZ == 0 || Global.VOXEL_MAP[x, posZ - 1, posY] == null || Global.VOXEL_MAP[x, posZ - 1, posY] == (byte)VoxelType.AIR) {
-                    output[0] = true;
-                }
-
-                if (posZ + sizeZ == Settings.WORLD_SIZE || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == null || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == (byte)VoxelType.AIR) {
-                    output[1] = true;
-                }
-            }
-
-            for (ushort y = posZ; y < posZ + sizeZ; y++) {
-                if (posX == 0 || Global.VOXEL_MAP[posX - 1, y, posY] == null || Global.VOXEL_MAP[posX - 1, y, posY] == (byte)VoxelType.AIR) {
-                    output[2] = true;
-                }
-
-                if (posX + sizeX == Settings.WORLD_SIZE || Global.VOXEL_MAP[posX + sizeX, y, posY] == null || Global.VOXEL_MAP[posX + sizeX, y, posY] == (byte)VoxelType.AIR) {
-                    output[3] = true;
-                }
-            }
-
-            for (ushort x  = posX; x < posX + sizeX; x++) {
-                for (ushort y = posZ; y < posZ + sizeZ; y++) {
-                    if (posY + sizeY == Settings.HEIGHT_LIMIT || Global.VOXEL_MAP[x, y, posY + sizeY] == null || Global.VOXEL_MAP[x, y, posY + sizeY] == null) {
-                        output[4] = true;
-                    }
-
-                    if (Global.HEIGHT_MAP[posX, posZ] != posY && (Global.VOXEL_MAP[x, y, posY - 1] == null || Global.VOXEL_MAP[x, y, posY - 1] == null)) {
-                        output[5] = true;
-                    }
-                }
-            }
-
-            return output;
         }
     }
 }

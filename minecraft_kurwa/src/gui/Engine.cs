@@ -12,6 +12,7 @@ using minecraft_kurwa.src.gui.input;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 using minecraft_kurwa.src.renderer;
+using minecraft_kurwa.src.renderer.rays;
 
 namespace minecraft_kurwa.src.gui {
 
@@ -62,7 +63,8 @@ namespace minecraft_kurwa.src.gui {
         }
 
         protected override void Draw(GameTime gameTime) {
-            VoxelCulling.UpdateRenderCoordinates();
+            VoxelCulling.Update();
+            Rays.Update();
 
             Renderer.Draw();
 
