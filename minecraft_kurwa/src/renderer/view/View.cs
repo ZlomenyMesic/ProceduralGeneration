@@ -6,26 +6,26 @@
 using minecraft_kurwa.src.global;
 using Microsoft.Xna.Framework;
 using System;
+using minecraft_kurwa.src.renderer.voxels;
 
-namespace minecraft_kurwa.src.renderer.rays {
-    internal static class Rays {
+namespace minecraft_kurwa.src.renderer.view {
+    internal static class View {
         internal static float VIEW_ROTATION = 0;
 
         private static Vector2 ZERO_ANGLE_VECTOR = new(0, 1);
 
         private static Vector2 shiftedCP;
-        private static Vector2 diff;
         private static Vector2 diffShifted;
 
         internal static void Update() {
             Vector3 diff3D = Global.CAM_POSITION - Global.CAM_TARGET;
-            diff = new(diff3D.X, diff3D.Z);
+            Vector2 diff = new(diff3D.X, diff3D.Z);
 
             VIEW_ROTATION = CalculateVectorAngle(diff, ZERO_ANGLE_VECTOR);
 
             shiftedCP = new(Global.CAM_POSITION.X, Global.CAM_POSITION.Z);
-            shiftedCP.X += Math.Sign(diff.X) * Global.CAM_POSITION.Y / 1.8f;
-            shiftedCP.Y += Math.Sign(diff.Y) * Global.CAM_POSITION.Y / 1.8f;
+            shiftedCP.X += diff.X * Global.CAM_POSITION.Y / VoxelCulling.MAX_DIFFERENCE_VALUE;
+            shiftedCP.Y += diff.Y * Global.CAM_POSITION.Y / VoxelCulling.MAX_DIFFERENCE_VALUE;
 
             diffShifted = shiftedCP - new Vector2(Global.CAM_TARGET.X, Global.CAM_TARGET.Z);
         }
@@ -47,9 +47,7 @@ namespace minecraft_kurwa.src.renderer.rays {
             float v1Magnitude = (float)Math.Sqrt(v1.X * v1.X + v1.Y * v1.Y);
             float v2Magnitude = (float)Math.Sqrt(v2.X * v2.X + v2.Y * v2.Y);
 
-            float dot = Vector2.Dot(v1, v2);
-
-            return (float)(180 - (Math.Acos(dot / (v1Magnitude * v2Magnitude)) * 180 / Math.PI));
+            return (float)(180 - (Math.Acos(Vector2.Dot(v1, v2) / (v1Magnitude * v2Magnitude)) * 180 / Math.PI));
         }
     }
 }

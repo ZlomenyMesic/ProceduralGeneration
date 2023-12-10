@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.renderer.view;
 using System.Linq;
 
 namespace minecraft_kurwa.src.renderer.voxels {
@@ -110,10 +111,13 @@ namespace minecraft_kurwa.src.renderer.voxels {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                if ((voxels[i].posX + voxels[i].sizeX < VoxelCulling.minRenderX)
-                || (voxels[i].posX                    > VoxelCulling.maxRenderX)
-                || (voxels[i].posZ + voxels[i].sizeZ  < VoxelCulling.minRenderY)
-                || (voxels[i].posZ                    > VoxelCulling.maxRenderY)) continue;
+                if (!VoxelCulling.ShouldRender(voxels[i].posX, voxels[i].posZ, voxels[i].sizeX, voxels[i].sizeZ)) continue;
+
+                /* TESTY
+                
+                //if (!Rays.IsVoxelInView(voxels[i].posX, voxels[i].posZ, voxels[i].sizeX, voxels[i].sizeZ)) continue;
+
+                */
 
                 int triangles = i != voxelCounter - 1
                     ? (voxels[i + 1].indexStart - voxels[i].indexStart) / 3
