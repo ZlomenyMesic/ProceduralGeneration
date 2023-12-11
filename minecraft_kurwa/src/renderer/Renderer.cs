@@ -4,7 +4,6 @@
 //
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.generator.terrain.biomes;
 using minecraft_kurwa.src.global;
@@ -62,7 +61,7 @@ namespace minecraft_kurwa.src.renderer {
             VoxelStructure.basicEffect.View = VIEW_MATRIX;
 
             // add blocks to the render target
-            if (Global.CAM_POSITION.Y >= 0) {
+            if (Global.CAM_POSITION.X < 0 || Global.CAM_POSITION.X >= Settings.WORLD_SIZE || Global.CAM_POSITION.Z < 0 || Global.CAM_POSITION.Z >= Settings.WORLD_SIZE || Global.CAM_POSITION.Y >= Global.HEIGHT_MAP[(int)Global.CAM_POSITION.X, (int)Global.CAM_POSITION.Z] + 1) {
                 for (int i = 0; i < VoxelConnector.world.Length; i++) {
                     VoxelConnector.world[i]?.Draw();
                 }

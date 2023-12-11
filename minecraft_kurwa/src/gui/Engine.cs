@@ -10,9 +10,9 @@ using minecraft_kurwa.src.generator;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.gui.input;
 using minecraft_kurwa.src.renderer.voxels;
-using System;
 using minecraft_kurwa.src.renderer;
 using minecraft_kurwa.src.renderer.view;
+using System;
 
 namespace minecraft_kurwa.src.gui {
 
