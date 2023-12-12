@@ -10,6 +10,8 @@ using System;
 
 namespace minecraft_kurwa.src.gui.colors {
     internal static class ColorManager {
+        private const byte DEFAULT_TRANSPARENCY = 100; // range 0-100
+        private const byte LEAVES_TRANSPARENCY = 90;
 
         // original color is multiplied by shadow
         internal static readonly Vector3 FRONT_SHADOW = new(0.7f, 0.7f, 0.7f);
@@ -109,8 +111,8 @@ namespace minecraft_kurwa.src.gui.colors {
 
         internal static byte GetVoxelTransparency(byte? voxelType) {
             return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 or 21 => 90,
-                _ => 100
+                8 or 10 or 12 or 14 or 16 or 19 or 21 => LEAVES_TRANSPARENCY,
+                _ => DEFAULT_TRANSPARENCY
             };
         }
     }
