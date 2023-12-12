@@ -43,6 +43,9 @@ namespace minecraft_kurwa.src.gui.colors {
             new(255, 183, 197), // 21 - cherry leaves
             new(71, 52, 39),    // 22 - cherry wood
             new(189, 150, 79),  // 23 - sandstone
+            new(74, 113, 20),   // 24 - acacia leaves
+            new(110, 100, 77),  // 25 - acacia wood
+            //new(56, 123, 0) // cool color (real)
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {

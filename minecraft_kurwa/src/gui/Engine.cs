@@ -15,7 +15,6 @@ using minecraft_kurwa.src.renderer.view;
 using System;
 
 namespace minecraft_kurwa.src.gui {
-
     public class Engine : Game {
         internal GraphicsDeviceManager graphics;
 

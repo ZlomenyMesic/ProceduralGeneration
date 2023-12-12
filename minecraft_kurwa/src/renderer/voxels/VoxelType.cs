@@ -40,5 +40,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
         CHERRY_WOOD = 22,
 
         SANDSTONE = 23,
+
+        ACACIA_LEAVES = 24,
+        ACACIA_WOOD = 25,
     }
 }

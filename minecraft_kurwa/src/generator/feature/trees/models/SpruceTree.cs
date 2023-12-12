@@ -14,17 +14,17 @@ namespace minecraft_kurwa.src.generator.feature.trees.models {
         internal override void Build() {
             Random random = new(Settings.SEED * posX * posY * posZ * height);
             float diameter = height * 2 / 5;
-            byte bottomStart = (byte)(height / random.Next(4, 6));
+            byte bottom = (byte)(height / random.Next(4, 6));
 
-            for (short z = bottomStart; z < height; z += 2) {
+            for (short z = bottom; z < height; z += 2) {
                 for (short x = (short)(-diameter / 2); x <= diameter / 2; x++) {
                     if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
 
                     for (short y = (short)(-diameter / 2); y <= diameter / 2; y++) {
                         if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                        float distanceFromCenter = (float)Math.Sqrt(x * x + y * y);
-                        if (distanceFromCenter < diameter / 2 && random.Next(0, 6) != 0) {
+                        float distance = (float)Math.Sqrt(x * x + y * y);
+                        if (distance < diameter / 2 && random.Next(0, 6) != 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = leaveType;
                             }
@@ -40,7 +40,7 @@ namespace minecraft_kurwa.src.generator.feature.trees.models {
                 } else {
                     Global.VOXEL_MAP[posX, posY, posZ + z] = leaveType;
                 }
-                if (z >= bottomStart && z < height * 4 / 5) {
+                if (z >= bottom && z < height * 4 / 5) {
                     if (posX + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = leaveType;
                     if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = leaveType;
                     if (posY + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = leaveType;

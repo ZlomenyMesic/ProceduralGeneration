@@ -113,6 +113,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
             for (int i = 0; i < voxelStructCount; i++) {
                 world[i].PrepareBuffers();
             }
+
+            grid = null;
         }
 
         private static void AddBlock(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ, Color color, byte transparency = 100) {

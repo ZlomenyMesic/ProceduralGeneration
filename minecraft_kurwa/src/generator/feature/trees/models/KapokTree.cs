@@ -13,19 +13,19 @@ namespace minecraft_kurwa.src.generator.feature.trees.models {
 
         internal override void Build() {
             Random random = new(Settings.SEED * posX * posY * posZ * height);
-            byte crownRadius = (byte)(height / 3);
+            byte radius = (byte)(height / 3);
 
-            for (short x = (short)(-crownRadius - 1); x <= crownRadius + 1; x++) {
+            for (short x = (short)(-radius - 1); x <= radius + 1; x++) {
                 if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
 
-                for (short y = (short)(-crownRadius - 1); y <= crownRadius + 1; y++) {
+                for (short y = (short)(-radius - 1); y <= radius + 1; y++) {
                     if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                    for (short z = (short)(-crownRadius / 3 + 1); z <= crownRadius / 1.5; z++) {
-                        float distanceFromCenterXY = (float)Math.Sqrt(x * x + y * y);
+                    for (short z = (short)(-radius / 3 + 1); z <= radius / 1.5; z++) {
+                        float distance = (float)Math.Sqrt(x * x + y * y);
 
-                        if ((distanceFromCenterXY > crownRadius / 2 || distanceFromCenterXY <= crownRadius / 2 && z > height / 10)
-                            && distanceFromCenterXY <= crownRadius && distanceFromCenterXY + Math.Abs(z) < height / 2 - 1 && random.Next(0, 2) == 0) {
+                        if ((distance > radius / 2 || distance <= radius / 2 && z > height / 10)
+                            && distance <= radius && distance + Math.Abs(z) < height / 2 - 1 && random.Next(0, 2) == 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z + height * 2 / 3] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z + height * 2 / 3] = leaveType;
                             }

@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.renderer.view;
 using System.Linq;
 
 namespace minecraft_kurwa.src.renderer.voxels {
@@ -111,26 +110,27 @@ namespace minecraft_kurwa.src.renderer.voxels {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                if (!VoxelCulling.ShouldRender(voxels[i].posX, voxels[i].posZ, voxels[i].sizeX, voxels[i].sizeZ)) continue;
+                Voxel cache = voxels[i];
+                if (!VoxelCulling.ShouldRender(cache.posX, cache.posZ, cache.sizeX, cache.sizeZ)) continue;
 
                 /* TESTY
                 
-                //if (!Rays.IsVoxelInView(voxels[i].posX, voxels[i].posZ, voxels[i].sizeX, voxels[i].sizeZ)) continue;
+                //if (!Rays.IsVoxelInView(cache.posX, cache.posZ, cache.sizeX, cache.sizeZ)) continue;
 
                 */
 
                 int triangles = i != voxelCounter - 1
-                    ? (voxels[i + 1].indexStart - voxels[i].indexStart) / 3
-                    : (indexCounter - voxels[i].indexStart) / 3;
+                    ? (voxels[i + 1].indexStart - cache.indexStart) / 3
+                    : (indexCounter - cache.indexStart) / 3;
 
                 if (triangles == 0) continue;
 
-                basicEffect.World = Matrix.CreateTranslation(new(voxels[i].posX, voxels[i].posY, voxels[i].posZ));
-                basicEffect.Alpha = voxels[i].transparency / 100f;
+                basicEffect.World = Matrix.CreateTranslation(new(cache.posX, cache.posY, cache.posZ));
+                basicEffect.Alpha = cache.transparency / 100f;
 
                 for (ushort j = 0; j < basicEffect.CurrentTechnique.Passes.Count; j++) {
                     basicEffect.CurrentTechnique.Passes[j].Apply();
-                    Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, voxels[i].indexStart, triangles);
+                    Global.GRAPHICS_DEVICE.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, cache.indexStart, triangles);
                 }
             }
         }

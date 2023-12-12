@@ -43,11 +43,16 @@ namespace minecraft_kurwa.src.generator.feature.trees {
                 else if (biome == 31 || biome == 41 || biome == 51 || biome == 61 || biome == 63) {
                     trees[treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
                 }
+                else if (biome == 5 || biome == 23) {
+                    trees[treeCount++] = new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT));
+                }
             }
 
             for (int i = 0; i < treeCount; i++) {
                 trees[i].Build();
             }
+
+            trees = null;
         }
     }
 }
