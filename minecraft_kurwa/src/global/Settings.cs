@@ -33,7 +33,8 @@ namespace minecraft_kurwa.src.global {
         internal static int ICE_HOLES = 0;              // 0 and less => no holes in ice; 100 and more => no ice
 
         internal static int TREE_DENSITY = 130;
-        internal static int TREE_EDGE_OFFSET = 0; // trees on the edge will be cut
+        internal static int BUSH_DENSITY = 50;
+        internal static int WOODY_PLANTS_EDGE_OFFSET = 0; // trees and bushes on the edge of the map will be cut
 
         internal static byte BIOME_BLENDING = 50;
 

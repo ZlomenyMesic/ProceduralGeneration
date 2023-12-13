@@ -5,10 +5,10 @@
 
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
-using minecraft_kurwa.src.generator.feature.trees.models;
+using minecraft_kurwa.src.generator.feature.tree.models;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.trees {
+namespace minecraft_kurwa.src.generator.feature.tree {
     internal static class TreeGenerator {
         private static Tree[] trees;
         private static int treeCount = 0;
@@ -19,8 +19,8 @@ namespace minecraft_kurwa.src.generator.feature.trees {
             trees = new Tree[maxCount];
 
             for (ushort i = 0; i < maxCount; i++) {
-                ushort x = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
-                ushort y = (ushort)random.Next(Settings.TREE_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.TREE_EDGE_OFFSET - 1);
+                ushort x = (ushort)random.Next(Settings.WOODY_PLANTS_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.WOODY_PLANTS_EDGE_OFFSET - 1);
+                ushort y = (ushort)random.Next(Settings.WOODY_PLANTS_EDGE_OFFSET, Settings.WORLD_SIZE - Settings.WOODY_PLANTS_EDGE_OFFSET - 1);
                 byte biome = Global.BIOME_MAP[x, y, 0];
 
                 // trees can't generate under the water level, on water, or on ice
@@ -38,18 +38,25 @@ namespace minecraft_kurwa.src.generator.feature.trees {
                     };
                 }
                 else if (biome == 11) {
-                    trees[treeCount++] = new KapokTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.KAPOK_MIN_HEIGHT, Dimensions.KAPOK_MAX_HEIGHT));
+                    trees[treeCount++] = random.Next(0, 7) switch {
+                        1 or 2 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.MAHOGANY_MIN_HEIGHT, Dimensions.MAHOGANY_MAX_HEIGHT), VoxelType.MAHOGANY_LEAVES, VoxelType.MAHOGANY_WOOD),
+                        _ => new KapokTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.KAPOK_MIN_HEIGHT, Dimensions.KAPOK_MAX_HEIGHT))
+                    };
                 }
                 else if (biome == 31 || biome == 41 || biome == 51 || biome == 61 || biome == 63) {
                     trees[treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
                 }
                 else if (biome == 5 || biome == 23) {
-                    trees[treeCount++] = new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT));
+                    trees[treeCount++] = random.Next(0, 25) switch {
+                        0 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.JACKALBERRY_MIN_HEIGHT, Dimensions.JACKALBERRY_MAX_HEIGHT), VoxelType.JACKALBERRY_LEAVES, VoxelType.JACKALBERRY_WOOD),
+                        1 or 2 or 3 or 4 or 5 => new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)random.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT)),
+                        _ => null
+                    };
                 }
             }
 
             for (int i = 0; i < treeCount; i++) {
-                trees[i].Build();
+                trees[i]?.Build();
             }
 
             trees = null;

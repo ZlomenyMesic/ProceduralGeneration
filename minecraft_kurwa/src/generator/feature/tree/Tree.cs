@@ -5,7 +5,7 @@
 
 using minecraft_kurwa.src.renderer.voxels;
 
-namespace minecraft_kurwa.src.generator.feature.trees {
+namespace minecraft_kurwa.src.generator.feature.tree {
     internal abstract class Tree {
         internal ushort posX;
         internal ushort posY;

@@ -44,7 +44,8 @@ namespace minecraft_kurwa.src.launcher {
             numericUpDown19.Value = Settings.ICE_HOLES;
 
             numericUpDown21.Value = Settings.TREE_DENSITY;
-            numericUpDown20.Value = Settings.TREE_EDGE_OFFSET;
+            numericUpDown22.Value = Settings.BUSH_DENSITY;
+            numericUpDown20.Value = Settings.WOODY_PLANTS_EDGE_OFFSET;
         }
 
         private void UpdateSettings() {
@@ -73,7 +74,8 @@ namespace minecraft_kurwa.src.launcher {
             Settings.ICE_HOLES = (int)numericUpDown19.Value;
 
             Settings.TREE_DENSITY = (int)numericUpDown21.Value;
-            Settings.TREE_EDGE_OFFSET = (int)numericUpDown20.Value;
+            Settings.BUSH_DENSITY = (int)numericUpDown22.Value;
+            Settings.WOODY_PLANTS_EDGE_OFFSET = (int)numericUpDown20.Value;
         }
     }
 }

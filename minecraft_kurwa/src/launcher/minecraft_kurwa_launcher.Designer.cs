@@ -72,6 +72,8 @@ namespace minecraft_kurwa.src.launcher {
             label16 = new System.Windows.Forms.Label();
             label17 = new System.Windows.Forms.Label();
             groupBox6 = new System.Windows.Forms.GroupBox();
+            label22 = new System.Windows.Forms.Label();
+            numericUpDown22 = new System.Windows.Forms.NumericUpDown();
             numericUpDown20 = new System.Windows.Forms.NumericUpDown();
             numericUpDown21 = new System.Windows.Forms.NumericUpDown();
             label20 = new System.Windows.Forms.Label();
@@ -102,6 +104,7 @@ namespace minecraft_kurwa.src.launcher {
             ((System.ComponentModel.ISupportInitialize)numericUpDown16).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown17).BeginInit();
             groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown22).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown20).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown21).BeginInit();
             SuspendLayout();
@@ -514,20 +517,39 @@ namespace minecraft_kurwa.src.launcher {
             // 
             // groupBox6
             // 
+            groupBox6.Controls.Add(label22);
+            groupBox6.Controls.Add(numericUpDown22);
             groupBox6.Controls.Add(numericUpDown20);
             groupBox6.Controls.Add(numericUpDown21);
             groupBox6.Controls.Add(label20);
             groupBox6.Controls.Add(label21);
             groupBox6.Location = new System.Drawing.Point(709, 371);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(642, 147);
+            groupBox6.Size = new System.Drawing.Size(642, 199);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
-            groupBox6.Text = "TREES";
+            groupBox6.Text = "PLANTS";
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new System.Drawing.Point(20, 85);
+            label22.Name = "label22";
+            label22.Size = new System.Drawing.Size(162, 32);
+            label22.TabIndex = 7;
+            label22.Text = "Bush density: ";
+            // 
+            // numericUpDown22
+            // 
+            numericUpDown22.Location = new System.Drawing.Point(376, 85);
+            numericUpDown22.Maximum = new decimal(new int[] { 3000, 0, 0, 0 });
+            numericUpDown22.Name = "numericUpDown22";
+            numericUpDown22.Size = new System.Drawing.Size(240, 39);
+            numericUpDown22.TabIndex = 6;
             // 
             // numericUpDown20
             // 
-            numericUpDown20.Location = new System.Drawing.Point(376, 85);
+            numericUpDown20.Location = new System.Drawing.Point(376, 130);
             numericUpDown20.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
             numericUpDown20.Name = "numericUpDown20";
             numericUpDown20.Size = new System.Drawing.Size(240, 39);
@@ -544,11 +566,11 @@ namespace minecraft_kurwa.src.launcher {
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(20, 85);
+            label20.Location = new System.Drawing.Point(20, 130);
             label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(200, 32);
+            label20.Size = new System.Drawing.Size(301, 32);
             label20.TabIndex = 1;
-            label20.Text = "Tree edge offset: ";
+            label20.Text = "Woody plants edge offset: ";
             // 
             // label21
             // 
@@ -616,6 +638,7 @@ namespace minecraft_kurwa.src.launcher {
             ((System.ComponentModel.ISupportInitialize)numericUpDown17).EndInit();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown22).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown20).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown21).EndInit();
             ResumeLayout(false);
@@ -672,5 +695,7 @@ namespace minecraft_kurwa.src.launcher {
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown numericUpDown22;
     }
 }

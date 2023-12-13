@@ -5,6 +5,7 @@
 
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
+using System;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes {
     internal static class Biome {
@@ -46,16 +47,18 @@ namespace minecraft_kurwa.src.generator.terrain.biomes {
                 : 0);
         }
 
-        internal static byte[] GetTopBlocks(byte biome) {
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_SANDY) return new[] { (byte)VoxelType.SAND, (byte)VoxelType.SAND, (byte)VoxelType.SANDSTONE };
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_STONY) return new[] { (byte)VoxelType.STONE, (byte)VoxelType.STONE, (byte)VoxelType.GRAVEL };
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_GRAVEL) return new[] { (byte)VoxelType.STONE, (byte)VoxelType.GRAVEL, (byte)VoxelType.GRAVEL };
-            if (biome == (byte)BiomeType.TROPICAL_DRY_DESERT_TERRACOTTA) return new[] { (byte)VoxelType.TERRACOTTA, (byte)VoxelType.SAND };
-            if (biome is (byte)BiomeType.SUBPOLAR_FOREST or (byte)BiomeType.SUBPOLAR_PLAINS or (byte)BiomeType.SUBPOLAR) return new[] { (byte)VoxelType.GRASS, (byte)VoxelType.SNOW };
-            if (biome == (byte)BiomeType.POLAR_HIGHLAND) return new[] { (byte)VoxelType.SNOW, (byte)VoxelType.ICE };
-            if (biome >= 50) return new[] { (byte)VoxelType.SNOW };
-
-            return new[] { (byte)VoxelType.GRASS };
+        internal static byte GetTopBlock(byte biome, Random random) {
+            return biome switch {
+                1 => random.Next(0, 3) == 0 ? (byte)VoxelType.SANDSTONE : (byte)VoxelType.SAND,
+                2 => random.Next(0, 3) == 0 ? (byte)VoxelType.GRAVEL : (byte)VoxelType.STONE,
+                3 => random.Next(0, 3) == 0 ? (byte)VoxelType.STONE : (byte)VoxelType.GRAVEL,
+                4 => random.Next(0, 3) == 0 ? (byte)VoxelType.TERRACOTTA : (byte)VoxelType.SAND,
+                62 => random.Next(0, 2) == 0 ? (byte)VoxelType.ICE : (byte)VoxelType.SNOW,
+                5 or 23 => random.Next(0, 15) == 0 ? (byte)VoxelType.DRY_GRASS : (byte)VoxelType.GRASS,
+                50 or 51 or 52 => random.Next(0, 2) == 0 ? (byte)VoxelType.GRASS : (byte)VoxelType.SNOW,
+                60 or 61 or 63 or 64 => (byte)VoxelType.SNOW,
+                _ => (byte)VoxelType.GRASS
+            };
         }
 
         /// <summary>

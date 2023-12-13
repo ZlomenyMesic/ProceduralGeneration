@@ -80,11 +80,11 @@ namespace minecraft_kurwa.src.renderer.voxels {
 
             for (ushort x = posX; x < posX + sizeX; x++) {
                 for (ushort y = posZ; y < posZ + sizeZ; y++) {
-                    if (posY + sizeY == Settings.HEIGHT_LIMIT || Global.VOXEL_MAP[x, y, posY + sizeY] == null || Global.VOXEL_MAP[x, y, posY + sizeY] == null) {
+                    if (posY + sizeY == Settings.HEIGHT_LIMIT || Global.VOXEL_MAP[x, y, posY + sizeY] == null || Global.VOXEL_MAP[x, y, posY + sizeY] == (byte)VoxelType.AIR) {
                         output[4] = true;
                     }
 
-                    if (Global.HEIGHT_MAP[posX, posZ] != posY && (Global.VOXEL_MAP[x, y, posY - 1] == null || Global.VOXEL_MAP[x, y, posY - 1] == null)) {
+                    if (Global.HEIGHT_MAP[posX, posZ] < posY && (Global.VOXEL_MAP[x, y, posY - 1] == null || Global.VOXEL_MAP[x, y, posY - 1] == (byte)VoxelType.AIR)) {
                         output[5] = true;
                     }
                 }

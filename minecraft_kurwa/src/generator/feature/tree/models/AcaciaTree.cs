@@ -7,15 +7,15 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.trees.models {
+namespace minecraft_kurwa.src.generator.feature.tree.models {
     internal class AcaciaTree : Tree {
         internal AcaciaTree(ushort posX, ushort posY, ushort posZ, byte height) : base(posX, posY, posZ, height, VoxelType.ACACIA_LEAVES, VoxelType.ACACIA_WOOD) { }
 
         internal override void Build() {
             Random random = new(Settings.SEED * posX * posY * posZ * height);
-            byte radius = (byte)(height / 2);
+            byte radius = (byte)((height / 2) + 1);
 
-            for (short layer = 0; layer < (height / 11) + 2; layer++) {
+            for (short layer = 0; layer < (height / 10) + 2; layer++) {
                 if (posZ + layer >= Settings.HEIGHT_LIMIT) break;
 
                 for (short x = (short)(-radius - 1); x <= radius + 1; x++) {
@@ -26,7 +26,9 @@ namespace minecraft_kurwa.src.generator.feature.trees.models {
 
                         byte distance = (byte)Math.Sqrt(x * x + y * y);
                         if ((distance < radius && random.Next(0, 8) != 0) || (distance >= radius && distance - 0.5f < radius && random.Next(0, 4) != 0)) {
-                            Global.VOXEL_MAP[posX + x, posY + y, posZ + height + layer] = leaveType;
+                            if (Global.VOXEL_MAP[posX + x, posY + y, posZ + height + layer] == null) {
+                                Global.VOXEL_MAP[posX + x, posY + y, posZ + height + layer] = leaveType;
+                            }
                         }
                     }
                 }

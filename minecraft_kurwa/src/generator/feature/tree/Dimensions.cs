@@ -3,7 +3,7 @@
 // ZlomenyMesic, KryKom
 //
 
-namespace minecraft_kurwa.src.generator.feature.trees {
+namespace minecraft_kurwa.src.generator.feature.tree {
     internal static class Dimensions {
         internal const ushort OAK_MIN_HEIGHT = 10;
         internal const ushort OAK_MAX_HEIGHT = 18;
@@ -26,7 +26,13 @@ namespace minecraft_kurwa.src.generator.feature.trees {
         internal const ushort CHERRY_MIN_HEIGHT = 15;
         internal const ushort CHERRY_MAX_HEIGHT = 19;
 
-        internal const ushort ACACIA_MIN_HEIGHT = 8;
-        internal const ushort ACACIA_MAX_HEIGHT = 12;
+        internal const ushort ACACIA_MIN_HEIGHT = 7;
+        internal const ushort ACACIA_MAX_HEIGHT = 11;
+
+        internal const ushort JACKALBERRY_MIN_HEIGHT = 8;
+        internal const ushort JACKALBERRY_MAX_HEIGHT = 12;
+
+        internal const ushort MAHOGANY_MIN_HEIGHT = 12;
+        internal const ushort MAHOGANY_MAX_HEIGHT = 18;
     }
 }

@@ -43,5 +43,17 @@ namespace minecraft_kurwa.src.renderer.voxels {
 
         ACACIA_LEAVES = 24,
         ACACIA_WOOD = 25,
+
+        CHERRY_LAUREL_LEAVES = 26,
+
+        JACKALBERRY_LEAVES = 27,
+        JACKALBERRY_WOOD = 28,
+
+        RAISIN_LEAVES = 29,
+
+        MAHOGANY_LEAVES = 30,
+        MAHOGANY_WOOD = 31,
+
+        DRY_GRASS = 32,
     }
 }

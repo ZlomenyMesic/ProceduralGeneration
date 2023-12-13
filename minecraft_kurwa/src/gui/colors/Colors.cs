@@ -47,7 +47,13 @@ namespace minecraft_kurwa.src.gui.colors {
             new(189, 150, 79),  // 23 - sandstone
             new(74, 113, 20),   // 24 - acacia leaves
             new(110, 100, 77),  // 25 - acacia wood
-            //new(56, 123, 0) // cool color (real)
+            new(45, 121, 36),   // 26 - cherry laurel leaves
+            new(104, 134, 37),  // 27 - jackalberry leaves
+            new(85, 98, 38),    // 28 - jackalberry wood
+            new(64, 101, 46),   // 29 - raisin leaves
+            new(50, 100, 10),   // 30 - mahogany leaves
+            new(112, 100, 65),  // 31 - mahogany wood
+            new(118, 147, 27),  // 32 - dry grass
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
@@ -55,7 +61,7 @@ namespace minecraft_kurwa.src.gui.colors {
 
             if (voxelType == (byte)VoxelType.GRASS) {
                 switch (biome) {
-                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color += new Vector3(70, 7, 20); break;    // super dry
+                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color += new Vector3(73, 7, 20); break;    // super dry
                     case 20 or 21 or 22 or 24 or 25: color += new Vector3(50, 5, 15); break;               // dry
                     case 10 or 11 or 12: color += new Vector3(15, 5, -2); break;                           // rainy
                     case 50 or 52 or 60 or 62 or 63 or 64: color = new(147, 192, 139); break;              // frozen
@@ -111,7 +117,7 @@ namespace minecraft_kurwa.src.gui.colors {
 
         internal static byte GetVoxelTransparency(byte? voxelType) {
             return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 or 21 => LEAVES_TRANSPARENCY,
+                8 or 10 or 12 or 14 or 16 or 19 or 21 or 24 or 26 or 27 or 29 or 30 => LEAVES_TRANSPARENCY,
                 _ => DEFAULT_TRANSPARENCY
             };
         }
