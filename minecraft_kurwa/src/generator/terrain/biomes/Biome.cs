@@ -50,8 +50,8 @@ namespace minecraft_kurwa.src.generator.terrain.biomes {
         internal static byte GetTopBlock(byte biome, Random random) {
             return biome switch {
                 1 => random.Next(0, 3) == 0 ? (byte)VoxelType.SANDSTONE : (byte)VoxelType.SAND,
-                2 => random.Next(0, 3) == 0 ? (byte)VoxelType.GRAVEL : (byte)VoxelType.STONE,
-                3 => random.Next(0, 3) == 0 ? (byte)VoxelType.STONE : (byte)VoxelType.GRAVEL,
+                2 => random.Next(0, 4) == 0 ? (byte)VoxelType.GRAVEL : (byte)VoxelType.STONE,
+                3 => random.Next(0, 4) == 0 ? (byte)VoxelType.STONE : (byte)VoxelType.GRAVEL,
                 4 => random.Next(0, 3) == 0 ? (byte)VoxelType.TERRACOTTA : (byte)VoxelType.SAND,
                 62 => random.Next(0, 2) == 0 ? (byte)VoxelType.ICE : (byte)VoxelType.SNOW,
                 5 or 23 => random.Next(0, 15) == 0 ? (byte)VoxelType.DRY_GRASS : (byte)VoxelType.GRASS,

@@ -17,8 +17,8 @@ namespace minecraft_kurwa.src.global {
         internal const string SKY_DOME_TEXTURE_SOURCE = ""; // default skydome_0
         internal const float SKY_ROTATION_SPEED = 0.2f;
 
-        internal static Vector3 CAM_TARGET; // position the camera is pointed to
         internal static Vector3 CAM_POSITION; // camera position
+        internal static Vector3 CAM_TARGET; // position the camera is pointed to
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];

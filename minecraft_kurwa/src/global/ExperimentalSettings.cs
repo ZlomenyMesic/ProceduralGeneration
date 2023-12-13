@@ -15,5 +15,7 @@ namespace minecraft_kurwa.src.global {
         internal readonly static float ANTI_RENDER_DISTANCE = 1f; // minimum distance to render (1f is optimal)
 
         internal readonly static bool INVERT_COLORS = false; // nightmare fuel
+
+        internal readonly static short NOISE_OFFSET = 30; // perlin noise output near [0, 0] is always the same
     }
 }

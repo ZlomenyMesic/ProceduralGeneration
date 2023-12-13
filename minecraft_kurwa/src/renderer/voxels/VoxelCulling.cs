@@ -8,7 +8,7 @@ using minecraft_kurwa.src.global;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal static class VoxelCulling {
-        internal static readonly Vector3 defaultCTPosition = new(0, 300, -350); // default camera target position relative to camera position
+        internal static readonly Vector3 defaultCTPosition = new(0, 300, -250); // default camera target position relative to camera position
 
         internal static ushort minRenderX = 0;
         internal static ushort maxRenderX = (ushort)(Settings.WORLD_SIZE - 1);

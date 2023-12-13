@@ -51,8 +51,8 @@ namespace minecraft_kurwa.src.generator.terrain.noise {
             double value = 0, size = defaultSize, initialSize = size;
 
             while (size >= 1) {
-                value += SmoothNoise(x / size, y / size, 0f / size) * size;
-                size /= 2.0;
+                value += SmoothNoise(x / size, y / size, 0f) * size;
+                size /= 2.0f;
             }
             return value / initialSize;
         }

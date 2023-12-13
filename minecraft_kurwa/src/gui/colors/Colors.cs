@@ -49,7 +49,7 @@ namespace minecraft_kurwa.src.gui.colors {
             new(110, 100, 77),  // 25 - acacia wood
             new(45, 121, 36),   // 26 - cherry laurel leaves
             new(104, 134, 37),  // 27 - jackalberry leaves
-            new(85, 98, 38),    // 28 - jackalberry wood
+            new(85, 98, 58),    // 28 - jackalberry wood
             new(64, 101, 46),   // 29 - raisin leaves
             new(50, 100, 10),   // 30 - mahogany leaves
             new(112, 100, 65),  // 31 - mahogany wood

@@ -5,6 +5,7 @@
 
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.generator.terrain.noise;
+using System;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes
 {
@@ -17,17 +18,16 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             // main biome type
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                    Global.BIOME_MAP[x, y, 0] = (byte)((int)(p.Noise((double)x / Settings.BIOME_SCALE, (double)y / Settings.BIOME_SCALE) * 10) * -10);
-                }
+                    Global.BIOME_MAP[x, y, 0] = (byte)((int)(p.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.BIOME_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.BIOME_SCALE) * 10) * -10);                }
             }
 
-            // prevention of the noises being same
+            // prevention of the noises being identical
             p.seed += 1;
 
             // subbiome type
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                    subbiomeType[x, y, 0] = (byte)((int)(p.Noise((double)x / Settings.SUBBIOME_SCALE, (double)y / Settings.SUBBIOME_SCALE) * 3) + 3);
+                    subbiomeType[x, y, 0] = (byte)((int)(p.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.SUBBIOME_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.SUBBIOME_SCALE) * 3) + 3);
                 }
             }
 

@@ -22,7 +22,7 @@ namespace minecraft_kurwa.src.generator.terrain
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
 
                     // primary height
-                    ushort pHeight = (ushort)Math.Abs(perlinNoise.Noise((double)x / Settings.MAIN_NOISE_SCALE, (double)y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                    ushort pHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
                     (string operation, float numerator)[] pOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 0]);
 
                     for (byte i = 0; i < pOperations.Length; i++) {
@@ -35,7 +35,7 @@ namespace minecraft_kurwa.src.generator.terrain
                         }
                     }
 
-                    ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)x / Settings.MAIN_NOISE_SCALE, (double)y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                    ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
                     (string operation, float numerator)[] sOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 2]);
 
                     for (byte i = 0; i < sOperations.Length; i++) {
@@ -48,7 +48,7 @@ namespace minecraft_kurwa.src.generator.terrain
                         }
                     }
 
-                    ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)x / Settings.MAIN_NOISE_SCALE, (double)y / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                    ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
                     (string operation, float numerator)[] tOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 3]);
 
                     for (byte i = 0; i < tOperations.Length; i++) {
@@ -60,6 +60,8 @@ namespace minecraft_kurwa.src.generator.terrain
                             tHeight = (ushort)(tHeight + tOperations[i].numerator);
                         }
                     }
+
+                    Global.HEIGHT_MAP[x, y] = pHeight;
 
                     if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
                         Global.HEIGHT_MAP[x, y] = pHeight;
