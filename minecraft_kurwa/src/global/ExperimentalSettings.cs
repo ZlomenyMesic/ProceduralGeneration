@@ -10,12 +10,14 @@ namespace minecraft_kurwa.src.global {
 
         internal static bool TRANSPARENT_TEXTURES = true; // support transparent textures?
 
-        internal readonly static float ASPECT_RATIO = 16 / 9; // default 16 / 9
+        internal static float ASPECT_RATIO = 16 / 9; // default 16 / 9
 
-        internal readonly static float ANTI_RENDER_DISTANCE = 1f; // minimum distance to render (1f is optimal)
+        internal static float ANTI_RENDER_DISTANCE = 1f; // minimum distance to render (1f is optimal)
 
-        internal readonly static bool INVERT_COLORS = false; // nightmare fuel
+        internal static short ZOOM_LEVEL = 40; // zoom in
 
-        internal readonly static short NOISE_OFFSET = 30; // perlin noise output near [0, 0] is always the same
+        internal static bool INVERT_COLORS = false; // nightmare fuel
+
+        internal static short NOISE_OFFSET = 30; // perlin noise output near [0, 0] is always the same
     }
 }

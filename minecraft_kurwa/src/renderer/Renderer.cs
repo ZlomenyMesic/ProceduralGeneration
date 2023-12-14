@@ -95,5 +95,9 @@ namespace minecraft_kurwa.src.renderer {
                 new Vector2(30, 30), Color.White);
             spriteBatch.End();
         }
+
+        internal static void UpdateProjectionMatrix() {
+            PROJECTION_MATRIX = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
+        }
     }
 }

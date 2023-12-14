@@ -40,9 +40,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
         internal void AddVoxel(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ, Color color, byte transparency = 100) {
             voxels[voxelCounter++] = new(posX, posY, posZ, sizeX, sizeY, sizeZ, null, indexCounter, transparency);
 
-            Vector3 originalColor = !ExperimentalSettings.INVERT_COLORS
-                ? color.ToVector3()
-                : new(1 - color.R / 255f, 1 - color.G / 255f, 1 - color.B / 255f);
+            Vector3 originalColor = color.ToVector3();
             Vector3 adjustedColor;
 
             bool[] visible = VoxelCulling.GetVisibleSides(posX, posY, posZ, sizeX, sizeY, sizeZ);

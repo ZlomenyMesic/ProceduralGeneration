@@ -18,5 +18,7 @@ namespace minecraft_kurwa.src.gui.input {
         internal const Keys DOWN = Keys.LeftShift;
 
         internal const Keys DEBUG_MENU = Keys.E;
+
+        internal const Keys ZOOM_IN = Keys.V;
     }
 }
