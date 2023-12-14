@@ -14,7 +14,7 @@ namespace minecraft_kurwa.src.global {
         internal static int RENDER_DISTANCE = 8000;
 
         internal static int SENSIBILITY = 200; // higher value => faster mouse
-        internal static int MOVEMENT_SPEED = 50; // higher value => faster movement
+        internal static int MOVEMENT_SPEED = 30; // higher value => faster movement
 
         internal static int WORLD_SIZE = 500;
         internal static int HEIGHT_LIMIT = 220;
