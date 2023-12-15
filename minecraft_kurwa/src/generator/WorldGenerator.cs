@@ -9,7 +9,7 @@ using minecraft_kurwa.src.generator.terrain.biomes;
 using minecraft_kurwa.src.generator.terrain;
 using minecraft_kurwa.src.generator.feature.tree;
 using minecraft_kurwa.src.generator.feature.water;
-using minecraft_kurwa.src.generator.feature.bush;
+using minecraft_kurwa.src.generator.feature.shrub;
 
 namespace minecraft_kurwa.src.generator {
     internal class WorldGenerator {

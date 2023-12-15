@@ -7,7 +7,7 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.bush {
+namespace minecraft_kurwa.src.generator.feature.shrub {
     internal static class ShrubGenerator {
         internal static void Generate() {
             ushort maxCount = (ushort)(Settings.WORLD_SIZE * Settings.WORLD_SIZE * Settings.BUSH_DENSITY / 10_000);

@@ -5,7 +5,7 @@
 
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
-using minecraft_kurwa.src.generator.feature.tree.models;
+using minecraft_kurwa.src.generator.feature.tree.types;
 using System;
 
 namespace minecraft_kurwa.src.generator.feature.tree {

@@ -8,7 +8,7 @@ namespace minecraft_kurwa.src.global {
         internal readonly static int RENDER_TARGET_WIDTH = Settings.WINDOW_WIDTH * 2;   // resolution
         internal readonly static int RENDER_TARGET_HEIGHT = Settings.WINDOW_HEIGHT * 2; // window size * 2 for good quality (real)
 
-        internal static float JOSH_TRANSPARENCY = 0.2f; // josh
+        internal static float JOSH_TRANSPARENCY = 0f; // josh
 
         internal static bool TRANSPARENT_VOXELS = true; // support transparent textures?
 

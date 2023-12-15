@@ -14,7 +14,7 @@ namespace minecraft_kurwa.src.global {
         internal static int RENDER_DISTANCE = 8000;
 
         internal static int SENSIBILITY = 200; // higher value => faster mouse
-        internal static int MOVEMENT_SPEED = 30; // higher value => faster movement
+        internal static int MOVEMENT_SPEED = 25; // higher value => faster movement
 
         internal static int WORLD_SIZE = 550;
         internal static int HEIGHT_LIMIT = 250;
@@ -25,7 +25,7 @@ namespace minecraft_kurwa.src.global {
         internal static int BIOME_SCALE = 80;
         internal static int SUBBIOME_SCALE = 12;
 
-        internal static int WATER_LEVEL = 4;
+        internal static int WATER_LEVEL = 7;
         internal static int OCEAN_SCALE = 90;
         internal static int POND_DENSITY = 50;
         internal static int FREEZING_DISTANCE = 20;     // any water block closer to a polar biome than this will freeze

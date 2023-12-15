@@ -75,7 +75,7 @@ namespace minecraft_kurwa.src.renderer {
             spriteBatch.End();
 
             spriteBatch.Begin();
-            spriteBatch.Draw(Content.josh, new Rectangle(new(0, 0), new(Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT)), Color.White * ExperimentalSettings.JOSH_TRANSPARENCY);
+            if (ExperimentalSettings.JOSH_TRANSPARENCY != 0) spriteBatch.Draw(Content.josh, new Rectangle(new(0, 0), new(Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT)), Color.White * ExperimentalSettings.JOSH_TRANSPARENCY);
             if (KeyboardHandler.debugMenuStateOpen) spriteBatch.DrawString(Content.defaultFont,
                 $"Camera position:\n" +
                 $"X: {Global.CAM_POSITION.X}\n" +

@@ -7,7 +7,7 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.tree.models {
+namespace minecraft_kurwa.src.generator.feature.tree.types {
     internal class BasicDeciduousTree : Tree {
         internal BasicDeciduousTree(ushort posX, ushort posY, ushort posZ, byte height, VoxelType leaveType, VoxelType woodType) : base(posX, posY, posZ, height, leaveType, woodType) { }
 

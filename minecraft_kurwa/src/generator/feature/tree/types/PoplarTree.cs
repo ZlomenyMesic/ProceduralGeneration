@@ -7,7 +7,7 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.generator.feature.tree.models {
+namespace minecraft_kurwa.src.generator.feature.tree.types {
     internal class PoplarTree : Tree {
         internal PoplarTree(ushort posX, ushort posY, ushort posZ, byte height) : base(posX, posY, posZ, height, VoxelType.POPLAR_LEAVES, VoxelType.POPLAR_WOOD) { }
 
