@@ -39,12 +39,10 @@ namespace minecraft_kurwa.src.renderer.voxels {
                             grid[x, y, z] = new(x, y, z, 1, 1, 1, voxelMap[x, y, z], 0, 0);
                             voxelMap[x, y, z] = null;
                             last = x;
-                        }
-                        else if (last != ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x + 1, y, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x + 1, y, 0]) {
+                        } else if (last != ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x + 1, y, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x + 1, y, 0]) {
                             grid[last, y, z].sizeX++;
                             voxelMap[x, y, z] = null;
-                        }
-                        else if (last != ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && (voxelMap[x, y, z] != voxelMap[x + 1, y, z] || Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x + 1, y, 0])) {
+                        } else if (last != ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && (voxelMap[x, y, z] != voxelMap[x + 1, y, z] || Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x + 1, y, 0])) {
                             grid[last, y, z].sizeX++;
                             voxelMap[x, y, z] = null;
                             last = ushort.MaxValue;
@@ -65,14 +63,12 @@ namespace minecraft_kurwa.src.renderer.voxels {
                                 voxelMap[x, y, z] = null;
                                 last = y;
                             }
-                        }
-                        else if (last != ushort.MaxValue && y != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x, y + 1, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x, y + 1, 0]) {
+                        } else if (last != ushort.MaxValue && y != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x, y + 1, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x, y + 1, 0]) {
                             if (voxelMap[x, y, z] != null) {
                                 grid[x, last, z].sizeZ++;
                                 voxelMap[x, y, z] = null;
                             }
-                        }
-                        else if (last != ushort.MaxValue && y != Settings.WORLD_SIZE - 1 && (voxelMap[x, y, z] != voxelMap[x, y + 1, z] || Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y + 1, 0])) {
+                        } else if (last != ushort.MaxValue && y != Settings.WORLD_SIZE - 1 && (voxelMap[x, y, z] != voxelMap[x, y + 1, z] || Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y + 1, 0])) {
                             if (voxelMap[x, y, z] != null) {
                                 grid[x, last, z].sizeZ++;
                                 voxelMap[x, y, z] = null;
@@ -104,7 +100,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (grid[x, y, z].type != null) {
-                            AddBlock(x, z, y, grid[x, y, z].sizeX, grid[x, y, z].sizeY, grid[x, y, z].sizeZ, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), ExperimentalSettings.TRANSPARENT_TEXTURES ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
+                            AddBlock(x, z, y, grid[x, y, z].sizeX, grid[x, y, z].sizeY, grid[x, y, z].sizeZ, ColorManager.GetVoxelColor(grid[x, y, z].type, Global.BIOME_MAP[x, y, 0], z, x * y * z), ExperimentalSettings.TRANSPARENT_VOXELS ? ColorManager.GetVoxelTransparency(grid[x, y, z].type) : (byte)100);
                         }
                     }
                 }

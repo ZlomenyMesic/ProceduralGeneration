@@ -12,12 +12,12 @@ using minecraft_kurwa.src.gui.input;
 using minecraft_kurwa.src.renderer.view;
 using minecraft_kurwa.src.renderer.sky;
 using minecraft_kurwa.src.renderer.voxels;
+using minecraft_kurwa.src.global.resources;
 using System;
 
 namespace minecraft_kurwa.src.renderer {
     internal static class Renderer {
         internal static SpriteBatch spriteBatch;
-        internal static SpriteFont defaultFont;
 
         internal static RenderTarget2D renderTarget;
 
@@ -75,7 +75,8 @@ namespace minecraft_kurwa.src.renderer {
             spriteBatch.End();
 
             spriteBatch.Begin();
-            if (KeyboardHandler.debugMenuStateOpen) spriteBatch.DrawString(defaultFont,
+            spriteBatch.Draw(Content.josh, new Rectangle(new(0, 0), new(Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT)), Color.White * ExperimentalSettings.JOSH_TRANSPARENCY);
+            if (KeyboardHandler.debugMenuStateOpen) spriteBatch.DrawString(Content.defaultFont,
                 $"Camera position:\n" +
                 $"X: {Global.CAM_POSITION.X}\n" +
                 $"Y: {Global.CAM_POSITION.Y}\n" +
