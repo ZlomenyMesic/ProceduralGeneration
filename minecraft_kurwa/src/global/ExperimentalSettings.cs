@@ -20,6 +20,9 @@ namespace minecraft_kurwa.src.global {
 
         internal static bool INVERT_COLORS = true; // nightmare fuel
 
-        internal static short NOISE_OFFSET = 30; // perlin noise output near [0, 0] is always the same
+
+        // perlin noise output near [0, 0] is always the same
+        // must be AT LEAST 30 to not generate any gravel around [0, 0]
+        internal static short NOISE_OFFSET = 30;
     }
 }
