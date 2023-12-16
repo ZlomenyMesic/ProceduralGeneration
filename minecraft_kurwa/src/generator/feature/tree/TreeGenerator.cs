@@ -45,7 +45,7 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                     trees[treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
                 }
                 else if (biome == 5 || biome == 23) {
-                    trees[treeCount++] = Global.RANDOM.Next(0, 25) switch {
+                    trees[treeCount++] = Global.RANDOM.Next(0, 20) switch {
                         0 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.JACKALBERRY_MIN_HEIGHT, Dimensions.JACKALBERRY_MAX_HEIGHT), VoxelType.JACKALBERRY_LEAVES, VoxelType.JACKALBERRY_WOOD),
                         1 or 2 or 3 or 4 or 5 => new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT)),
                         _ => null

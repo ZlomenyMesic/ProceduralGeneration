@@ -27,7 +27,7 @@ namespace minecraft_kurwa.src.generator.feature.tree {
         internal const ushort CHERRY_MAX_HEIGHT = 19;
 
         internal const ushort ACACIA_MIN_HEIGHT = 7;
-        internal const ushort ACACIA_MAX_HEIGHT = 11;
+        internal const ushort ACACIA_MAX_HEIGHT = 10;
 
         internal const ushort JACKALBERRY_MIN_HEIGHT = 8;
         internal const ushort JACKALBERRY_MAX_HEIGHT = 12;
