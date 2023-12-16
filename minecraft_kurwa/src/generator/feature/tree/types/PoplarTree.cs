@@ -12,8 +12,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
         internal PoplarTree(ushort posX, ushort posY, ushort posZ, byte height) : base(posX, posY, posZ, height, VoxelType.POPLAR_LEAVES, VoxelType.POPLAR_WOOD) { }
 
         internal override void Build() {
-            Random random = new(Settings.SEED * posX * posY * posZ * height);
-            for (byte z = (byte)(height / random.Next(4, 6)); z < height; z++) {
+            for (byte z = (byte)(height / Global.RANDOM.Next(4, 6)); z < height; z++) {
                 if (posX + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX + 1, posY, posZ + z] = leaveType;
                 if (posX - 1 >= 0) Global.VOXEL_MAP[posX - 1, posY, posZ + z] = leaveType;
                 if (posY + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[posX, posY + 1, posZ + z] = leaveType;
@@ -27,7 +26,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                             if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
                             if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
-                                if (random.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = leaveType;
+                                if (Global.RANDOM.Next(0, 4) != 0) Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = leaveType;
                             }
                         }
                     }

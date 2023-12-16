@@ -5,6 +5,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace minecraft_kurwa.src.global {
     internal static class Global {
@@ -19,6 +20,8 @@ namespace minecraft_kurwa.src.global {
 
         internal static Vector3 CAM_POSITION; // camera position
         internal static Vector3 CAM_TARGET; // position the camera is pointed to
+
+        internal static Random RANDOM;
 
         internal static ushort[,] HEIGHT_MAP = new ushort[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         internal static byte?[,,] VOXEL_MAP = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];

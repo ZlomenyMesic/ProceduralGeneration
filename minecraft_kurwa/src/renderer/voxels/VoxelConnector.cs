@@ -10,7 +10,7 @@ using minecraft_kurwa.src.global;
 namespace minecraft_kurwa.src.renderer.voxels {
     internal static class VoxelConnector {
         internal static VoxelStructure[] world;
-        private static Voxel[,,] grid;
+        private static Voxel2[,,] grid;
 
         internal static int voxelCounter = 0; // how many voxels is in the scene
         private static int voxelStructCount = 0;
@@ -18,7 +18,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
 
         // creates a grid with identical voxels connected into bigger blocks
         internal static void CreateGrid() {
-            grid = new Voxel[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
+            grid = new Voxel2[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
             byte?[,,] voxelMap = new byte?[Settings.WORLD_SIZE, Settings.WORLD_SIZE, Settings.HEIGHT_LIMIT];
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -36,7 +36,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                     ushort last = ushort.MaxValue;
                     for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                         if (last == ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x + 1, y, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x + 1, y, 0]) {
-                            grid[x, y, z] = new(x, y, z, 1, 1, 1, voxelMap[x, y, z], 0, 0);
+                            grid[x, y, z] = new(1, 1, 1, voxelMap[x, y, z]);
                             voxelMap[x, y, z] = null;
                             last = x;
                         } else if (last != ushort.MaxValue && x != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x + 1, y, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x + 1, y, 0]) {
@@ -59,7 +59,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                     for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                         if (last == ushort.MaxValue && y != Settings.WORLD_SIZE - 1 && voxelMap[x, y, z] == voxelMap[x, y + 1, z] && Global.BIOME_MAP[x, y, 0] == Global.BIOME_MAP[x, y + 1, 0]) {
                             if (voxelMap[x, y, z] != null) {
-                                grid[x, y, z] = new(x, y, z, 1, 1, 1, voxelMap[x, y, z], 0, 0);
+                                grid[x, y, z] = new(1, 1, 1, voxelMap[x, y, z]);
                                 voxelMap[x, y, z] = null;
                                 last = y;
                             }
@@ -84,7 +84,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (voxelMap[x, y, z] != null) {
-                            grid[x, y, z] = new(x, y, z, 1, 1, 1, voxelMap[x, y, z], 0, 0);
+                            grid[x, y, z] = new(1, 1, 1, voxelMap[x, y, z]);
                             voxelMap[x, y, z] = null;
                         }
                     }

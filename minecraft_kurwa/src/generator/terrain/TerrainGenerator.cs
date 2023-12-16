@@ -14,8 +14,6 @@ namespace minecraft_kurwa.src.generator.terrain
 
         internal static void GenerateHeightMap() {
             PerlinNoise perlinNoise = new(Settings.SEED);
-            Random random = new(Settings.SEED);
-
 
             // main generation handling
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -80,41 +78,41 @@ namespace minecraft_kurwa.src.generator.terrain
                     for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                         if (x < Settings.WORLD_SIZE - 1) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
 
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
                         }
 
                         if (x > 0) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
 
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
                         }
 
                         if (y < Settings.WORLD_SIZE - 1) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
 
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
                         }
 
                         if (y > 0) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
 
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + random.Next(-1, 1));
+                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
                         }
                     }

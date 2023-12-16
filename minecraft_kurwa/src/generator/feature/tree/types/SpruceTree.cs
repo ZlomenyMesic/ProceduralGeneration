@@ -12,9 +12,8 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
         internal SpruceTree(ushort posX, ushort posY, ushort posZ, byte height) : base(posX, posY, posZ, height, VoxelType.SPRUCE_LEAVES, VoxelType.SPRUCE_WOOD) { }
 
         internal override void Build() {
-            Random random = new(Settings.SEED * posX * posY * posZ * height);
             float diameter = height * 2 / 5;
-            byte bottom = (byte)(height / random.Next(4, 6));
+            byte bottom = (byte)(height / Global.RANDOM.Next(4, 6));
 
             for (short z = bottom; z < height; z += 2) {
                 for (short x = (short)(-diameter / 2); x <= diameter / 2; x++) {
@@ -24,7 +23,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                         if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
                         float distance = (float)Math.Sqrt(x * x + y * y);
-                        if (distance < diameter / 2 && random.Next(0, 6) != 0) {
+                        if (distance < diameter / 2 && Global.RANDOM.Next(0, 6) != 0) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = leaveType;
                             }

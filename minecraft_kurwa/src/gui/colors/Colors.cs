@@ -39,7 +39,7 @@ namespace minecraft_kurwa.src.gui.colors {
             new(125, 110, 86),  // 15 - beech wood
             new(209, 169, 7),   // 16 - maple leaves
             new(51, 42, 38),    // 17 - maple wood
-            new(23, 75, 144),   // 18 - water
+            new(26,84,106),     // 18 - water
             new(93, 146, 37),   // 19 - poplar leaves
             new(120, 113, 100), // 20 - poplar wood
             new(255, 183, 197), // 21 - cherry leaves
@@ -54,6 +54,8 @@ namespace minecraft_kurwa.src.gui.colors {
             new(50, 100, 10),   // 30 - mahogany leaves
             new(112, 100, 65),  // 31 - mahogany wood
             new(118, 147, 27),  // 32 - dry grass
+            new(86, 68, 54),    // 33 - mud
+            new(0, 0, 0)        // 34 - river rock
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
@@ -107,9 +109,24 @@ namespace minecraft_kurwa.src.gui.colors {
             }
             else if (voxelType == (byte)VoxelType.WATER) {
                 switch (biome) {
-                    case 50 or 51 or 52 or 60 or 61 or 62 or 63 or 64: color += new Vector3(20, 40, 20); break; // half-frozen water
+                    case 50 or 51 or 52 or 60 or 61 or 62 or 63 or 64: color += new Vector3(10, 20, 10); break; // half-frozen water
                     default: break;
                 }
+            }
+            else if (voxelType == (byte)VoxelType.MUD) {
+                switch (biome) {
+                    case 5 or 6 or 20 or 21 or 22 or 23 or 24 or 25: color = new(104, 86, 72); break;
+                    default: break;
+                }
+            }
+            else if (voxelType == (byte)VoxelType.RIVER_ROCK) {
+                color = Global.RANDOM.Next(0, 4) switch {
+                    0 => new(198, 191, 184),
+                    1 => new(158, 157, 156),
+                    2 => new(185, 156, 150),
+                    3 => new(104, 90, 96),
+                    _ => COLORS[0].ToVector3() // shouldn't happen
+                };
             }
 
             return new(color.X / 255, color.Y / 255, color.Z / 255);

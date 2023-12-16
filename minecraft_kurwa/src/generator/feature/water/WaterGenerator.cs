@@ -3,20 +3,15 @@
 // ZlomenyMesic, KryKom
 //
 
-using System;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class WaterGenerator {
-
-
         internal static void Generate() {
-            Random random = new(Settings.SEED);
-
             FillWaterLevel();
-            Ponds.Generate(random);
-            WaterFreezing.Freeze(random);
+            Ponds.Generate();
+            WaterFreezing.Freeze();
         }
 
         private static void FillWaterLevel() {
@@ -25,7 +20,12 @@ namespace minecraft_kurwa.src.generator.feature.water {
                     if (Global.HEIGHT_MAP[x, y] < Settings.WATER_LEVEL) {
                         Global.VOXEL_MAP[x, y, Settings.WATER_LEVEL] = (byte)VoxelType.WATER;
                         Global.HEIGHT_MAP[x, y] = (ushort)Settings.WATER_LEVEL;
-                    }
+                    } else if (Global.HEIGHT_MAP[x, y] ==  Settings.WATER_LEVEL || (Global.HEIGHT_MAP[x, y] == Settings.WATER_LEVEL + 1 && Global.RANDOM.Next(0, 3) != 0) || (Global.HEIGHT_MAP[x, y] == Settings.WATER_LEVEL + 2 && Global.RANDOM.Next(0, 3) == 0)) {
+                        byte biome = Global.BIOME_MAP[x, y, 0];
+                        if (biome > 4) Global.VOXEL_MAP[x, y, Global.HEIGHT_MAP[x, y]] = Global.RANDOM.Next(0, 6) != 0
+                                ? (byte)VoxelType.MUD
+                                : (byte)VoxelType.RIVER_ROCK;
+                    } 
                 }
             }
         }

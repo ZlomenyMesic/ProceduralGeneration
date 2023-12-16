@@ -14,34 +14,34 @@ namespace minecraft_kurwa.src.generator.feature.water {
         private const byte MIN_POND_SIZE = 6;
         private const byte MAX_POND_SIZE = 13;
 
-        internal static void Generate(Random random) {
+        internal static void Generate() {
             ushort maxCount = (ushort)(Settings.WORLD_SIZE * Settings.WORLD_SIZE * Settings.POND_DENSITY / 10_000);
             Vector2[] existing = new Vector2[maxCount];
             ushort existingCounter = 0;
 
             for (ushort i = 0; i < maxCount; i++) {
-                ushort x = (ushort)random.Next(0, Settings.WORLD_SIZE - 1);
-                ushort y = (ushort)random.Next(0, Settings.WORLD_SIZE - 1);
+                ushort x = (ushort)Global.RANDOM.Next(0, Settings.WORLD_SIZE - 1);
+                ushort y = (ushort)Global.RANDOM.Next(0, Settings.WORLD_SIZE - 1);
 
                 for (ushort j = 0; j < existingCounter; j++) {
                     if (Math.Abs(existing[j].X - x) <= MAX_POND_SIZE && Math.Abs(existing[j].Y - y) <= MAX_POND_SIZE) goto exit;
                 }
 
-                ushort sizeX = (ushort)random.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
-                ushort sizeY = (ushort)random.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
+                ushort sizeX = (ushort)Global.RANDOM.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
+                ushort sizeY = (ushort)Global.RANDOM.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
 
-                ushort x2 = (ushort)(x + random.Next(-1, 2));
-                ushort y2 = (ushort)(y + random.Next(-1, 2));
+                ushort x2 = (ushort)(x + Global.RANDOM.Next(-1, 2));
+                ushort y2 = (ushort)(y + Global.RANDOM.Next(-1, 2));
 
                 (ushort, ushort) diff = GetPondHeightDifferences(x, y, sizeX, sizeY);
                 (ushort, ushort) diff2 = GetPondHeightDifferences(x2, y2, sizeY, sizeX);
 
                 if (diff.Item1 > 2 || diff2.Item1 > 2) goto exit;
 
-                if (random.Next(0, 2) == 0) diff.Item2--; // sometimes ponds will generate one block lower
+                if (Global.RANDOM.Next(0, 2) == 0) diff.Item2--; // sometimes ponds will generate one block lower
 
-                GeneratePond(x, y, sizeX, sizeY, diff.Item2, random);
-                GeneratePond(x2, y2, sizeY, sizeX, diff.Item2, random);
+                GeneratePond(x, y, sizeX, sizeY, diff.Item2, Global.RANDOM);
+                GeneratePond(x2, y2, sizeY, sizeX, diff.Item2, Global.RANDOM);
 
                 existing[existingCounter++] = new Vector2(x, y);
 
@@ -61,8 +61,8 @@ namespace minecraft_kurwa.src.generator.feature.water {
                     if (x - 0.5f >= sizeX / 2 * 3 / 5 && y + 1.0f < -sizeY / 2 * 3 / 5) continue;
                     if (x + 1.0f < -sizeX / 2 * 3 / 5 && y + 1.0f < -sizeY / 2 * 3 / 5) continue;
 
-                    if ((x == -sizeX / 2 || x == sizeX / 2 - 1) && random.Next(0, 3) == 0) continue;
-                    if ((y == -sizeY / 2 || y == sizeY / 2 - 1) && random.Next(0, 3) == 0) continue;
+                    if ((x == -sizeX / 2 || x == sizeX / 2 - 1) && Global.RANDOM.Next(0, 3) == 0) continue;
+                    if ((y == -sizeY / 2 || y == sizeY / 2 - 1) && Global.RANDOM.Next(0, 3) == 0) continue;
 
                     Global.VOXEL_MAP[posX + x, posY + y, waterLevel] = (byte)VoxelType.WATER;
                     Global.VOXEL_MAP[posX + x, posY + y, waterLevel + 1] = null;

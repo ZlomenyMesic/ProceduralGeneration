@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal class VoxelStructure {
-        private readonly Voxel[] voxels;
+        private readonly Voxel1[] voxels;
 
         private readonly IndexBuffer indexBuffer;
         private readonly VertexBuffer vertexBuffer;
@@ -29,7 +29,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
         internal const ushort MAX_INDEX_COUNT = MAX_VOXEL_COUNT * 36;
 
         internal VoxelStructure() {
-            voxels = new Voxel[MAX_VOXEL_COUNT];
+            voxels = new Voxel1[MAX_VOXEL_COUNT];
             vertices = new VertexPositionColor[MAX_VERTEX_COUNT];
             indices = new ushort[MAX_INDEX_COUNT];
 
@@ -38,7 +38,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
         }
 
         internal void AddVoxel(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ, Color color, byte transparency = 100) {
-            voxels[voxelCounter++] = new(posX, posY, posZ, sizeX, sizeY, sizeZ, null, indexCounter, transparency);
+            voxels[voxelCounter++] = new(posX, posY, posZ, sizeX, sizeY, sizeZ, indexCounter, transparency);
 
             Vector3 originalColor = color.ToVector3();
             Vector3 adjustedColor;
@@ -108,7 +108,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
             Global.GRAPHICS_DEVICE.Indices = indexBuffer;
 
             for (int i = 0; i < voxelCounter; i++) {
-                Voxel cache = voxels[i];
+                Voxel1 cache = voxels[i];
                 if (!VoxelCulling.ShouldRender(cache.posX, cache.posZ, cache.sizeX, cache.sizeZ)) continue;
 
                 /* TESTY

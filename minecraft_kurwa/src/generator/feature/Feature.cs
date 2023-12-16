@@ -15,18 +15,18 @@ namespace minecraft_kurwa.src.generator.feature {
     internal class Feature {
 
         internal static (FeatureType featureType, int desity)[] GetFeatures(BiomeType biome) {
-            switch (biome) {
-                case BiomeType.POLAR_TAIGA: return new[] { (FeatureType.BUSH_POLAR_SMALL, 10), (FeatureType.BUSH_POLAR_LARGE, 5), (FeatureType.TREE_PINE_LARGE, 50), (FeatureType.TREE_PINE_SMALL, 70) };
-                default: return new[] { (FeatureType.GRASS_SHORT, 10) };
-            }
+            return biome switch {
+                BiomeType.POLAR_TAIGA => new[] { (FeatureType.BUSH_POLAR_SMALL, 10), (FeatureType.BUSH_POLAR_LARGE, 5), (FeatureType.TREE_PINE_LARGE, 50), (FeatureType.TREE_PINE_SMALL, 70) },
+                _ => new[] { (FeatureType.GRASS_SHORT, 10) },
+            };
         }
         
         internal static (byte wood, byte leaves) GetTreeBlocks(FeatureType feature) {
-            switch (feature) {
-                case FeatureType.TREE_PINE_LARGE: return (0, 0);
-                case FeatureType.BUSH: return (0, 0);
-                default: return ((byte) VoxelType.OAK_WOOD, (byte) VoxelType.OAK_LEAVES);
-            }
+            return feature switch {
+                FeatureType.TREE_PINE_LARGE => ((byte wood, byte leaves))(0, 0),
+                FeatureType.BUSH => ((byte wood, byte leaves))(0, 0),
+                _ => ((byte)VoxelType.OAK_WOOD, (byte)VoxelType.OAK_LEAVES),
+            };
         }
     }
 

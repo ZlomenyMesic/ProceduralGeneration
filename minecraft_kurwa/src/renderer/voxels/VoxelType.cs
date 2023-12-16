@@ -55,5 +55,9 @@ namespace minecraft_kurwa.src.renderer.voxels {
         MAHOGANY_WOOD = 31,
 
         DRY_GRASS = 32,
+
+        MUD = 33,
+
+        RIVER_ROCK = 34,
     }
 }

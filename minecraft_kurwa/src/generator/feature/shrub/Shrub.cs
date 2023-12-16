@@ -13,7 +13,6 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
         internal static ushort MAX_SHRUB_SIZE = 8;
 
         internal static void Build(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, VoxelType leaves, bool main = true) {
-            Random random = new(Settings.SEED >> 1);
             int sizeZ = (sizeX + sizeY) / 3;
 
             for (short x = (short)(-sizeX / 2); x <= sizeX / 2; x++) {
@@ -25,7 +24,7 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
                     for (short z = (short)(-sizeZ / 2); z <= sizeZ / 2; z++) {
                         if (posZ + z < 0 || posZ + z >= Settings.HEIGHT_LIMIT) continue;
 
-                        if (Ellipsoid(x, y, z, (short)(sizeX / 2), (short)(sizeY / 2), (short)(sizeZ / 2)) && random.Next(0, 2) != 0) {
+                        if (Ellipsoid(x, y, z, (short)(sizeX / 2), (short)(sizeY / 2), (short)(sizeZ / 2)) && Global.RANDOM.Next(0, 2) != 0) {
                             if (Global.HEIGHT_MAP[posX + x, posY + y] < posZ + z && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)leaves;
                             }
@@ -35,7 +34,7 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
             }
 
             // 50 % chance to generate another bush for better shapes
-            if (main && random.Next(0, 2) == 0) Build((ushort)(posX + random.Next(-2, 3)), (ushort)(posY + random.Next(-2, 3)), posZ, (ushort)(random.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), (ushort)(random.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), leaves, false);
+            if (main && Global.RANDOM.Next(0, 2) == 0) Build((ushort)(posX + Global.RANDOM.Next(-2, 3)), (ushort)(posY + Global.RANDOM.Next(-2, 3)), posZ, (ushort)(Global.RANDOM.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), (ushort)(Global.RANDOM.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), leaves, false);
         }
 
         private static bool Ellipsoid(short x, short y, short z, short a, short b, short c) {

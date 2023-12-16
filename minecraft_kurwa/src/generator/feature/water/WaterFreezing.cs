@@ -9,13 +9,13 @@ using System;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class WaterFreezing {
-        internal static void Freeze(Random random) {
+        internal static void Freeze() {
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                     for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
                         if (Global.VOXEL_MAP[x, y, z] == (byte)VoxelType.WATER) {
-                            Global.VOXEL_MAP[x, y, z] = CanFreeze(x, y, (ushort)random.Next(Settings.FREEZING_DISTANCE, Settings.MAX_FREEZING_DISTANCE))
-                                ? random.Next(0, 100) > Settings.ICE_HOLES - 1
+                            Global.VOXEL_MAP[x, y, z] = CanFreeze(x, y, (ushort)Global.RANDOM.Next(Settings.FREEZING_DISTANCE, Settings.MAX_FREEZING_DISTANCE))
+                                ? Global.RANDOM.Next(0, 100) > Settings.ICE_HOLES - 1
                                     ? (byte)VoxelType.ICE
                                     : (byte)VoxelType.WATER
                                 : (byte)VoxelType.WATER;
