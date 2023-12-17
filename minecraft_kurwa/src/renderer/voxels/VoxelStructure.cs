@@ -94,6 +94,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
         private void AddTriangle(ushort a, ushort b, ushort c) {
             triangleCounter++;
             voxels[voxelCounter].triangles++;
+
             indices[indexCounter++] = a;
             indices[indexCounter++] = b;
             indices[indexCounter++] = c;

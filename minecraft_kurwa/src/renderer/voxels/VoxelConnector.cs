@@ -137,7 +137,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 }
             }
 
-            for (int i = 0; i < voxelStructCount + 1; i++) {
+            for (int i = 0; i < voxelStructCount + (currentVoxelCount > 0 ? 1 : 0); i++) {
                 world[i].PrepareBuffers();
             }
 
