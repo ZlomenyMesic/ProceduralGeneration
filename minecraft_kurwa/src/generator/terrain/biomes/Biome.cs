@@ -67,11 +67,11 @@ namespace minecraft_kurwa.src.generator.terrain.biomes {
         /// <param name="biome" />
         /// <returns>an array of strings with a operation and numbers associated with the operation</returns>
         internal static (string, float)[] GetTerrainGeneratorValues(BiomeType biome) {
-            switch (biome) {
-                case BiomeType.OCEAN: return new[] { ("*", 0f) };
-                case BiomeType.POLAR_HIGHLAND: return new[] { ("*", 0.1f), ("+", 100f) };
-                default: return new[] { ("*", 1f) };
-            }
+            return biome switch {
+                BiomeType.OCEAN => new[] { ("*", 0f) },
+                BiomeType.POLAR_HIGHLAND => new[] { ("*", 0.1f), ("+", 100f) },
+                _ => new[] { ("*", 1f) },
+            };
         }
     }
 }

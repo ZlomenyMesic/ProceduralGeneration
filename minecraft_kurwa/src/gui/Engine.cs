@@ -16,16 +16,16 @@ using System;
 
 namespace minecraft_kurwa.src.gui {
     public class Engine : Game {
-        internal GraphicsDeviceManager graphics;
+        private GraphicsDeviceManager _graphics;
 
         public Engine() {
             Time.UpdateLoadTime();
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Window.Title = "minecraft?";
 
-            graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
-            graphics.PreferredBackBufferWidth = Settings.WINDOW_WIDTH;
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            _graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
+            _graphics.PreferredBackBufferWidth = Settings.WINDOW_WIDTH;
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
             IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1 / Global.UPDATES_PER_SECOND);

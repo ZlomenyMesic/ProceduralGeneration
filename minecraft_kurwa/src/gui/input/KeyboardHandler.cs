@@ -10,7 +10,7 @@ using minecraft_kurwa.src.renderer;
 namespace minecraft_kurwa.src.gui.input {
     internal static class KeyboardHandler {
         internal static bool debugMenuStateOpen = true; // also default debug state
-        private static bool lastDebugMenuState = false;
+        private static bool _lastDebugMenuState = false;
 
         private static readonly int DEFAULT_FOV = Settings.FIELD_OF_VIEW;
 
@@ -19,11 +19,11 @@ namespace minecraft_kurwa.src.gui.input {
             if (keyboard.IsKeyDown(Controls.EXIT)) return true;
 
             if (keyboard.IsKeyDown(Controls.DEBUG_MENU)) {
-                if (!lastDebugMenuState) {
+                if (!_lastDebugMenuState) {
                     debugMenuStateOpen = !debugMenuStateOpen;
                 }
-                lastDebugMenuState = true;
-            } else lastDebugMenuState = false;
+                _lastDebugMenuState = true;
+            } else _lastDebugMenuState = false;
 
             if (keyboard.IsKeyDown(Controls.ZOOM_IN)) {
                 if (Settings.FIELD_OF_VIEW == DEFAULT_FOV) Settings.FIELD_OF_VIEW -= ExperimentalSettings.ZOOM_LEVEL;

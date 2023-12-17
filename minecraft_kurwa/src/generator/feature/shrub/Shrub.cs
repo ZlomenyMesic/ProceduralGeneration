@@ -5,13 +5,9 @@
 
 using minecraft_kurwa.src.renderer.voxels;
 using minecraft_kurwa.src.global;
-using System;
 
 namespace minecraft_kurwa.src.generator.feature.shrub {
     internal static class Shrub {
-        internal static ushort MIN_SHRUB_SIZE = 4;
-        internal static ushort MAX_SHRUB_SIZE = 8;
-
         internal static void Build(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, VoxelType leaves, bool main = true) {
             int sizeZ = (sizeX + sizeY) / 3;
 
@@ -34,7 +30,7 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
             }
 
             // 50 % chance to generate another bush for better shapes
-            if (main && Global.RANDOM.Next(0, 2) == 0) Build((ushort)(posX + Global.RANDOM.Next(-2, 3)), (ushort)(posY + Global.RANDOM.Next(-2, 3)), posZ, (ushort)(Global.RANDOM.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), (ushort)(Global.RANDOM.Next(MIN_SHRUB_SIZE, MAX_SHRUB_SIZE)), leaves, false);
+            if (main && Global.RANDOM.Next(0, 2) == 0) Build((ushort)(posX + Global.RANDOM.Next(-2, 3)), (ushort)(posY + Global.RANDOM.Next(-2, 3)), posZ, (ushort)(Global.RANDOM.Next(ShrubGenerator.MIN_SHRUB_SIZE, ShrubGenerator.MAX_SHRUB_SIZE)), (ushort)(Global.RANDOM.Next(ShrubGenerator.MIN_SHRUB_SIZE, ShrubGenerator.MAX_SHRUB_SIZE)), leaves, false);
         }
 
         private static bool Ellipsoid(short x, short y, short z, short a, short b, short c) {

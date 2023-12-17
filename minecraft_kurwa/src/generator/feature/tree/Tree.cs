@@ -9,22 +9,22 @@ using System;
 
 namespace minecraft_kurwa.src.generator.feature.tree {
     internal abstract class Tree {
-        internal ushort posX;
-        internal ushort posY;
-        internal ushort posZ;
-        internal byte height;
+        protected ushort _posX;
+        protected ushort _posY;
+        protected ushort _posZ;
+        protected byte _height;
 
-        internal byte leaveType;
-        internal byte woodType;
+        protected byte _leaveType;
+        protected byte _woodType;
 
         internal Tree(ushort posX, ushort posY, ushort posZ, byte height, VoxelType leaveType, VoxelType woodType) {
-            this.posX = posX; 
-            this.posY = posY; 
-            this.posZ = posZ;
-            this.height = height;
+            _posX = posX; 
+            _posY = posY;
+            _posZ = posZ;
+            _height = height;
 
-            this.leaveType = (byte)leaveType;
-            this.woodType = (byte)woodType;
+            _leaveType = (byte)leaveType;
+            _woodType = (byte)woodType;
         }
 
         internal virtual void Build() { }
@@ -45,7 +45,7 @@ namespace minecraft_kurwa.src.generator.feature.tree {
 
             for (ushort i = 0; i < strides; i++) {
                 if (Math.Round(sX + diffX, 0) < 0 || Math.Round(sY + diffY, 0) < 0 || Math.Round(sZ + diffZ, 0) < 0 || Math.Round(sX + diffX, 0) >= Settings.WORLD_SIZE || Math.Round(sY + diffY, 0) >= Settings.WORLD_SIZE || Math.Round(sZ + diffZ, 0) >= Settings.HEIGHT_LIMIT) break;
-                Global.VOXEL_MAP[(int)Math.Round(sX + diffX, 0), (int)Math.Round(sY + diffY, 0), (int)Math.Round(sZ + diffZ, 0)] = woodType;
+                Global.VOXEL_MAP[(int)Math.Round(sX + diffX, 0), (int)Math.Round(sY + diffY, 0), (int)Math.Round(sZ + diffZ, 0)] = _woodType;
 
                 diffX -= strideX;
                 diffY -= strideY;

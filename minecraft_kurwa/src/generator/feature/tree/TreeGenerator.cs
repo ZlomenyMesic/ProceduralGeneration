@@ -10,7 +10,7 @@ using minecraft_kurwa.src.generator.feature.tree.types;
 namespace minecraft_kurwa.src.generator.feature.tree {
     internal static class TreeGenerator {
         private static Tree[] trees;
-        private static int treeCount = 0;
+        private static int _treeCount = 0;
 
         internal static void Generate() {
             ushort maxCount = (ushort)(Settings.WORLD_SIZE * Settings.WORLD_SIZE * Settings.TREE_DENSITY / 10_000);
@@ -26,7 +26,7 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                 if (Global.VOXEL_MAP[x, y, Global.HEIGHT_MAP[x, y]] == (byte)VoxelType.WATER || Global.VOXEL_MAP[x, y, Global.HEIGHT_MAP[x, y]] == (byte)VoxelType.ICE) continue;
 
                 if (biome == 32 || biome == 42) {
-                    trees[treeCount++] = Global.RANDOM.Next(0, 50) switch {
+                    trees[_treeCount++] = Global.RANDOM.Next(0, 50) switch {
                         0 =>                                new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.CHERRY_MIN_HEIGHT, Dimensions.CHERRY_MAX_HEIGHT),  VoxelType.CHERRY_LEAVES, VoxelType.CHERRY_WOOD),
                         1 or 2 or 3 =>                      new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1),         (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT)),
                         4 or 5 or 6 or 7 =>                 new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.BEECH_MIN_HEIGHT,  Dimensions.BEECH_MAX_HEIGHT),   VoxelType.BEECH_LEAVES, VoxelType.BEECH_WOOD),
@@ -36,16 +36,16 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                     };
                 }
                 else if (biome == 11) {
-                    trees[treeCount++] = Global.RANDOM.Next(0, 7) switch {
+                    trees[_treeCount++] = Global.RANDOM.Next(0, 7) switch {
                         1 or 2 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.MAHOGANY_MIN_HEIGHT, Dimensions.MAHOGANY_MAX_HEIGHT), VoxelType.MAHOGANY_LEAVES, VoxelType.MAHOGANY_WOOD),
                         _ => new KapokTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.KAPOK_MIN_HEIGHT, Dimensions.KAPOK_MAX_HEIGHT))
                     };
                 }
                 else if (biome == 31 || biome == 41 || biome == 51 || biome == 61 || biome == 63) {
-                    trees[treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
+                    trees[_treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
                 }
                 else if (biome == 5 || biome == 23) {
-                    trees[treeCount++] = Global.RANDOM.Next(0, 20) switch {
+                    trees[_treeCount++] = Global.RANDOM.Next(0, 20) switch {
                         0 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.JACKALBERRY_MIN_HEIGHT, Dimensions.JACKALBERRY_MAX_HEIGHT), VoxelType.JACKALBERRY_LEAVES, VoxelType.JACKALBERRY_WOOD),
                         1 or 2 or 3 or 4 or 5 => new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT)),
                         _ => null
@@ -53,7 +53,7 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                 }
             }
 
-            for (int i = 0; i < treeCount; i++) {
+            for (int i = 0; i < _treeCount; i++) {
                 trees[i]?.Build();
             }
 

@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.gui.colors;
 using minecraft_kurwa.src.global;
+using System;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal static class VoxelConnector {
@@ -13,8 +14,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
         private static Voxel2[,,] grid;
 
         internal static int voxelCounter = 0; // how many voxels is in the scene
-        private static int voxelStructCount = 0;
-        private static int currentVoxelCount = 0;
+        private static int _voxelStructCount = 0;
+        private static int _currentVoxelCount = 0;
 
         // creates a grid with identical voxels connected into bigger blocks
         internal static void CreateGrid() {
@@ -125,7 +126,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
 
         // transforms the grid into a VoxelStructure array
         internal static void GenerateWorld() {
-            world = new VoxelStructure[Settings.WORLD_SIZE * Settings.HEIGHT_LIMIT];
+            world = new VoxelStructure[Settings.WORLD_SIZE * (Settings.WORLD_SIZE * 10 / VoxelStructure.MAX_VOXEL_COUNT)];
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
@@ -137,7 +138,11 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 }
             }
 
-            for (int i = 0; i < voxelStructCount + (currentVoxelCount > 0 ? 1 : 0); i++) {
+            _voxelStructCount += _currentVoxelCount > 0 ? 1 : 0;
+
+            Array.Resize(ref world, _voxelStructCount);
+
+            for (int i = 0; i < _voxelStructCount; i++) {
                 world[i].PrepareBuffers();
             }
 
@@ -145,12 +150,12 @@ namespace minecraft_kurwa.src.renderer.voxels {
         }
 
         private static void AddBlock(ushort posX, ushort posY, ushort posZ, byte sizeX, byte sizeY, byte sizeZ, Color color, byte transparency = 100) {
-            world[voxelStructCount] ??= new();
-            world[voxelStructCount].AddVoxel(posX, posY, posZ, sizeX, sizeY, sizeZ, color, transparency);
+            world[_voxelStructCount] ??= new();
+            world[_voxelStructCount].AddVoxel(posX, posY, posZ, sizeX, sizeY, sizeZ, color, transparency);
 
-            if (++currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
-                currentVoxelCount = 0;
-                voxelStructCount++;
+            if (++_currentVoxelCount > VoxelStructure.MAX_VOXEL_COUNT - 1) {
+                _currentVoxelCount = 0;
+                _voxelStructCount++;
             }
 
             voxelCounter++;

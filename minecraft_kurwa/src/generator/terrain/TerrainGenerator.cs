@@ -11,7 +11,6 @@ using minecraft_kurwa.src.generator.terrain.noise;
 namespace minecraft_kurwa.src.generator.terrain
 {
     internal class TerrainGenerator {
-
         internal static void GenerateHeightMap() {
             PerlinNoise perlinNoise = new(Settings.SEED);
 

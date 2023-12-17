@@ -12,15 +12,15 @@ using System;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal class VoxelStructure {
-        private readonly Voxel1[] voxels;
+        private readonly Voxel1[] _voxels;
 
-        private readonly IndexBuffer indexBuffer;
-        private readonly VertexBuffer vertexBuffer;
+        private readonly IndexBuffer _indexBuffer;
+        private readonly VertexBuffer _vertexBuffer;
 
-        private ushort[] indices;
-        private VertexPositionColor[] vertices;
+        private ushort[] _indices;
+        private VertexPositionColor[] _vertices;
 
-        private ushort voxelCounter = 0, vertexCounter = 0, indexCounter = 0;
+        private ushort _voxelCounter = 0, _vertexCounter = 0, _indexCounter = 0;
 
         internal static BasicEffect basicEffect;
         internal static int triangleCounter = 0;
@@ -30,19 +30,19 @@ namespace minecraft_kurwa.src.renderer.voxels {
         internal const ushort MAX_INDEX_COUNT = MAX_VOXEL_COUNT * 36;
 
         internal VoxelStructure() {
-            voxels = new Voxel1[MAX_VOXEL_COUNT];
-            vertices = new VertexPositionColor[MAX_VERTEX_COUNT];
-            indices = new ushort[MAX_INDEX_COUNT];
+            _voxels = new Voxel1[MAX_VOXEL_COUNT];
+            _vertices = new VertexPositionColor[MAX_VERTEX_COUNT];
+            _indices = new ushort[MAX_INDEX_COUNT];
 
-            vertexBuffer = new VertexBuffer(Global.GRAPHICS_DEVICE, typeof(VertexPositionColor), MAX_VERTEX_COUNT, BufferUsage.WriteOnly);
-            indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), MAX_INDEX_COUNT, BufferUsage.WriteOnly);
+            _vertexBuffer = new VertexBuffer(Global.GRAPHICS_DEVICE, typeof(VertexPositionColor), MAX_VERTEX_COUNT, BufferUsage.WriteOnly);
+            _indexBuffer = new IndexBuffer(Global.GRAPHICS_DEVICE, typeof(ushort), MAX_INDEX_COUNT, BufferUsage.WriteOnly);
         }
 
         internal void AddVoxel(ushort posX, ushort posY, ushort posZ, byte sizeX, byte sizeY, byte sizeZ, Color color, byte transparency = 100) {
             bool[] visible = VoxelCulling.GetVisibleSides(posX, posY, posZ, sizeX, sizeY, sizeZ);
 
             if (visible[0] || visible[1] || visible[2] || visible[3] || visible[4] || visible[5]) {
-                voxels[voxelCounter] = new(posX, posY, posZ, sizeX, sizeY, sizeZ, indexCounter, 0, transparency);
+                _voxels[_voxelCounter] = new(posX, posY, posZ, sizeX, sizeY, sizeZ, _indexCounter, 0, transparency);
             } else return;
 
             Vector3 originalColor = color.ToVector3();
@@ -51,72 +51,72 @@ namespace minecraft_kurwa.src.renderer.voxels {
             if (visible[0]) {
                 adjustedColor = originalColor * ColorManager.FRONT_SHADOW;       // front
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(sizeX, 0, 0, adjustedColor); AddVertex(sizeX, sizeY, 0, adjustedColor); AddVertex(0, sizeY, 0, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 4));
+                AddTriangle((ushort)(_vertexCounter - 4), (ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 2)); AddTriangle((ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 4));
             }
             
             if (visible[1]) {
                 adjustedColor = originalColor * ColorManager.BACK_SHADOW;        // back
                 AddVertex(0, 0, sizeZ, adjustedColor); AddVertex(sizeX, 0, sizeZ, adjustedColor); AddVertex(0, sizeY, sizeZ, adjustedColor); AddVertex(sizeX, sizeY, sizeZ, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+                AddTriangle((ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 4)); AddTriangle((ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 3));
             }
 
             if (visible[2]) {
                 adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // right
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(0, 0, sizeZ, adjustedColor); AddVertex(0, sizeY, 0, adjustedColor); AddVertex(0, sizeY, sizeZ, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
+                AddTriangle((ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 4)); AddTriangle((ushort)(_vertexCounter - 4), (ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1));
             }
 
             if (visible[3]) {
                 adjustedColor = originalColor * ColorManager.SIDE_SHADOW;        // left
                 AddVertex(sizeX, 0, 0, adjustedColor); AddVertex(sizeX, sizeY, 0, adjustedColor); AddVertex(sizeX, 0, sizeZ, adjustedColor); AddVertex(sizeX, sizeY, sizeZ, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1)); AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4));
+                AddTriangle((ushort)(_vertexCounter - 4), (ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1)); AddTriangle((ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 4));
             }
 
             if (visible[4]) {
                 adjustedColor = originalColor * ColorManager.TOP_SHADOW;         // top
                 AddVertex(sizeX, sizeY, 0, adjustedColor); AddVertex(0, sizeY, 0, adjustedColor); AddVertex(sizeX, sizeY, sizeZ, adjustedColor); AddVertex(0, sizeY, sizeZ, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2)); AddTriangle((ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3));
+                AddTriangle((ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 4), (ushort)(_vertexCounter - 2)); AddTriangle((ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 3));
             }
 
             if (visible[5]) {
                 adjustedColor = originalColor * ColorManager.BOTTOM_SHADOW;      // bottom
                 AddVertex(0, 0, 0, adjustedColor); AddVertex(sizeX, 0, 0, adjustedColor); AddVertex(0, 0, sizeZ, adjustedColor); AddVertex(sizeX, 0, sizeZ, adjustedColor);
-                AddTriangle((ushort)(vertexCounter - 1), (ushort)(vertexCounter - 3), (ushort)(vertexCounter - 4)); AddTriangle((ushort)(vertexCounter - 4), (ushort)(vertexCounter - 2), (ushort)(vertexCounter - 1));
+                AddTriangle((ushort)(_vertexCounter - 1), (ushort)(_vertexCounter - 3), (ushort)(_vertexCounter - 4)); AddTriangle((ushort)(_vertexCounter - 4), (ushort)(_vertexCounter - 2), (ushort)(_vertexCounter - 1));
             }
 
-            voxelCounter++;
+            _voxelCounter++;
         }
 
         private void AddVertex(float x, float y, float z, Vector3 color) {
-            vertices[vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
+            _vertices[_vertexCounter++] = new VertexPositionColor(new Vector3(x, y, z), new Color(color.X, color.Y, color.Z));
         }
 
         private void AddTriangle(ushort a, ushort b, ushort c) {
             triangleCounter++;
-            voxels[voxelCounter].triangles++;
+            _voxels[_voxelCounter].triangles++;
 
-            indices[indexCounter++] = a;
-            indices[indexCounter++] = b;
-            indices[indexCounter++] = c;
+            _indices[_indexCounter++] = a;
+            _indices[_indexCounter++] = b;
+            _indices[_indexCounter++] = c;
         }
 
         internal void PrepareBuffers() {
-            vertices = vertices.Take(vertexCounter).ToArray();
-            indices = indices.Take(indexCounter).ToArray();
+            _vertices = _vertices.Take(_vertexCounter).ToArray();
+            _indices = _indices.Take(_indexCounter).ToArray();
 
-            vertexBuffer.SetData(0, vertices, 0, vertexCounter, 0);
-            indexBuffer.SetData(0, indices, 0, indexCounter);
+            _vertexBuffer.SetData(0, _vertices, 0, _vertexCounter, 0);
+            _indexBuffer.SetData(0, _indices, 0, _indexCounter);
 
-            vertices = null;
-            indices = null;
+            _vertices = null;
+            _indices = null;
         }
 
         internal void Draw() {
-            Global.GRAPHICS_DEVICE.SetVertexBuffer(vertexBuffer);
-            Global.GRAPHICS_DEVICE.Indices = indexBuffer;
+            Global.GRAPHICS_DEVICE.SetVertexBuffer(_vertexBuffer);
+            Global.GRAPHICS_DEVICE.Indices = _indexBuffer;
 
-            for (ushort i = 0; i < voxelCounter; i++) {
-                Voxel1 cache = voxels[i];
+            for (ushort i = 0; i < _voxelCounter; i++) {
+                Voxel1 cache = _voxels[i];
                 if (VoxelCulling.ShouldNOTRender(cache.posX, cache.posZ, cache.sizeX, cache.sizeZ)) continue;
 
                 /* TESTY
