@@ -5,7 +5,6 @@
 
 using Microsoft.Xna.Framework;
 using minecraft_kurwa.src.global;
-using System;
 
 namespace minecraft_kurwa.src.renderer.voxels {
     internal static class VoxelCulling {
@@ -45,8 +44,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
             } else maxRenderY = (ushort)(Settings.WORLD_SIZE - 1);
         }
 
-        internal static bool ShouldRender(ushort posX, ushort posY, ushort sizeX, ushort sizeY) {
-            return !(posX + sizeX < minRenderX || posX > maxRenderX || posY + sizeY < minRenderY || posY > maxRenderY);
+        internal static bool ShouldNOTRender(ushort posX, ushort posY, ushort sizeX, ushort sizeY) {
+            return posX + sizeX < minRenderX || posX > maxRenderX || posY + sizeY < minRenderY || posY > maxRenderY;
         }
 
         /// <summary>
@@ -60,22 +59,26 @@ namespace minecraft_kurwa.src.renderer.voxels {
             bool[] output = new bool[6];
 
             for (ushort x = posX; x < posX + sizeX; x++) {
-                if (posZ == 0 || Global.VOXEL_MAP[x, posZ - 1, posY] == null || Global.VOXEL_MAP[x, posZ - 1, posY] == (byte)VoxelType.AIR) {
-                    output[0] = true;
-                }
+                for (ushort z = posY; z < posY + sizeY; z++) {
+                    if (posZ == 0 || Global.VOXEL_MAP[x, posZ - 1, z] == null || Global.VOXEL_MAP[x, posZ - 1, z] == (byte)VoxelType.AIR) {
+                        output[0] = true;
+                    }
 
-                if (posZ + sizeZ == Settings.WORLD_SIZE || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == null || Global.VOXEL_MAP[x, posZ + sizeZ, posY] == (byte)VoxelType.AIR) {
-                    output[1] = true;
+                    if (posZ + sizeZ == Settings.WORLD_SIZE || Global.VOXEL_MAP[x, posZ + sizeZ, z] == null || Global.VOXEL_MAP[x, posZ + sizeZ, z] == (byte)VoxelType.AIR) {
+                        output[1] = true;
+                    }
                 }
             }
 
             for (ushort y = posZ; y < posZ + sizeZ; y++) {
-                if (posX == 0 || Global.VOXEL_MAP[posX - 1, y, posY] == null || Global.VOXEL_MAP[posX - 1, y, posY] == (byte)VoxelType.AIR) {
-                    output[2] = true;
-                }
+                for (ushort z = posY; z < posY + sizeY; z++) {
+                    if (posX == 0 || Global.VOXEL_MAP[posX - 1, y, z] == null || Global.VOXEL_MAP[posX - 1, y, z] == (byte)VoxelType.AIR) {
+                        output[2] = true;
+                    }
 
-                if (posX + sizeX == Settings.WORLD_SIZE || Global.VOXEL_MAP[posX + sizeX, y, posY] == null || Global.VOXEL_MAP[posX + sizeX, y, posY] == (byte)VoxelType.AIR) {
-                    output[3] = true;
+                    if (posX + sizeX == Settings.WORLD_SIZE || Global.VOXEL_MAP[posX + sizeX, y, z] == null || Global.VOXEL_MAP[posX + sizeX, y, z] == (byte)VoxelType.AIR) {
+                        output[3] = true;
+                    }
                 }
             }
 

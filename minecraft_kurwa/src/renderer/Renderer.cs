@@ -24,7 +24,7 @@ namespace minecraft_kurwa.src.renderer {
         internal static Matrix PROJECTION_MATRIX;
         internal static Matrix VIEW_MATRIX;
 
-        internal static void Initialize() {
+        static Renderer() {
             Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
 

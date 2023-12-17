@@ -19,8 +19,7 @@ namespace minecraft_kurwa.src.gui {
         internal GraphicsDeviceManager graphics;
 
         public Engine() {
-            Time.Initialize();
-
+            Time.UpdateLoadTime();
             graphics = new GraphicsDeviceManager(this);
             Window.Title = "minecraft?";
 
@@ -41,8 +40,6 @@ namespace minecraft_kurwa.src.gui {
 
             global.resources.Content.Load(Content);
 
-            Renderer.Initialize();
-
             VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
                 VertexColorEnabled = true
             };
@@ -60,6 +57,8 @@ namespace minecraft_kurwa.src.gui {
 
             Renderer.UpdateViewMatrix();
 
+            Time.UpdateLoadTime();
+
             base.Update(gameTime);
         }
 
@@ -69,7 +68,7 @@ namespace minecraft_kurwa.src.gui {
 
             Renderer.Draw();
 
-            Time.Update();
+            Time.UpdateFPS();
 
             base.Draw(gameTime);
         }

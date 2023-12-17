@@ -17,16 +17,16 @@ namespace minecraft_kurwa.src.gui {
         internal static long LoadTime { get => loadTime.ElapsedMilliseconds; }
         internal static byte LastFPS { get => lastFPS; }
 
-        internal static void Initialize() {
-            loadTime = new();
-            loadTime.Start();
-
-            fpsCounter = new();
+        internal static void UpdateLoadTime() {
+            if (loadTime == null) {
+                loadTime = new();
+                loadTime.Start();
+            }
+            else loadTime.Stop();
         }
 
-        internal static void Update() {
-            if (loadTime.IsRunning)
-                loadTime.Stop();
+        internal static void UpdateFPS() {
+            fpsCounter ??= new();
 
             if (!fpsCounter.IsRunning)
                 fpsCounter.Start();

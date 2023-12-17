@@ -47,6 +47,7 @@ namespace minecraft_kurwa.src.renderer.voxels {
                             voxelMap[x, y, z] = null;
                             last = ushort.MaxValue;
                         }
+                        if (last != ushort.MaxValue && grid[last, y, z].sizeX == byte.MaxValue) last = ushort.MaxValue;
                     }
                 }
             }
@@ -75,6 +76,36 @@ namespace minecraft_kurwa.src.renderer.voxels {
                             }
                             last = ushort.MaxValue;
                         }
+                        if (last != ushort.MaxValue && grid[last, y, z].sizeX == byte.MaxValue) last = ushort.MaxValue;
+                    }
+                }
+            }
+
+            // z-axis connection
+            for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+
+                    ushort last = ushort.MaxValue;
+                    for (ushort z = 0; z < Settings.HEIGHT_LIMIT; z++) {
+                        if (last == ushort.MaxValue && z != Settings.HEIGHT_LIMIT - 1 && voxelMap[x, y, z] == voxelMap[x, y, z + 1]) {
+                            if (voxelMap[x, y, z] != null) {
+                                grid[x, y, z] = new(1, 1, 1, voxelMap[x, y, z]);
+                                voxelMap[x, y, z] = null;
+                                last = z;
+                            }
+                        } else if (last != ushort.MaxValue && z != Settings.HEIGHT_LIMIT - 1 && voxelMap[x, y, z] == voxelMap[x, y, z + 1]) {
+                            if (voxelMap[x, y, z] != null) {
+                                grid[x, y, last].sizeY++;
+                                voxelMap[x, y, z] = null;
+                            }
+                        } else if (last != ushort.MaxValue && z != Settings.HEIGHT_LIMIT - 1 && voxelMap[x, y, z] != voxelMap[x, y, z + 1]) {
+                            if (voxelMap[x, y, z] != null) {
+                                grid[x, y, last].sizeY++;
+                                voxelMap[x, y, z] = null;
+                            }
+                            last = ushort.MaxValue;
+                        }
+                        if (last != ushort.MaxValue && grid[last, y, z].sizeX == byte.MaxValue) last = ushort.MaxValue;
                     }
                 }
             }
@@ -106,14 +137,14 @@ namespace minecraft_kurwa.src.renderer.voxels {
                 }
             }
 
-            for (int i = 0; i < voxelStructCount; i++) {
+            for (int i = 0; i < voxelStructCount + 1; i++) {
                 world[i].PrepareBuffers();
             }
 
             grid = null;
         }
 
-        private static void AddBlock(ushort posX, ushort posY, ushort posZ, ushort sizeX, ushort sizeY, ushort sizeZ, Color color, byte transparency = 100) {
+        private static void AddBlock(ushort posX, ushort posY, ushort posZ, byte sizeX, byte sizeY, byte sizeZ, Color color, byte transparency = 100) {
             world[voxelStructCount] ??= new();
             world[voxelStructCount].AddVoxel(posX, posY, posZ, sizeX, sizeY, sizeZ, color, transparency);
 
