@@ -34,11 +34,8 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
             }
 
             for (byte z = 0; z <= _height; z++) {
-                if (z < _height * 4 / 5) {
-                    Global.VOXEL_MAP[_posX, _posY, _posZ + z] = _woodType;
-                } else {
-                    Global.VOXEL_MAP[_posX, _posY, _posZ + z] = _leaveType;
-                }
+                if (z >= _height * 4 / 5) Global.VOXEL_MAP[_posX, _posY, _posZ + z] = _leaveType;
+
                 if (z >= bottom && z < _height * 4 / 5) {
                     if (_posX + 1 < Settings.WORLD_SIZE) Global.VOXEL_MAP[_posX + 1, _posY, _posZ + z] = _leaveType;
                     if (_posX - 1 >= 0) Global.VOXEL_MAP[_posX - 1, _posY, _posZ + z] = _leaveType;
@@ -46,6 +43,8 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     if (_posY - 1 >= 0) Global.VOXEL_MAP[_posX, _posY - 1, _posZ + z] = _leaveType;
                 }
             }
+
+            BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + (_height * 4 / 5)));
         }
     }
 }

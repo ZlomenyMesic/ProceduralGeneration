@@ -40,8 +40,12 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                         1 or 2 => new BasicDeciduousTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.MAHOGANY_MIN_HEIGHT, Dimensions.MAHOGANY_MAX_HEIGHT), VoxelType.MAHOGANY_LEAVES, VoxelType.MAHOGANY_WOOD),
                         _ => new KapokTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.KAPOK_MIN_HEIGHT, Dimensions.KAPOK_MAX_HEIGHT))
                     };
-                }
-                else if (biome == 31 || biome == 41 || biome == 51 || biome == 61 || biome == 63) {
+                } else if (biome == 31 || biome == 41) {
+                    trees[_treeCount++] = Global.RANDOM.Next(0, 15) switch {
+                        0 => new PineTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.PINE_MIN_HEIGHT, Dimensions.PINE_MAX_HEIGHT)),
+                        _ => new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT))
+                    };
+                } else if (biome == 51 || biome == 61 || biome == 63) {
                     trees[_treeCount++] = new SpruceTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.SPRUCE_MIN_HEIGHT, Dimensions.SPRUCE_MAX_HEIGHT));
                 }
                 else if (biome == 5 || biome == 23) {
@@ -50,6 +54,8 @@ namespace minecraft_kurwa.src.generator.feature.tree {
                         1 or 2 or 3 or 4 or 5 => new AcaciaTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.ACACIA_MIN_HEIGHT, Dimensions.ACACIA_MAX_HEIGHT)),
                         _ => null
                     };
+                } else if (biome == 21) {
+                    trees[_treeCount++] = new PineTree(x, y, (ushort)(Global.HEIGHT_MAP[x, y] + 1), (byte)Global.RANDOM.Next(Dimensions.PINE_MIN_HEIGHT, Dimensions.PINE_MAX_HEIGHT));
                 }
             }
 

@@ -55,6 +55,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes {
                 4 => Global.RANDOM.Next(0, 3) == 0 ? (byte)VoxelType.TERRACOTTA : (byte)VoxelType.SAND,
                 62 => Global.RANDOM.Next(0, 2) == 0 ? (byte)VoxelType.ICE : (byte)VoxelType.SNOW,
                 5 or 23 => Global.RANDOM.Next(0, 15) == 0 ? (byte)VoxelType.DRY_GRASS : (byte)VoxelType.GRASS,
+                21 or 31 or 32 => Global.RANDOM.Next(0, 250) == 0 ? (byte)VoxelType.RIVER_ROCK : (byte)VoxelType.GRASS,
                 50 or 51 or 52 => Global.RANDOM.Next(0, 2) == 0 ? (byte)VoxelType.GRASS : (byte)VoxelType.SNOW,
                 60 or 61 or 63 or 64 => (byte)VoxelType.SNOW,
                 _ => (byte)VoxelType.GRASS

@@ -59,5 +59,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
         MUD = 33,
 
         RIVER_ROCK = 34,
+
+        PINE_LEAVES = 35,
+        PINE_WOOD = 36,
     }
 }

@@ -34,5 +34,8 @@ namespace minecraft_kurwa.src.generator.feature.tree {
 
         internal const ushort MAHOGANY_MIN_HEIGHT = 12;
         internal const ushort MAHOGANY_MAX_HEIGHT = 18;
+
+        internal const ushort PINE_MIN_HEIGHT = 15;
+        internal const ushort PINE_MAX_HEIGHT = 20;
     }
 }

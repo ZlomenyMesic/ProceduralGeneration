@@ -33,9 +33,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                 }
             }
 
-            for (byte z = 0; z <= _height; z++) {
-                Global.VOXEL_MAP[_posX, _posY, _posZ + z] = z != _height ? _woodType : _leaveType;
-            }
+            BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + _height));
         }
     }
 }

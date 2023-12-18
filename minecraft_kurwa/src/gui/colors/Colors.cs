@@ -55,7 +55,9 @@ namespace minecraft_kurwa.src.gui.colors {
             new(112, 100, 65),  // 31 - mahogany wood
             new(118, 147, 27),  // 32 - dry grass
             new(86, 68, 54),    // 33 - mud
-            new(0, 0, 0)        // 34 - river rock
+            new(0, 0, 0),       // 34 - river rock
+            new(31, 110, 39),   // 35 - pine leaves
+            new(110, 100, 86),  // 36 - pine wood
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
@@ -64,11 +66,12 @@ namespace minecraft_kurwa.src.gui.colors {
             if (voxelType == (byte)VoxelType.GRASS) {
                 switch (biome) {
                     case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color = new Vector3(92, 140, 36); break;   // super dry
-                    case 20 or 21 or 22 or 24 or 25: color = new Vector3(77, 144, 30); break;              // dry
+                    case 20 or 22 or 24 or 25: color = new Vector3(77, 144, 30); break;                    // dry
                     case 10 or 11 or 12: color = new Vector3(34, 138, 14); break;                          // rainy
                     case 50 or 52 or 60 or 62 or 63 or 64: color = new(147, 192, 139); break;              // frozen
                     case 51 or 61: color = new(173, 135, 101); break;                                      // frozen dark soil
                     case 31 or 41: color = new Vector3(76, 78, 26); break;                                 // dark soil
+                    case 21: color = new Vector3(96, 98, 26); break;                                       // lighter dark soil
                     default: break;                                                                        // no shade
                 }
             }
@@ -134,7 +137,7 @@ namespace minecraft_kurwa.src.gui.colors {
 
         internal static byte GetVoxelTransparency(byte? voxelType) {
             return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 or 21 or 24 or 26 or 27 or 29 or 30 => LEAVES_TRANSPARENCY,
+                8 or 10 or 12 or 14 or 16 or 19 or 21 or 24 or 26 or 27 or 29 or 30 or 35 => LEAVES_TRANSPARENCY,
                 _ => DEFAULT_TRANSPARENCY
             };
         }
