@@ -15,7 +15,7 @@ namespace minecraft_kurwa.src.generator.terrain.noise {
             random.NextBytes(_perm);
         }
 
-        internal float Calculate(int x, int y, int scale, int maxValue) {
+        internal float Calculate(int x, int y, int scale, float maxValue) {
             return Generate((float)x / scale, (float)y / scale) * (maxValue / 2) + (maxValue / 2);
         }
 

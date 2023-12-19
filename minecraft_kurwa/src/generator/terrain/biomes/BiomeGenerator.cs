@@ -6,6 +6,7 @@
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.generator.terrain.noise;
 using System;
+using System.Collections.Generic;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes
 {
@@ -15,23 +16,79 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
 
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                    byte temperature = (byte)Math.Round(s.Calculate(x, y, Settings.BIOME_SCALE, 2), 0);
-                    byte humidity = (byte)Math.Round(s.Calculate(x + 5000, y + 5000, Settings.BIOME_SCALE, 2), 0);
+                    byte temperature = (byte)Math.Round(s.Calculate(x + ExperimentalSettings.NOISE_OFFSET, y + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
+                    byte rainfall = (byte)Math.Round(s.Calculate(x + 5000 + ExperimentalSettings.NOISE_OFFSET, y + 5000 + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
 
                     byte biome = (byte)BiomeType.UNKNOWN;
 
-                    if (humidity == 0 && temperature == 0) biome = (byte)BiomeType.POLAR;
-                    else if (humidity >= 1 && temperature == 0) biome = (byte)BiomeType.SUBPOLAR;
-                    else if (humidity == 0 && temperature == 1) biome = (byte)BiomeType.TEMPERATE_INLAND;
-                    else if (humidity >= 1 && temperature == 1) biome = (byte)BiomeType.TEMPERATE_OCEANIC;
-                    else if (humidity == 0 && temperature == 2) biome = (byte)BiomeType.TROPICAL_DRY;
-                    else if (humidity == 1 && temperature == 2) biome = (byte)BiomeType.SUBTROPICAL;
-                    else if (humidity == 2 && temperature == 2) biome = (byte)BiomeType.TROPICAL_RAINY;
+                    if (rainfall == 0 && temperature == 0) biome = (byte)BiomeType.POLAR;
+                    else if (rainfall >= 1 && temperature == 0) biome = (byte)BiomeType.SUBPOLAR;
+                    else if (rainfall == 0 && temperature == 1) biome = (byte)BiomeType.TEMPERATE_INLAND;
+                    else if (rainfall >= 1 && temperature == 1) biome = (byte)BiomeType.TEMPERATE_OCEANIC;
+                    else if (rainfall == 0 && temperature == 2) biome = (byte)BiomeType.TROPICAL_DRY;
+                    else if (rainfall == 1 && temperature == 2) biome = (byte)BiomeType.SUBTROPICAL;
+                    else if (rainfall == 2 && temperature == 2) biome = (byte)BiomeType.TROPICAL_RAINY;
 
-                    byte subbiome = (byte)Math.Round(s.Calculate(x + 10000, y + 10000, Settings.SUBBIOME_SCALE, Biome.GetSubbiomeCount((BiomeType)biome)), 0);
+                    byte subbiome = (byte)Math.Round(s.Calculate(x + 10000 + ExperimentalSettings.NOISE_OFFSET, y + 10000 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE, Biome.GetSubbiomeCount((BiomeType)biome)), 0);
                     biome += subbiome;
 
                     Global.BIOME_MAP[x, y, 0] = biome;
+                }
+            }
+
+            // spreading biomes over edges for a more random look
+            for (int x = 0; x < Settings.WORLD_SIZE; x++) {
+                for (int y = 0; y < Settings.WORLD_SIZE; y++) {
+                    byte blending = (byte)Math.Round(s.Calculate(x + 15000 + ExperimentalSettings.NOISE_OFFSET, y + 1500 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE / 15, 1.8f), 0);
+                    if (blending != 0) continue;
+
+                    byte local = Global.BIOME_MAP[x, y, 0];
+                    byte[] neighbours = new byte[9];
+                    byte nCount = 0;
+
+                    for (int x2 = -6; x2 < 7; x2 += 6) {
+                        if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+
+                        for (int y2 = -6; y2 < 7; y2 += 6) {
+                            if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+
+                            neighbours[nCount++] = Global.BIOME_MAP[x + x2, y + y2, 0];
+                        }
+                    }
+
+                    for (int j = 0; j < nCount; j++) {
+                        if (neighbours[j] != local) Global.BIOME_MAP[x, y, 0] = neighbours[j];
+                    }
+                }
+            }
+
+            // more rough biome edges
+            for (int i = 0; i < 10; i++) {
+                for (int x = 0; x < Settings.WORLD_SIZE; x++) {
+                    for (int y = 0; y < Settings.WORLD_SIZE; y++) {
+                        byte local = Global.BIOME_MAP[x, y, 0];
+                        Dictionary<byte, byte> neighbours = new();
+
+                        for (int x2 = -1; x2 < 2; x2++) {
+                            if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+
+                            for (int y2 = -1; y2 < 2; y2++) {
+                                if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+
+                                byte neighbour = Global.BIOME_MAP[x + x2, y + y2, 0];
+
+                                if (local != neighbour) {
+                                    if (neighbours.ContainsKey(neighbour)) {
+                                        neighbours[neighbour]++;
+                                    } else neighbours.Add(neighbour, 1);
+                                }
+                            }
+                        }
+
+                        foreach (var key in neighbours.Keys) {
+                            if (neighbours[key] > 2 && Global.RANDOM.Next(0, 3) != 0) Global.BIOME_MAP[x, y, 0] = key;
+                        }
+                    }
                 }
             }
         }
