@@ -260,6 +260,7 @@ namespace minecraft_kurwa.src.launcher {
             // 
             numericUpDown7.Location = new System.Drawing.Point(376, 130);
             numericUpDown7.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numericUpDown7.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
             numericUpDown7.Name = "numericUpDown7";
             numericUpDown7.Size = new System.Drawing.Size(240, 39);
             numericUpDown7.TabIndex = 6;

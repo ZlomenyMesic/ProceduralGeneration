@@ -46,11 +46,11 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
 
                     for (sbyte z = 0; z <= 1; z++) {
                         if (Global.RANDOM.Next(0, 3) == 0) {
-                            Global.VOXEL_MAP[crownPosX + x, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
-                            if (crownPosX + x - 1 >= 0 && x == -1 && y == 0 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x - 1, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
-                            if (crownPosX + x + 1 < Settings.WORLD_SIZE && x == 1 && y == 0 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x + 1, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
-                            if (crownPosY + y - 1 >= 0 && x == 0 && y == -1 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x, crownPosY + y - 1, _posZ + z + _height * 2 / 3] = _woodType;
-                            if (crownPosY + y + 1 < Settings.WORLD_SIZE && x == 0 && y == 1 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x - 1, crownPosY + y + 1, _posZ + z + _height * 2 / 3] = _woodType;
+                            //Global.VOXEL_MAP[crownPosX + x, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
+                            //if (crownPosX + x - 1 >= 0 && x == -1 && y == 0 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x - 1, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
+                            //if (crownPosX + x + 1 < Settings.WORLD_SIZE && x == 1 && y == 0 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x + 1, crownPosY + y, _posZ + z + _height * 2 / 3] = _woodType;
+                            //if (crownPosY + y - 1 >= 0 && x == 0 && y == -1 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x, crownPosY + y - 1, _posZ + z + _height * 2 / 3] = _woodType;
+                            //if (crownPosY + y + 1 < Settings.WORLD_SIZE && x == 0 && y == 1 && z == 0 && Global.RANDOM.Next(0, 2) == 0) Global.VOXEL_MAP[crownPosX + x - 1, crownPosY + y + 1, _posZ + z + _height * 2 / 3] = _woodType;
                         }
                     }
                 }

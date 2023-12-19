@@ -63,11 +63,11 @@ namespace minecraft_kurwa.src.generator.terrain
                     if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
                         Global.HEIGHT_MAP[x, y] = pHeight;
 
-                    if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
-                        Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 200);
+                    //if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                    //    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 200);
 
-                    if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN)
-                        Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1] / 2 + tHeight * Global.BIOME_MAP[x, y, 1] / 2) / 300);
+                    //if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN)
+                    //    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1] / 2 + tHeight * Global.BIOME_MAP[x, y, 1] / 2) / 300);
                 }
             }
 

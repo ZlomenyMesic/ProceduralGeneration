@@ -22,8 +22,8 @@ namespace minecraft_kurwa.src.global {
 
         internal static int MAIN_NOISE_SHARPNESS = 60;
         internal static int MAIN_NOISE_SCALE = 17;
-        internal static int BIOME_SCALE = 80;
-        internal static int SUBBIOME_SCALE = 12;
+        internal static int BIOME_SCALE = 800;
+        internal static int SUBBIOME_SCALE = 400;
 
         internal static int WATER_LEVEL = 7;
         internal static int OCEAN_SCALE = 90;

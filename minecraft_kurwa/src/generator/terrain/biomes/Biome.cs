@@ -17,6 +17,19 @@ namespace minecraft_kurwa.src.generator.terrain.biomes {
         internal const int SUBPOLAR_BIOME_COUNT = 2;
         internal const int POLAR_BIOME_COUNT = 4;
 
+        internal static int GetSubbiomeCount(BiomeType biome) {
+            return biome switch {
+                BiomeType.TROPICAL_DRY => TROPICAL_DRY_BIOME_COUNT,
+                BiomeType.TROPICAL_RAINY => TROPICAL_RAINY_BIOME_COUNT,
+                BiomeType.SUBTROPICAL => SUBTROPICAL_BIOME_COUNT,
+                BiomeType.TEMPERATE_OCEANIC => TEMPERATE_OCEANIC_BIOME_COUNT,
+                BiomeType.TEMPERATE_INLAND => TEMPERATE_INLAND_BIOME_COUNT,
+                BiomeType.SUBPOLAR => SUBPOLAR_BIOME_COUNT,
+                BiomeType.POLAR => POLAR_BIOME_COUNT,
+                _ => 0
+            };
+        }
+
         internal static BiomeType GetBiome(ushort x, ushort z) {
             return x < Settings.WORLD_SIZE && z < Settings.WORLD_SIZE
                 ? (BiomeType)(Global.BIOME_MAP[x, z, 0] - Global.BIOME_MAP[x, z, 0] % 10)
