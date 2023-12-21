@@ -27,7 +27,7 @@ namespace minecraft_kurwa.src.global {
 
         internal static int WATER_LEVEL = 7;
         internal static int OCEAN_SCALE = 90;
-        internal static int POND_DENSITY = 50;
+        internal static int POND_DENSITY = 20;
         internal static int FREEZING_DISTANCE = 20;     // any water block closer to a polar biome than this will freeze
         internal static int MAX_FREEZING_DISTANCE = 45; // maximum distance from a polar biome to freeze
         internal static int ICE_HOLES = 0;              // 0 and less => no holes in ice; 100 and more => no ice

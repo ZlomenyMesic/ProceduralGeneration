@@ -62,7 +62,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
                 }
             }
 
-            // more rough biome edges
+            // rougher biome edges
             for (int i = 0; i < 10; i++) {
                 for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                     for (int y = 0; y < Settings.WORLD_SIZE; y++) {

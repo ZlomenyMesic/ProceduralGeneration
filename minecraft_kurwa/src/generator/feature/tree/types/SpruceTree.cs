@@ -44,7 +44,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                 }
             }
 
-            BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + (_height * 4 / 5)));
+            BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + (_height * 4 / 5) - 1));
         }
     }
 }

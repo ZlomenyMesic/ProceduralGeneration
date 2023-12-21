@@ -16,7 +16,7 @@ using System;
 
 namespace minecraft_kurwa.src.gui {
     public class Engine : Game {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
 
         public Engine() {
             Time.UpdateLoadTime();
