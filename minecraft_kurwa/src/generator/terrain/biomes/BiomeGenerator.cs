@@ -190,26 +190,26 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
 
                             // x + 1
                             if (x < Settings.WORLD_SIZE - 1) {
-                                spreadBlendingValues(x, y, x + 1, y);
-                                spreadBlendingBiomes(x, y, x + 1, y);
+                                SpreadBlendingValues(x, y, x + 1, y);
+                                SpreadBlendingBiomes(x, y, x + 1, y);
                             }
 
                             // x - 1
                             if (x > 0) {
-                                spreadBlendingValues(x, y, x - 1, y);
-                                spreadBlendingBiomes(x, y, x - 1, y);
+                                SpreadBlendingValues(x, y, x - 1, y);
+                                SpreadBlendingBiomes(x, y, x - 1, y);
                             }
 
                             // y + 1
                             if (y < Settings.WORLD_SIZE - 1) {
-                                spreadBlendingValues(x, y, x, y + 1);
-                                spreadBlendingBiomes(x, y, x, y + 1);
+                                SpreadBlendingValues(x, y, x, y + 1);
+                                SpreadBlendingBiomes(x, y, x, y + 1);
                             }
 
                             // y - 1
                             if (y > 0) {
-                                spreadBlendingValues(x, y, x, y - 1);
-                                spreadBlendingBiomes(x, y, x, y - 1);
+                                SpreadBlendingValues(x, y, x, y - 1);
+                                SpreadBlendingBiomes(x, y, x, y - 1);
                             }
                         }
                     }
@@ -217,7 +217,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             }
         }
 
-        private static void spreadBlendingBiomes (int x, int y, int sx, int sy) {
+        private static void SpreadBlendingBiomes(int x, int y, int sx, int sy) {
             if (Global.BIOME_MAP[x, y, 1] < Global.BIOME_MAP[sx, sy, 1]) {
                 
                 // inherit the secondary biome if it is not the same as primary or tertiary
@@ -244,7 +244,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             }
         }
 
-        private static void spreadBlendingValues(int x, int y, int sx, int sy) {
+        private static void SpreadBlendingValues(int x, int y, int sx, int sy) {
             if (Global.BIOME_MAP[sx, sy, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
                 Global.BIOME_MAP[sx, sy, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
             }

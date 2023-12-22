@@ -25,7 +25,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 // prevent ponds from generating close to each other
                 for (ushort j = 0; j < existingCounter; j++) {
-                    if (Math.Abs(existing[j].X - x) <= MAX_POND_SIZE && Math.Abs(existing[j].Y - y) <= MAX_POND_SIZE) goto exit;
+                    if (Math.Abs(existing[j].X - x) <= MAX_POND_SIZE && Math.Abs(existing[j].Y - y) <= MAX_POND_SIZE) goto @continue;
                 }
 
                 ushort sizeX = (ushort)Global.RANDOM.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
@@ -33,7 +33,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 (ushort, ushort) diff = GetPondHeightDifferences(x, y, sizeX, sizeY);
 
-                if (diff.Item1 > 2) goto exit;
+                if (diff.Item1 > 2) goto @continue;
 
                 if (Global.RANDOM.Next(0, 2) == 0) diff.Item2--; // sometimes ponds will generate one block lower
 
@@ -41,7 +41,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 existing[existingCounter++] = new Vector2(x, y);
 
-                exit: continue;
+                @continue: continue;
             }
         }
 
