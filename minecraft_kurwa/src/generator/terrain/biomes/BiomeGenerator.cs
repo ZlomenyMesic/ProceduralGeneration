@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes
 {
-    internal class BiomeGenerator {
+    internal static class BiomeGenerator {
         internal static void GenerateBiomeMap() {
             SimplexNoise s = new(Settings.SEED);
 
@@ -93,7 +93,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             }
         }
 
-
+        // --------- old biome generation
         //internal static void GenerateBiomeMap() {
         //    byte[,,] subbiomeType = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE, 4];
 
@@ -159,56 +159,94 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             // make the borders of the biomes blend 50 : 50 and save what is the secondary biome
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                    if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x + 1, y, 0] / 10) {
-                            Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                            Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x + 1, y, 0];
-                        }
+                    
+                    if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x + 1, y, 0]) {
+                        Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x + 1, y, 0];
+                    }
 
-                    if (x > 0) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x - 1, y, 0] / 10) {
-                            Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                            Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x - 1, y, 0];
-                        }
+                    if (x > 0) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x - 1, y, 0]) {
+                        Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x - 1, y, 0];
+                    }
 
-                    if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x, y + 1, 0] / 10) {
-                            Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                            Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y + 1, 0];
-                        }
+                    if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y + 1, 0]) {
+                        Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y + 1, 0];
+                    }
 
-                    if (y > 0) if (Global.BIOME_MAP[x, y, 0] / 10 != Global.BIOME_MAP[x, y - 1, 0] / 10) {
-                            Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
-                            Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0];
-                        }
+                    if (y > 0) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y - 1, 0]) {
+                        Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0];
+                    }
                 }
             }
 
-            // spread the biome blend values
+            // spread the biome blend biomes
             for (int i = 0; i < Settings.BIOME_BLENDING; i++) {
                 for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                     for (int y = 0; y < Settings.WORLD_SIZE; y++) {
                         if (Global.BIOME_MAP[x, y, 1] > 0) {
 
-                            if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x + 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                                    Global.BIOME_MAP[x + 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                    if (Global.BIOME_MAP[x + 1, y, 2] == 0) Global.BIOME_MAP[x + 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x + 1, y, 3] = Global.BIOME_MAP[x, y, 2];
-                                }
+                            // x + 1
+                            if (x < Settings.WORLD_SIZE - 1) {
+                                spreadBlendingValues(x, y, x + 1, y);
+                                spreadBlendingBiomes(x, y, x + 1, y);
+                            }
 
-                            if (x > 0) if (Global.BIOME_MAP[x - 1, y, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                                    Global.BIOME_MAP[x - 1, y, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                    if (Global.BIOME_MAP[x - 1, y, 2] == 0) Global.BIOME_MAP[x - 1, y, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x - 1, y, 3] = Global.BIOME_MAP[x, y, 2];
-                                }
+                            // x - 1
+                            if (x > 0) {
+                                spreadBlendingValues(x, y, x - 1, y);
+                                spreadBlendingBiomes(x, y, x - 1, y);
+                            }
 
-                            if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y + 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                                    Global.BIOME_MAP[x, y + 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                    if (Global.BIOME_MAP[x, y + 1, 2] == 0) Global.BIOME_MAP[x, y + 1, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x, y + 1, 3] = Global.BIOME_MAP[x, y, 2];
-                                }
+                            // y + 1
+                            if (y < Settings.WORLD_SIZE - 1) {
+                                spreadBlendingValues(x, y, x, y + 1);
+                                spreadBlendingBiomes(x, y, x, y + 1);
+                            }
 
-                            if (y > 0) if (Global.BIOME_MAP[x, y - 1, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
-                                    Global.BIOME_MAP[x, y - 1, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
-                                    if (Global.BIOME_MAP[x, y - 1, 2] == 0) Global.BIOME_MAP[x, y - 1, 2] = Global.BIOME_MAP[x, y, 2]; else Global.BIOME_MAP[x, y - 1, 3] = Global.BIOME_MAP[x, y, 2];
-                                }
+                            // y - 1
+                            if (y > 0) {
+                                spreadBlendingValues(x, y, x, y - 1);
+                                spreadBlendingBiomes(x, y, x, y - 1);
+                            }
                         }
                     }
                 }
+            }
+        }
+
+        private static void spreadBlendingBiomes (int x, int y, int sx, int sy) {
+            if (Global.BIOME_MAP[x, y, 1] < Global.BIOME_MAP[sx, sy, 1]) {
+                
+                // inherit the secondary biome if it is not the same as primary or tertiary
+                if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[sx, sy, 2] &&
+                    Global.BIOME_MAP[x, y, 2] != Global.BIOME_MAP[sx, sy, 2] &&
+                    Global.BIOME_MAP[x, y, 3] != Global.BIOME_MAP[sx, sy, 2]) {
+                    if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN) {
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[sx, sy, 2];
+                    } else if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
+                        Global.BIOME_MAP[x, y, 3] = Global.BIOME_MAP[sx, sy, 2];
+                    }
+                }
+                
+                // inherit the secondary biome if it is not the same as primary or tertiary
+                if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[sx, sy, 3] &&
+                    Global.BIOME_MAP[x, y, 2] != Global.BIOME_MAP[sx, sy, 3] &&
+                    Global.BIOME_MAP[x, y, 3] != Global.BIOME_MAP[sx, sy, 3]) {
+                    if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN) {
+                        Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[sx, sy, 2];
+                    } else if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
+                        Global.BIOME_MAP[x, y, 3] = Global.BIOME_MAP[sx, sy, 2];
+                    }
+                }
+            }
+        }
+
+        private static void spreadBlendingValues(int x, int y, int sx, int sy) {
+            if (Global.BIOME_MAP[sx, sy, 1] < Global.BIOME_MAP[x, y, 1] - 1) {
+                Global.BIOME_MAP[sx, sy, 1] = (byte)(Global.BIOME_MAP[x, y, 1] - 1);
             }
         }
     }
