@@ -30,6 +30,7 @@ namespace minecraft_kurwa.src.gui {
             IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1 / Global.UPDATES_PER_SECOND);
 
+            if (ExperimentalSettings.RANDOM_SEED) Settings.SEED = new Random().Next(int.MinValue, int.MaxValue);
             Global.RANDOM = new(Settings.SEED);
         }
 
