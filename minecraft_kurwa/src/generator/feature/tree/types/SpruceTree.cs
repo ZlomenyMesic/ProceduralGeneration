@@ -4,6 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.geometry;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
@@ -12,25 +13,24 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
         internal SpruceTree(ushort posX, ushort posY, ushort posZ, byte height) : base(posX, posY, posZ, height, VoxelType.SPRUCE_LEAVES, VoxelType.SPRUCE_WOOD) { }
 
         internal override void Build() {
-            float diameter = _height * 2 / 5;
+            float radius = _height / 5;
             byte bottom = (byte)(_height / Global.RANDOM.Next(4, 6));
 
             for (short z = bottom; z < _height; z += 2) {
-                for (short x = (short)(-diameter / 2); x <= diameter / 2; x++) {
+                for (short x = (short)-radius; x <= radius; x++) {
                     if (_posX + x < 0 || _posX + x >= Settings.WORLD_SIZE) continue;
 
-                    for (short y = (short)(-diameter / 2); y <= diameter / 2; y++) {
+                    for (short y = (short)-radius; y <= radius; y++) {
                         if (_posY + y < 0 || _posY + y >= Settings.WORLD_SIZE) continue;
 
-                        float distance = (float)Math.Sqrt(x * x + y * y);
-                        if (distance < diameter / 2 && Global.RANDOM.Next(0, 6) != 0) {
+                        if (Shapes.Circle(x, y, radius) && Global.RANDOM.Next(0, 6) != 0) {
                             if (Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] == null) {
                                 Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] = _leaveType;
                             }
                         }
                     }
                 }
-                diameter -= 0.8f;
+                radius -= 0.4f;
             }
 
             for (byte z = 0; z <= _height; z++) {

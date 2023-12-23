@@ -4,6 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.geometry;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
@@ -25,7 +26,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                         for (sbyte y = -2; y <= 2; y++) {
                             if (_posY + y < 0 || _posY + y >= Settings.WORLD_SIZE) continue;
 
-                            if (Math.Sqrt(x * x + y * y) <= 2 && Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] == null) {
+                            if (Shapes.Circle(x, y, 2) && Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] == null) {
                                 if (Global.RANDOM.Next(0, 4) != 0) Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] = _leaveType;
                             }
                         }

@@ -5,6 +5,7 @@
 
 using minecraft_kurwa.src.renderer.voxels;
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.geometry;
 
 namespace minecraft_kurwa.src.generator.feature.shrub {
     internal static class Shrub {
@@ -20,7 +21,7 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
                     for (short z = (short)(-sizeZ / 2); z <= sizeZ / 2; z++) {
                         if (posZ + z < 0 || posZ + z >= Settings.HEIGHT_LIMIT) continue;
 
-                        if (Ellipsoid(x, y, z, (short)(sizeX / 2), (short)(sizeY / 2), (short)(sizeZ / 2)) && Global.RANDOM.Next(0, 2) != 0) {
+                        if (Shapes.Ellipsoid(x, y, z, sizeX / 2, sizeY / 2, sizeZ / 2) && Global.RANDOM.Next(0, 2) != 0) {
                             if (Global.HEIGHT_MAP[posX + x, posY + y] < posZ + z && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)leaves;
                             }
@@ -31,10 +32,6 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
 
             // 50 % chance to generate another bush for better shapes
             if (main && Global.RANDOM.Next(0, 2) == 0) Build((ushort)(posX + Global.RANDOM.Next(-2, 3)), (ushort)(posY + Global.RANDOM.Next(-2, 3)), posZ, (ushort)(Global.RANDOM.Next(ShrubGenerator.MIN_SHRUB_SIZE, ShrubGenerator.MAX_SHRUB_SIZE)), (ushort)(Global.RANDOM.Next(ShrubGenerator.MIN_SHRUB_SIZE, ShrubGenerator.MAX_SHRUB_SIZE)), leaves, false);
-        }
-
-        private static bool Ellipsoid(short x, short y, short z, short a, short b, short c) {
-            return (x * x / (a * a)) + (y * y / (b * b)) + (z * z / (c * c)) <= 1;
         }
     }
 }

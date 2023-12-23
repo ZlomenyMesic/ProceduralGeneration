@@ -6,6 +6,8 @@
 using Microsoft.Xna.Framework.Input;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer;
+using minecraft_kurwa.src.renderer.voxels;
+using System;
 
 namespace minecraft_kurwa.src.gui.input {
     internal static class KeyboardHandler {
@@ -13,6 +15,13 @@ namespace minecraft_kurwa.src.gui.input {
         private static bool _lastDebugMenuState = false;
 
         private static readonly int DEFAULT_FOV = Settings.FIELD_OF_VIEW;
+
+        private static readonly Action<float, float, float, float> UpdatePosition = (float camPositionX, float camPositionZ, float camTargetX, float camTargetZ) => {
+            Global.CAM_POSITION.X += camPositionX;
+            Global.CAM_POSITION.Z += camPositionZ;
+            Global.CAM_TARGET.X += camTargetX;
+            Global.CAM_TARGET.Z += camTargetZ;
+        };
 
         internal static bool HandleKeyboard() {
             KeyboardState keyboard = Keyboard.GetState();
@@ -34,38 +43,20 @@ namespace minecraft_kurwa.src.gui.input {
 
             float differenceX = (Global.CAM_TARGET.X - Global.CAM_POSITION.X) * speed;
             float differenceZ = (Global.CAM_TARGET.Z - Global.CAM_POSITION.Z) * speed;
+            float changeY = VoxelCulling.MAX_DIFFERENCE_VALUE * speed;
 
-            if (keyboard.IsKeyDown(Controls.FORWARD)) {
-                Global.CAM_POSITION.X += differenceX;
-                Global.CAM_TARGET.X += differenceX;
-                Global.CAM_POSITION.Z += differenceZ;
-                Global.CAM_TARGET.Z += differenceZ;
-            }
-            if (keyboard.IsKeyDown(Controls.BACKWARD)) {
-                Global.CAM_POSITION.X -= differenceX;
-                Global.CAM_TARGET.X -= differenceX;
-                Global.CAM_POSITION.Z -= differenceZ;
-                Global.CAM_TARGET.Z -= differenceZ;
-            }
-            if (keyboard.IsKeyDown(Controls.LEFT)) {
-                Global.CAM_POSITION.Z -= differenceX;
-                Global.CAM_TARGET.Z -= differenceX;
-                Global.CAM_POSITION.X += differenceZ;
-                Global.CAM_TARGET.X += differenceZ;
-            }
-            if (keyboard.IsKeyDown(Controls.RIGHT)) {
-                Global.CAM_POSITION.Z += differenceX;
-                Global.CAM_TARGET.Z += differenceX;
-                Global.CAM_POSITION.X -= differenceZ;
-                Global.CAM_TARGET.X -= differenceZ;
-            }
+            if (keyboard.IsKeyDown(Controls.FORWARD)) UpdatePosition(differenceX, differenceZ, differenceX, differenceZ);
+            if (keyboard.IsKeyDown(Controls.BACKWARD)) UpdatePosition(-differenceX, -differenceZ, -differenceX, -differenceZ);
+            if (keyboard.IsKeyDown(Controls.LEFT)) UpdatePosition(differenceZ, -differenceX, differenceZ, -differenceX);
+            if (keyboard.IsKeyDown(Controls.RIGHT)) UpdatePosition(-differenceZ, differenceX, -differenceZ, differenceX);
+
             if (keyboard.IsKeyDown(Controls.UP)) {
-                Global.CAM_POSITION.Y += speed * 200;
-                Global.CAM_TARGET.Y += speed * 200;
+                Global.CAM_POSITION.Y += changeY;
+                Global.CAM_TARGET.Y += changeY;
             }
             if (keyboard.IsKeyDown(Controls.DOWN)) {
-                Global.CAM_POSITION.Y -= speed * 200;
-                Global.CAM_TARGET.Y -= speed * 200;
+                Global.CAM_POSITION.Y -= changeY;
+                Global.CAM_TARGET.Y -= changeY;
             }
 
             return false;

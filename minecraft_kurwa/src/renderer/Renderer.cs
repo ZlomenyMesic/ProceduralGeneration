@@ -92,7 +92,8 @@ namespace minecraft_kurwa.src.renderer {
                 $"Seed: {Settings.SEED}\n" +
                 $"Voxels: {VoxelConnector.voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
-                $"Frames per second: {Time.LastFPS}",
+                $"Frames per second: {Time.LastFPS}\n" +
+                $"",
                 new Vector2(30, 30), Color.White);
             spriteBatch.End();
         }

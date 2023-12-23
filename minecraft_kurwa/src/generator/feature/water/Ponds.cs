@@ -8,6 +8,7 @@ using minecraft_kurwa.src.renderer.voxels;
 using System.Linq;
 using System;
 using Microsoft.Xna.Framework;
+using minecraft_kurwa.src.global.geometry;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class Ponds {
@@ -55,7 +56,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
                 for (short y = (short)Math.Round(-b, 0); y <= b; y++) {
                     if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                    if (Ellipse(x, y, a, b) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
+                    if (Shapes.Ellipse(x, y, a - 0.2f, b - 0.2f) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel] = (byte?)VoxelType.WATER;
 
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel + 1] = null;
@@ -100,10 +101,6 @@ namespace minecraft_kurwa.src.generator.feature.water {
             return (maxDifference, waterLevel);
 
             cannotGenerate: return (100, 0);
-        }
-
-        private static bool Ellipse(float x, float y, float a, float b) {
-            return (x * x / (a * a)) + (y * y / (b * b)) < 1;
         }
     }
 }
