@@ -4,6 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.geometry;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 using System.Numerics;
@@ -49,7 +50,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     for (short z = -1; z <= 1; z++) {
                         if (posZ + z < 0 || posZ + z >= Settings.WORLD_SIZE) continue;
 
-                        if (Ellipsoid((short)(x - 1), (short)(y - 1), z, sizeX, sizeY, 1)) {
+                        if (Shapes.Ellipsoid(x - 1, y - 1, z, sizeX, sizeY, 1)) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null && Global.RANDOM.Next(0, 4) == 0) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = _leaveType;
                             }
@@ -57,10 +58,6 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     }
                 }
             }
-        }
-
-        private bool Ellipsoid(short x, short y, short z, short a, short b, short c) {
-            return (x * x / (a * a)) + (y * y / (b * b)) + (z * z / (c * c)) <= 1;
         }
     }
 }

@@ -8,6 +8,7 @@ using minecraft_kurwa.src.renderer.voxels;
 using System.Linq;
 using System;
 using Microsoft.Xna.Framework;
+using minecraft_kurwa.src.global.geometry;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class Ponds {
@@ -25,7 +26,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 // prevent ponds from generating close to each other
                 for (ushort j = 0; j < existingCounter; j++) {
-                    if (Math.Abs(existing[j].X - x) <= MAX_POND_SIZE && Math.Abs(existing[j].Y - y) <= MAX_POND_SIZE) goto exit;
+                    if (Math.Abs(existing[j].X - x) <= MAX_POND_SIZE && Math.Abs(existing[j].Y - y) <= MAX_POND_SIZE) goto @continue;
                 }
 
                 ushort sizeX = (ushort)Global.RANDOM.Next(MIN_POND_SIZE, MAX_POND_SIZE + 1);
@@ -33,7 +34,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 (ushort, ushort) diff = GetPondHeightDifferences(x, y, sizeX, sizeY);
 
-                if (diff.Item1 > 2) goto exit;
+                if (diff.Item1 > 2) goto @continue;
 
                 if (Global.RANDOM.Next(0, 2) == 0) diff.Item2--; // sometimes ponds will generate one block lower
 
@@ -41,7 +42,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
 
                 existing[existingCounter++] = new Vector2(x, y);
 
-                exit: continue;
+                @continue: continue;
             }
         }
 
@@ -55,7 +56,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
                 for (short y = (short)Math.Round(-b, 0); y <= b; y++) {
                     if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                    if (Ellipse(x, y, a, b) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
+                    if (Shapes.Ellipse(x, y, a - 0.2f, b - 0.2f) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel] = (byte?)VoxelType.WATER;
 
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel + 1] = null;
@@ -100,10 +101,6 @@ namespace minecraft_kurwa.src.generator.feature.water {
             return (maxDifference, waterLevel);
 
             cannotGenerate: return (100, 0);
-        }
-
-        private static bool Ellipse(float x, float y, float a, float b) {
-            return (x * x / (a * a)) + (y * y / (b * b)) < 1;
         }
     }
 }

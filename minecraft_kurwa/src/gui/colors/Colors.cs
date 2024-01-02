@@ -14,11 +14,11 @@ namespace minecraft_kurwa.src.gui.colors {
         private const byte LEAVES_TRANSPARENCY = 90;
 
         // original color is multiplied by shadow
-        internal static readonly Vector3 FRONT_SHADOW = new(0.7f, 0.7f, 0.7f);
-        internal static readonly Vector3 BACK_SHADOW = new(0.7f, 0.7f, 0.7f);
+        internal static readonly Vector3 FRONT_SHADOW = new(0.6f, 0.6f, 0.6f);
+        internal static readonly Vector3 BACK_SHADOW = new(0.6f, 0.6f, 0.6f);
         internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
         internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
-        internal static readonly Vector3 BOTTOM_SHADOW = new(0.6f, 0.6f, 0.6f);
+        internal static readonly Vector3 BOTTOM_SHADOW = new(0.4f, 0.4f, 0.4f);
 
         private static readonly Color[] COLORS = {
             new(255, 0, 255),   // 0 - purple
@@ -68,7 +68,7 @@ namespace minecraft_kurwa.src.gui.colors {
                     case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color = new Vector3(92, 140, 36); break;   // super dry
                     case 20 or 22 or 24 or 25: color = new Vector3(77, 144, 30); break;                    // dry
                     case 10 or 11 or 12: color = new Vector3(34, 138, 14); break;                          // rainy
-                    case 50 or 52 or 60 or 62 or 63 or 64: color = new(147, 192, 139); break;              // frozen
+                    case 50 or 52 or 60 or 62 or 63 or 64: color = new(137, 192, 149); break;              // frozen
                     case 51 or 61: color = new(173, 135, 101); break;                                      // frozen dark soil
                     case 31 or 41: color = new Vector3(76, 78, 26); break;                                 // dark soil
                     case 21: color = new Vector3(96, 98, 26); break;                                       // lighter dark soil
@@ -89,6 +89,9 @@ namespace minecraft_kurwa.src.gui.colors {
                     default: break;                                    // no shade
                 }
             }
+            else if (voxelType == (byte)VoxelType.SPRUCE_LEAVES) {
+                if (biome >= 50) color = new Vector3(11, 98, 59);      // blue-ish shade when in cold climate
+            }
             else if (voxelType == (byte)VoxelType.BEECH_LEAVES) {
                 switch (new Random(Settings.SEED * seed).Next(0, 4)) {
                     case 0: color = new Vector3(75, 126, 56); break;   // green shade
@@ -98,16 +101,16 @@ namespace minecraft_kurwa.src.gui.colors {
             }
             else if (voxelType == (byte)VoxelType.MAPLE_LEAVES) {
                 switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(179, 185, 4); break;  // green shade
-                    case 1: color = new Vector3(169, 192, 0); break;  // greener shade
+                    case 0: color = new Vector3(179, 185, 4); break;   // green shade
+                    case 1: color = new Vector3(169, 192, 0); break;   // greener shade
                     default: break;                                    // no shade
                 }
             }
             else if (voxelType == (byte)VoxelType.CHERRY_LEAVES) {
                 switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(255, 183, 209); break;     // more purple shade
-                    case 1: color = new Vector3(255, 176, 190); break;   // more reddish shade
-                    default: break;                                    // no shade
+                    case 0: color = new Vector3(255, 183, 209); break;  // more purple shade
+                    case 1: color = new Vector3(255, 176, 190); break;  // more reddish shade
+                    default: break;                                     // no shade
                 }
             }
             else if (voxelType == (byte)VoxelType.WATER) {

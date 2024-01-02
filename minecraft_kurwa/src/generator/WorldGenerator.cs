@@ -18,6 +18,7 @@ namespace minecraft_kurwa.src.generator {
             BiomeGenerator.GenerateBiomeBlending();
 
             TerrainGenerator.GenerateHeightMap();
+            Erosion.GenerateErosion();
 
             for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {

@@ -28,7 +28,7 @@ namespace minecraft_kurwa.src.renderer {
             Global.GRAPHICS_DEVICE.BlendState = BlendState.AlphaBlend;
             Global.GRAPHICS_DEVICE.RasterizerState = RasterizerState.CullCounterClockwise;
 
-            Global.CAM_POSITION = new Vector3(Settings.WORLD_SIZE / 2, 150, Settings.WORLD_SIZE / 2);
+            Global.CAM_POSITION = new Vector3(Settings.WORLD_SIZE / 2, Global.HEIGHT_MAP[Settings.WORLD_SIZE / 2, Settings.WORLD_SIZE / 2] + 100, Settings.WORLD_SIZE / 2);
             Global.CAM_TARGET = new Vector3(Global.CAM_POSITION.X + VoxelCulling.defaultCTPosition.X, Global.CAM_POSITION.Y + VoxelCulling.defaultCTPosition.Z, Global.CAM_POSITION.Z + VoxelCulling.defaultCTPosition.Y);
             PROJECTION_MATRIX = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(Settings.FIELD_OF_VIEW), Global.GRAPHICS_DEVICE.DisplayMode.AspectRatio * ExperimentalSettings.ASPECT_RATIO, ExperimentalSettings.ANTI_RENDER_DISTANCE, Settings.RENDER_DISTANCE);
             VIEW_MATRIX = Matrix.CreateLookAt(Global.CAM_POSITION, Global.CAM_TARGET, Vector3.Up);
@@ -92,7 +92,8 @@ namespace minecraft_kurwa.src.renderer {
                 $"Seed: {Settings.SEED}\n" +
                 $"Voxels: {VoxelConnector.voxelCounter}\n" +
                 $"Triangles: {VoxelStructure.triangleCounter}\n" +
-                $"Frames per second: {Time.LastFPS}",
+                $"Frames per second: {Time.LastFPS}\n" +
+                $"",
                 new Vector2(30, 30), Color.White);
             spriteBatch.End();
         }
