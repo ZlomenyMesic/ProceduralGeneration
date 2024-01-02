@@ -11,6 +11,7 @@ using minecraft_kurwa.src.generator.terrain.noise;
 namespace minecraft_kurwa.src.generator.terrain
 {
     internal class TerrainGenerator {
+        
         internal static void GenerateHeightMap() {
             PerlinNoise perlinNoise = new(Settings.SEED);
 
@@ -32,114 +33,127 @@ namespace minecraft_kurwa.src.generator.terrain
                         }
                     }
 
-                    ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
-                    (string operation, float numerator)[] sOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 2]);
-
-                    for (byte i = 0; i < sOperations.Length; i++) {
-                        if (sOperations[i].operation == "*") {
-                            sHeight = (ushort)(sHeight * sOperations[i].numerator);
+                    // better terrain smoothing
+                    if (Settings.TERRAIN_SMOOTHING_LEVEL == 2) {
+                        
+                        // secondary height
+                        ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                        (string operation, float numerator)[] sOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 2]);
+                        
+                        for (byte i = 0; i < sOperations.Length; i++) {
+                            if (sOperations[i].operation == "*") {
+                                sHeight = (ushort)(sHeight * sOperations[i].numerator);
+                            }
+                        
+                            if (sOperations[i].operation == "+") {
+                                sHeight = (ushort)(sHeight + sOperations[i].numerator);
+                            }
                         }
-
-                        if (sOperations[i].operation == "+") {
-                            sHeight = (ushort)(sHeight + sOperations[i].numerator);
+                        
+                        // tertiary height
+                        ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                        (string operation, float numerator)[] tOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 3]);
+                        
+                        for (byte i = 0; i < tOperations.Length; i++) {
+                            if (tOperations[i].operation == "*") {
+                                tHeight = (ushort)(tHeight * tOperations[i].numerator);
+                            }
+                        
+                            if (tOperations[i].operation == "+") {
+                                tHeight = (ushort)(tHeight + tOperations[i].numerator);
+                            }
                         }
-                    }
+                        
+                        // finalize
+                        
+                        // only primary biome is not unknown
+                        if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                            Global.HEIGHT_MAP[x, y] = pHeight;
 
-                    ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
-                    (string operation, float numerator)[] tOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 3]);
+                        // only primary and secondary biomes are not unknown
+                        if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                            Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 100);
 
-                    for (byte i = 0; i < tOperations.Length; i++) {
-                        if (tOperations[i].operation == "*") {
-                            tHeight = (ushort)(tHeight * tOperations[i].numerator);
+                        // all biomes are not unknown
+                        if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN &&
+                            Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN) {
+                            
+                            Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + ( (float)sHeight / 2 + (float)tHeight / 2 ) * Global.BIOME_MAP[x, y, 1] ) / 100);
                         }
-
-                        if (tOperations[i].operation == "+") {
-                            tHeight = (ushort)(tHeight + tOperations[i].numerator);
-                        }
-                    }
-
-                    Global.HEIGHT_MAP[x, y] = pHeight;
-
-                    if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                            
+                            
+                        
+                    } else {
                         Global.HEIGHT_MAP[x, y] = pHeight;
-
-                    //if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
-                    //    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 200);
-
-                    //if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN)
-                    //    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1] / 2 + tHeight * Global.BIOME_MAP[x, y, 1] / 2) / 300);
+                    }
                 }
             }
+            
+            // linear round smoothing
+            if (Settings.TERRAIN_SMOOTHING_LEVEL == 1) {
+                
+            }
 
-            // terrain collapse
-            for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
-                for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
-                    for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                        if (x < Settings.WORLD_SIZE - 1) {
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+            // fast terrain smoothing (terrain collapse)
+            if (Settings.TERRAIN_SMOOTHING_LEVEL == 0) {
+                
+                for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
+                    for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+                        for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                            if (x < Settings.WORLD_SIZE - 1) {
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
+                            
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
                             }
-
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                            
+                            if (x > 0) {
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
+                            
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
                             }
-                        }
-
-                        if (x > 0) {
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                            
+                            if (y < Settings.WORLD_SIZE - 1) {
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
+                            
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
                             }
-
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
-                            }
-                        }
-
-                        if (y < Settings.WORLD_SIZE - 1) {
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
-                            }
-
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
-                            }
-                        }
-
-                        if (y > 0) {
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
-                            }
-
-                            if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
-                                Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                            
+                            if (y > 0) {
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
+                            
+                                if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] < -Settings.TERRAIN_COLLAPSE_LIMIT) {
+                                    Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] + Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
+                                }
                             }
                         }
                     }
                 }
             }
+        }
 
-            // terrain smoothing
-            // for (ushort x = Settings.TERRAIN_SMOOTHING_RADIUS - 1; x < Settings.WORLD_SIZE - Settings.TERRAIN_SMOOTHING_RADIUS + 2; x++) {
-            //     for (ushort y = Settings.TERRAIN_SMOOTHING_RADIUS - 1; y < Settings.WORLD_SIZE - Settings.TERRAIN_SMOOTHING_RADIUS + 2; y++) {
-            //         ushort avarage = 0;
-            //         ushort iterationCount = 0;
-            //         
-            //         for (ushort tx = (ushort)(x - Settings.TERRAIN_SMOOTHING_RADIUS + 1); tx < x + Settings.TERRAIN_SMOOTHING_RADIUS - 1; tx++) {
-            //             for (ushort ty = (ushort)(y - Settings.TERRAIN_SMOOTHING_RADIUS + 1); ty < y + Settings.TERRAIN_SMOOTHING_RADIUS - 1; ty++) {
-            //                 avarage += Global.HEIGHT_MAP[tx, ty];
-            //                 iterationCount++;
-            //             }
-            //         }
-            //
-            //         avarage = (ushort) ((avarage / iterationCount) / 2);
-            //         
-            //         for (ushort tx = (ushort)(x - Settings.TERRAIN_SMOOTHING_RADIUS + 1); tx < x + Settings.TERRAIN_SMOOTHING_RADIUS - 1; tx++) {
-            //             for (ushort ty = (ushort)(y - Settings.TERRAIN_SMOOTHING_RADIUS + 1); ty < y + Settings.TERRAIN_SMOOTHING_RADIUS - 1; ty++) {
-            //                 Global.HEIGHT_MAP[tx, ty] = (ushort)((Global.HEIGHT_MAP[tx, ty] * 2 + avarage) / 3);
-            //             }
-            //         }
-            //     }
-            // }
+        private static void RoundSmooth() {
+            for (int x = Settings.ROUND_SMOOTH_RADIUS; x < Settings.WORLD_SIZE - Settings.ROUND_SMOOTH_RADIUS; x += Settings.ROUND_SMOOTH_RADIUS * 2 + 1) {
+                for (int y = Settings.ROUND_SMOOTH_RADIUS; y < Settings.WORLD_SIZE - Settings.ROUND_SMOOTH_RADIUS; y += Settings.ROUND_SMOOTH_RADIUS * 2 + 1) {
+                    
+                    ushort avarage = 0;
+
+                    for (int cx = x - Settings.ROUND_SMOOTH_RADIUS; x < x + Settings.ROUND_SMOOTH_RADIUS; x++) ;
+                }
+            }
         }
     }
 }
