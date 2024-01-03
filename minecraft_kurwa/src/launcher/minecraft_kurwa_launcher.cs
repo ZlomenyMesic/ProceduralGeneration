@@ -46,6 +46,10 @@ namespace minecraft_kurwa.src.launcher {
             numericUpDown21.Value = Settings.TREE_DENSITY;
             numericUpDown22.Value = Settings.BUSH_DENSITY;
             numericUpDown20.Value = Settings.WOODY_PLANTS_EDGE_OFFSET;
+
+            numericUpDown23.Value = Settings.TERRAIN_COLLAPSE_LIMIT;
+
+            checkBox1.Checked = Settings.ENABLE_TERRAIN_COLLAPSE;
         }
 
         private void UpdateSettings () {
@@ -76,9 +80,28 @@ namespace minecraft_kurwa.src.launcher {
             Settings.TREE_DENSITY = (int) numericUpDown21.Value;
             Settings.BUSH_DENSITY = (int) numericUpDown22.Value;
             Settings.WOODY_PLANTS_EDGE_OFFSET = (int) numericUpDown20.Value;
+
+            Settings.TERRAIN_COLLAPSE_LIMIT = (ushort) numericUpDown23.Value;
+            Settings.ENABLE_TERRAIN_COLLAPSE = checkBox1.Checked;
         }
 
         private void numericUpDown11_ValueChanged (object sender, System.EventArgs e) {
+
+        }
+
+        private void label5_Click (object sender, System.EventArgs e) {
+
+        }
+
+        private void label23_Click (object sender, System.EventArgs e) {
+
+        }
+
+        private void label23_Click_1 (object sender, System.EventArgs e) {
+
+        }
+
+        private void label24_Click (object sender, System.EventArgs e) {
 
         }
     }

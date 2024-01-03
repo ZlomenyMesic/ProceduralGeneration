@@ -34,68 +34,55 @@ namespace minecraft_kurwa.src.generator.terrain
                     }
 
                     // better terrain smoothing
-                    if (Settings.TERRAIN_SMOOTHING_LEVEL == 2) {
+                    // secondary height
+                    ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                    (string operation, float numerator)[] sOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 2]);
                         
-                        // secondary height
-                        ushort sHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
-                        (string operation, float numerator)[] sOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 2]);
-                        
-                        for (byte i = 0; i < sOperations.Length; i++) {
-                            if (sOperations[i].operation == "*") {
-                                sHeight = (ushort)(sHeight * sOperations[i].numerator);
-                            }
-                        
-                            if (sOperations[i].operation == "+") {
-                                sHeight = (ushort)(sHeight + sOperations[i].numerator);
-                            }
+                    for (byte i = 0; i < sOperations.Length; i++) {
+                        if (sOperations[i].operation == "*") {
+                            sHeight = (ushort)(sHeight * sOperations[i].numerator);
                         }
                         
-                        // tertiary height
-                        ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
-                        (string operation, float numerator)[] tOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 3]);
+                        if (sOperations[i].operation == "+") {
+                            sHeight = (ushort)(sHeight + sOperations[i].numerator);
+                        }
+                    }
                         
-                        for (byte i = 0; i < tOperations.Length; i++) {
-                            if (tOperations[i].operation == "*") {
-                                tHeight = (ushort)(tHeight * tOperations[i].numerator);
-                            }
+                    // tertiary height
+                    ushort tHeight = (ushort)Math.Abs(perlinNoise.Noise((double)(x + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE, (double)(y + ExperimentalSettings.NOISE_OFFSET) / Settings.MAIN_NOISE_SCALE) * Settings.MAIN_NOISE_SHARPNESS * 5 / 2 + Settings.MAIN_NOISE_SHARPNESS * 3 / 2);
+                    (string operation, float numerator)[] tOperations = Biome.GetTerrainGeneratorValues((BiomeType)Global.BIOME_MAP[x, y, 3]);
                         
-                            if (tOperations[i].operation == "+") {
-                                tHeight = (ushort)(tHeight + tOperations[i].numerator);
-                            }
+                    for (byte i = 0; i < tOperations.Length; i++) {
+                        if (tOperations[i].operation == "*") {
+                            tHeight = (ushort)(tHeight * tOperations[i].numerator);
                         }
                         
-                        // finalize
-                        
-                        // only primary biome is not unknown
-                        if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
-                            Global.HEIGHT_MAP[x, y] = pHeight;
-
-                        // only primary and secondary biomes are not unknown
-                        if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
-                            Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 100);
-
-                        // all biomes are not unknown
-                        if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN &&
-                            Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN) {
-                            
-                            Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + ( (float)sHeight / 2 + (float)tHeight / 2 ) * Global.BIOME_MAP[x, y, 1] ) / 100);
+                        if (tOperations[i].operation == "+") {
+                            tHeight = (ushort)(tHeight + tOperations[i].numerator);
                         }
-                            
-                            
+                    }
                         
-                    } else {
+                    // finalize
+                        
+                    // only primary biome is not unknown
+                    if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
                         Global.HEIGHT_MAP[x, y] = pHeight;
+
+                    // only primary and secondary biomes are not unknown
+                    if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN && Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN)
+                        Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + sHeight * Global.BIOME_MAP[x, y, 1]) / 100);
+
+                    // all biomes are not unknown
+                    if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN &&
+                        Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN) {
+                            
+                        Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + ( (float)sHeight / 2 + (float)tHeight / 2 ) * Global.BIOME_MAP[x, y, 1] ) / 100);
                     }
                 }
             }
-            
-            // linear round smoothing
-            if (Settings.TERRAIN_SMOOTHING_LEVEL == 1) {
-                
-            }
 
             // fast terrain smoothing (terrain collapse)
-            if (Settings.TERRAIN_SMOOTHING_LEVEL == 0) {
+            if (Settings.ENABLE_TERRAIN_COLLAPSE == true) {
                 
                 for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
                     for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -141,17 +128,6 @@ namespace minecraft_kurwa.src.generator.terrain
                             }
                         }
                     }
-                }
-            }
-        }
-
-        private static void RoundSmooth() {
-            for (int x = Settings.ROUND_SMOOTH_RADIUS; x < Settings.WORLD_SIZE - Settings.ROUND_SMOOTH_RADIUS; x += Settings.ROUND_SMOOTH_RADIUS * 2 + 1) {
-                for (int y = Settings.ROUND_SMOOTH_RADIUS; y < Settings.WORLD_SIZE - Settings.ROUND_SMOOTH_RADIUS; y += Settings.ROUND_SMOOTH_RADIUS * 2 + 1) {
-                    
-                    ushort avarage = 0;
-
-                    for (int cx = x - Settings.ROUND_SMOOTH_RADIUS; x < x + Settings.ROUND_SMOOTH_RADIUS; x++) ;
                 }
             }
         }

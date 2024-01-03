@@ -50,6 +50,10 @@ namespace minecraft_kurwa.src.launcher {
             label9 = new System.Windows.Forms.Label();
             label10 = new System.Windows.Forms.Label();
             groupBox4 = new System.Windows.Forms.GroupBox();
+            label24 = new System.Windows.Forms.Label();
+            checkBox1 = new System.Windows.Forms.CheckBox();
+            label23 = new System.Windows.Forms.Label();
+            numericUpDown23 = new System.Windows.Forms.NumericUpDown();
             numericUpDown10 = new System.Windows.Forms.NumericUpDown();
             numericUpDown11 = new System.Windows.Forms.NumericUpDown();
             numericUpDown12 = new System.Windows.Forms.NumericUpDown();
@@ -92,6 +96,7 @@ namespace minecraft_kurwa.src.launcher {
             ((System.ComponentModel.ISupportInitialize) numericUpDown8).BeginInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown9).BeginInit();
             groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize) numericUpDown23).BeginInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown10).BeginInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown11).BeginInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown12).BeginInit();
@@ -286,7 +291,7 @@ namespace minecraft_kurwa.src.launcher {
             groupBox3.Controls.Add(label9);
             groupBox3.Controls.Add(label10);
             groupBox3.ForeColor = System.Drawing.Color.White;
-            groupBox3.Location = new System.Drawing.Point(386, 246);
+            groupBox3.Location = new System.Drawing.Point(386, 281);
             groupBox3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
@@ -364,6 +369,10 @@ namespace minecraft_kurwa.src.launcher {
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(label24);
+            groupBox4.Controls.Add(checkBox1);
+            groupBox4.Controls.Add(label23);
+            groupBox4.Controls.Add(numericUpDown23);
             groupBox4.Controls.Add(numericUpDown10);
             groupBox4.Controls.Add(numericUpDown11);
             groupBox4.Controls.Add(numericUpDown12);
@@ -373,14 +382,62 @@ namespace minecraft_kurwa.src.launcher {
             groupBox4.Controls.Add(label12);
             groupBox4.Controls.Add(label13);
             groupBox4.ForeColor = System.Drawing.Color.White;
-            groupBox4.Location = new System.Drawing.Point(386, 124);
+            groupBox4.Location = new System.Drawing.Point(386, 121);
             groupBox4.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            groupBox4.Size = new System.Drawing.Size(346, 111);
+            groupBox4.Size = new System.Drawing.Size(346, 147);
             groupBox4.TabIndex = 3;
             groupBox4.TabStop = false;
             groupBox4.Text = "TERRAIN";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new System.Drawing.Point(11, 124);
+            label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            label24.Name = "label24";
+            label24.Size = new System.Drawing.Size(128, 15);
+            label24.TabIndex = 11;
+            label24.Text = "Enable terrain collapse:";
+            label24.Click += label24_Click;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            checkBox1.FlatAppearance.BorderSize = 0;
+            checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            checkBox1.ForeColor = System.Drawing.Color.FromArgb(  23,   23,   23);
+            checkBox1.Location = new System.Drawing.Point(202, 128);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new System.Drawing.Size(12, 11);
+            checkBox1.TabIndex = 10;
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new System.Drawing.Point(11, 103);
+            label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            label23.Name = "label23";
+            label23.Size = new System.Drawing.Size(118, 15);
+            label23.TabIndex = 9;
+            label23.Text = "Terrain collapse limit:";
+            label23.Click += label23_Click_1;
+            // 
+            // numericUpDown23
+            // 
+            numericUpDown23.BackColor = System.Drawing.Color.FromArgb(  32,   32,   32);
+            numericUpDown23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            numericUpDown23.ForeColor = System.Drawing.Color.White;
+            numericUpDown23.Location = new System.Drawing.Point(202, 103);
+            numericUpDown23.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            numericUpDown23.Maximum = new decimal(new int[] { 3000, 0, 0, 0 });
+            numericUpDown23.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+            numericUpDown23.Name = "numericUpDown23";
+            numericUpDown23.Size = new System.Drawing.Size(129, 23);
+            numericUpDown23.TabIndex = 8;
             // 
             // numericUpDown10
             // 
@@ -440,6 +497,7 @@ namespace minecraft_kurwa.src.launcher {
             label5.Size = new System.Drawing.Size(93, 15);
             label5.TabIndex = 3;
             label5.Text = "Subbiome scale:";
+            label5.Click += label5_Click;
             // 
             // label11
             // 
@@ -762,6 +820,7 @@ namespace minecraft_kurwa.src.launcher {
             ((System.ComponentModel.ISupportInitialize) numericUpDown9).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize) numericUpDown23).EndInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown10).EndInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown11).EndInit();
             ((System.ComponentModel.ISupportInitialize) numericUpDown12).EndInit();
@@ -835,5 +894,9 @@ namespace minecraft_kurwa.src.launcher {
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.NumericUpDown numericUpDown22;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown numericUpDown23;
     }
 }
