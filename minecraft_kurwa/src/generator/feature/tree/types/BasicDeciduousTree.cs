@@ -22,8 +22,8 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     if (_posY + y < 0 || _posY + y >= Settings.WORLD_SIZE) continue;
 
                     for (short z = (short)(-radius + 1); z < radius; z++) {
-                        if (Shapes.Sphere(x, y, z, radius / 2) && Global.RANDOM.Next(0, 2) == 0
-                            || Shapes.Sphere(x, y, z, radius) && Global.RANDOM.Next(0, 4) == 0) {
+                        if (Geometry.Sphere(x, y, z, radius / 2) && Global.RANDOM.Next(0, 2) == 0
+                            || Geometry.Sphere(x, y, z, radius) && Global.RANDOM.Next(0, 4) == 0) {
                             if (Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + _height * 2 / 3 + z] == null) {
                                 Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + _height * 2 / 3 + z] = _leaveType;
                             }

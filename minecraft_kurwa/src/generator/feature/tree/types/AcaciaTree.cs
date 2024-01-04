@@ -56,7 +56,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     for (short y = (short)(-radius - 1); y <= radius + 1; y++) {
                         if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                        if ((Shapes.Circle(x, y, radius) && Global.RANDOM.Next(0, 8) != 0) || (Shapes.Circle(x, y, radius + 1) && Global.RANDOM.Next(0, 4) != 0)) {
+                        if ((Geometry.Circle(x, y, radius) && Global.RANDOM.Next(0, 8) != 0) || (Geometry.Circle(x, y, radius + 1) && Global.RANDOM.Next(0, 4) != 0)) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + layer] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + layer] = _leaveType;
                             }

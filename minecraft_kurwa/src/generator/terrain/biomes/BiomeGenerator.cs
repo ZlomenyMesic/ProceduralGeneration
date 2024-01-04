@@ -12,12 +12,12 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
 {
     internal static class BiomeGenerator {
         internal static void GenerateBiomeMap() {
-            SimplexNoise s = new(Settings.SEED);
+            SimplexNoise noise = new(Settings.SEED);
 
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                    byte temperature = (byte)Math.Round(s.Calculate(x + ExperimentalSettings.NOISE_OFFSET, y + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
-                    byte rainfall = (byte)Math.Round(s.Calculate(x + 5000 + ExperimentalSettings.NOISE_OFFSET, y + 5000 + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
+                    byte temperature = (byte)Math.Round(noise.Calculate(x + ExperimentalSettings.NOISE_OFFSET, y + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
+                    byte rainfall = (byte)Math.Round(noise.Calculate(x + 5000 + ExperimentalSettings.NOISE_OFFSET, y + 5000 + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 2), 0);
 
                     byte biome = (byte)BiomeType.UNKNOWN;
 
@@ -29,7 +29,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
                     else if (rainfall == 1 && temperature == 2) biome = (byte)BiomeType.SUBTROPICAL;
                     else if (rainfall == 2 && temperature == 2) biome = (byte)BiomeType.TROPICAL_RAINY;
 
-                    byte subbiome = (byte)Math.Round(s.Calculate(x + 10000 + ExperimentalSettings.NOISE_OFFSET, y + 10000 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE, Biome.GetSubbiomeCount((BiomeType)biome)), 0);
+                    byte subbiome = (byte)Math.Round(noise.Calculate(x + 10000 + ExperimentalSettings.NOISE_OFFSET, y + 10000 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE, Biome.GetSubbiomeCount((BiomeType)biome)), 0);
                     biome += subbiome;
 
                     Global.BIOME_MAP[x, y, 0] = biome;
@@ -39,7 +39,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             // spreading biomes over edges for a more random look
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                    byte blending = (byte)Math.Round(s.Calculate(x + 15000 + ExperimentalSettings.NOISE_OFFSET, y + 1500 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE / 15, 1.8f), 0);
+                    byte blending = (byte)Math.Round(noise.Calculate(x + 15000 + ExperimentalSettings.NOISE_OFFSET, y + 15000 + ExperimentalSettings.NOISE_OFFSET, Settings.SUBBIOME_SCALE / 15, 1.8f), 0);
                     if (blending != 0) continue;
 
                     byte local = Global.BIOME_MAP[x, y, 0];

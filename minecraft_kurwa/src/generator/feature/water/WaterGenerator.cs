@@ -8,7 +8,9 @@ using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water {
     internal static class WaterGenerator {
-        internal static void Generate() {
+        internal static void GenerateRivers() => Rivers.GenerateMap();
+
+        internal static void GenerateOtherWaterThanRivers() {
             FillWaterLevel();
             Ponds.Generate();
             WaterFreezing.Freeze();

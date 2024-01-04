@@ -8,19 +8,20 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
-namespace minecraft_kurwa.src.gui.colors {
-    internal static class ColorManager {
-        private const byte DEFAULT_TRANSPARENCY = 100; // range 0-100
-        private const byte LEAVES_TRANSPARENCY = 90;
+namespace minecraft_kurwa.src.gui.colors;
 
-        // original color is multiplied by shadow
-        internal static readonly Vector3 FRONT_SHADOW = new(0.6f, 0.6f, 0.6f);
-        internal static readonly Vector3 BACK_SHADOW = new(0.6f, 0.6f, 0.6f);
-        internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
-        internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
-        internal static readonly Vector3 BOTTOM_SHADOW = new(0.4f, 0.4f, 0.4f);
+internal static class ColorManager {
+    private const byte DEFAULT_TRANSPARENCY = 100; // range 0-100
+    private const byte LEAVES_TRANSPARENCY = 90;
 
-        private static readonly Color[] COLORS = {
+    // original color is multiplied by shadow
+    internal static readonly Vector3 FRONT_SHADOW = new(0.6f, 0.6f, 0.6f);
+    internal static readonly Vector3 BACK_SHADOW = new(0.6f, 0.6f, 0.6f);
+    internal static readonly Vector3 SIDE_SHADOW = new(0.8f, 0.8f, 0.8f);
+    internal static readonly Vector3 TOP_SHADOW = new(1.0f, 1.0f, 1.0f);
+    internal static readonly Vector3 BOTTOM_SHADOW = new(0.4f, 0.4f, 0.4f);
+
+    private static readonly Color[] COLORS = {
             new(255, 0, 255),   // 0 - purple
             new(53, 131, 35),   // 1 - grass
             new(100, 110, 106), // 2 - rock
@@ -63,89 +64,79 @@ namespace minecraft_kurwa.src.gui.colors {
             new(0, 255, 0),     // 39 - marker block green
         };
 
-        internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
-            Vector3 color = COLORS[(int)voxelType].ToVector3() * new Vector3(255, 255, 255);
+    internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
+        Vector3 color = COLORS[(int)voxelType].ToVector3() * new Vector3(255, 255, 255);
 
-            if (voxelType == (byte)VoxelType.GRASS) {
-                switch (biome) {
-                    case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color = new Vector3(92, 140, 36); break;   // super dry
-                    case 20 or 22 or 24 or 25: color = new Vector3(77, 144, 30); break;                    // dry
-                    case 10 or 11 or 12: color = new Vector3(34, 138, 14); break;                          // rainy
-                    case 50 or 52 or 60 or 62 or 63 or 64: color = new(137, 192, 149); break;       // frozen
-                    case 51 or 61: color = new(173, 135, 101); break;                               // frozen dark soil
-                    case 31 or 41: color = new Vector3(76, 78, 26); break;                                 // dark soil
-                    case 21: color = new Vector3(96, 98, 26); break;                                       // lighter dark soil
-                    default: break;                                                                              // no shade
-                }
+        if (voxelType == (byte)VoxelType.GRASS) {
+            switch (biome) {
+                case 0 or 1 or 2 or 3 or 4 or 5 or 6 or 23: color = new Vector3(92, 140, 36); break;   // super dry
+                case 20 or 22 or 24 or 25: color = new Vector3(77, 144, 30); break;                    // dry
+                case 10 or 11 or 12: color = new Vector3(34, 138, 14); break;                          // rainy
+                case 50 or 52 or 60 or 62 or 63 or 64: color = new(137, 192, 149); break;       // frozen
+                case 51 or 61: color = new(173, 135, 101); break;                               // frozen dark soil
+                case 31 or 41: color = new Vector3(76, 78, 26); break;                                 // dark soil
+                case 21: color = new Vector3(96, 98, 26); break;                                       // lighter dark soil
+                default: break;                                                                              // no shade
             }
-            else if (voxelType == (byte)VoxelType.OAK_LEAVES) {
-                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(88, 155, 3); break;    // dark shade
-                    case 1: color = new Vector3(120, 182, 8); break;   // light shade
-                    default: break;                                          // no shade
-                }
+        } else if (voxelType == (byte)VoxelType.OAK_LEAVES) {
+            switch (new Random(Settings.SEED * seed).Next(0, 3)) {
+                case 0: color = new Vector3(88, 155, 3); break;    // dark shade
+                case 1: color = new Vector3(120, 182, 8); break;   // light shade
+                default: break;                                          // no shade
             }
-            else if (voxelType == (byte)VoxelType.KAPOK_LEAVES) {
-                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(38, 109, 18); break;   // dark shade
-                    case 1: color = new Vector3(63, 136, 23); break;   // light shade
-                    default: break;                                          // no shade
-                }
+        } else if (voxelType == (byte)VoxelType.KAPOK_LEAVES) {
+            switch (new Random(Settings.SEED * seed).Next(0, 3)) {
+                case 0: color = new Vector3(38, 109, 18); break;   // dark shade
+                case 1: color = new Vector3(63, 136, 23); break;   // light shade
+                default: break;                                          // no shade
             }
-            else if (voxelType == (byte)VoxelType.SPRUCE_LEAVES) {
-                if (biome >= 50) color = new Vector3(11, 98, 59);      // blue-ish shade when in cold climate
+        } else if (voxelType == (byte)VoxelType.SPRUCE_LEAVES) {
+            if (biome >= 50) color = new Vector3(11, 98, 59);      // blue-ish shade when in cold climate
+        } else if (voxelType == (byte)VoxelType.BEECH_LEAVES) {
+            switch (new Random(Settings.SEED * seed).Next(0, 4)) {
+                case 0: color = new Vector3(75, 126, 56); break;   // green shade
+                case 1: color = new Vector3(72, 132, 49); break;   // greener shade
+                default: break;                                          // no shade
             }
-            else if (voxelType == (byte)VoxelType.BEECH_LEAVES) {
-                switch (new Random(Settings.SEED * seed).Next(0, 4)) {
-                    case 0: color = new Vector3(75, 126, 56); break;   // green shade
-                    case 1: color = new Vector3(72, 132, 49); break;   // greener shade
-                    default: break;                                          // no shade
-                }
+        } else if (voxelType == (byte)VoxelType.MAPLE_LEAVES) {
+            switch (new Random(Settings.SEED * seed).Next(0, 3)) {
+                case 0: color = new Vector3(179, 185, 4); break;   // green shade
+                case 1: color = new Vector3(169, 192, 0); break;   // greener shade
+                default: break;                                          // no shade
             }
-            else if (voxelType == (byte)VoxelType.MAPLE_LEAVES) {
-                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(179, 185, 4); break;   // green shade
-                    case 1: color = new Vector3(169, 192, 0); break;   // greener shade
-                    default: break;                                          // no shade
-                }
+        } else if (voxelType == (byte)VoxelType.CHERRY_LEAVES) {
+            switch (new Random(Settings.SEED * seed).Next(0, 3)) {
+                case 0: color = new Vector3(255, 183, 209); break;  // more purple shade
+                case 1: color = new Vector3(255, 176, 190); break;  // more reddish shade
+                default: break;                                           // no shade
             }
-            else if (voxelType == (byte)VoxelType.CHERRY_LEAVES) {
-                switch (new Random(Settings.SEED * seed).Next(0, 3)) {
-                    case 0: color = new Vector3(255, 183, 209); break;  // more purple shade
-                    case 1: color = new Vector3(255, 176, 190); break;  // more reddish shade
-                    default: break;                                           // no shade
-                }
+        } else if (voxelType == (byte)VoxelType.WATER) {
+            switch (biome) {
+                case 50 or 51 or 52 or 60 or 61 or 62 or 63 or 64: color = new Vector3(36, 104, 116); break; // half-frozen water
+                default: break;
             }
-            else if (voxelType == (byte)VoxelType.WATER) {
-                switch (biome) {
-                    case 50 or 51 or 52 or 60 or 61 or 62 or 63 or 64: color = new Vector3(36, 104, 116); break; // half-frozen water
-                    default: break;
-                }
+        } else if (voxelType == (byte)VoxelType.MUD) {
+            switch (biome) {
+                case 5 or 6 or 20 or 21 or 22 or 23 or 24 or 25: color = new(104, 86, 72); break;
+                default: break;
             }
-            else if (voxelType == (byte)VoxelType.MUD) {
-                switch (biome) {
-                    case 5 or 6 or 20 or 21 or 22 or 23 or 24 or 25: color = new(104, 86, 72); break;
-                    default: break;
-                }
-            }
-            else if (voxelType == (byte)VoxelType.RIVER_ROCK) {
-                color = Global.RANDOM.Next(0, 4) switch {
-                    0 => new(198, 191, 184),
-                    1 => new(158, 157, 156),
-                    2 => new(185, 156, 150),
-                    3 => new(104, 90, 96),
-                    _ => COLORS[0].ToVector3() // shouldn't happen
-                };
-            }
-
-            return new(color.X / 255, color.Y / 255, color.Z / 255);
-        }
-
-        internal static byte GetVoxelTransparency(byte? voxelType) {
-            return voxelType switch {
-                8 or 10 or 12 or 14 or 16 or 19 or 21 or 24 or 26 or 27 or 29 or 30 or 35 => LEAVES_TRANSPARENCY,
-                _ => DEFAULT_TRANSPARENCY
+        } else if (voxelType == (byte)VoxelType.RIVER_ROCK) {
+            color = Global.RANDOM.Next(0, 4) switch {
+                0 => new(198, 191, 184),
+                1 => new(158, 157, 156),
+                2 => new(185, 156, 150),
+                3 => new(104, 90, 96),
+                _ => COLORS[0].ToVector3() // shouldn't happen
             };
         }
+
+        return new(color.X / 255, color.Y / 255, color.Z / 255);
+    }
+
+    internal static byte GetVoxelTransparency(byte? voxelType) {
+        return voxelType switch {
+            8 or 10 or 12 or 14 or 16 or 19 or 21 or 24 or 26 or 27 or 29 or 30 or 35 => LEAVES_TRANSPARENCY,
+            _ => DEFAULT_TRANSPARENCY
+        };
     }
 }

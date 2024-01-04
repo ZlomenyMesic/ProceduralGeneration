@@ -27,7 +27,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     for (short z = (short)(-radius / 3 + 1); z <= radius / 1.5; z++) {
                         float distance = (float)Math.Sqrt(x * x + y * y);
 
-                        if (z > _height / 10 && Shapes.Circle(x, y, radius) && distance + Math.Abs(z) < _height / 2 - 1 && Global.RANDOM.Next(0, 2) == 0) {
+                        if (z > _height / 10 && Geometry.Circle(x, y, radius) && distance + Math.Abs(z) < _height / 2 - 1 && Global.RANDOM.Next(0, 2) == 0) {
                             if (Global.VOXEL_MAP[crownPosX + x, crownPosY + y, _posZ + z + _height * 2 / 3] == null) {
                                 Global.VOXEL_MAP[crownPosX + x, crownPosY + y, _posZ + z + _height * 2 / 3] = _leaveType;
                             }

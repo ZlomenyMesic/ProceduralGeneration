@@ -1,3 +1,8 @@
+//
+// minecraft_kurwa
+// ZlomenyMesic, KryKom
+//
+
 using System.Collections.Generic;
 using minecraft_kurwa.debug;
 using minecraft_kurwa.src.global;

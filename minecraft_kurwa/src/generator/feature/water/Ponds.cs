@@ -56,7 +56,7 @@ namespace minecraft_kurwa.src.generator.feature.water {
                 for (short y = (short)Math.Round(-b, 0); y <= b; y++) {
                     if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
 
-                    if (Shapes.Ellipse(x, y, a - 0.2f, b - 0.2f) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
+                    if (Geometry.Ellipse(x, y, a - 0.2f, b - 0.2f) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel] = (byte?)VoxelType.WATER;
 
                         Global.VOXEL_MAP[posX + x, posY + y, waterLevel + 1] = null;

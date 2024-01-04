@@ -14,64 +14,64 @@ using minecraft_kurwa.src.renderer;
 using minecraft_kurwa.src.renderer.view;
 using System;
 
-namespace minecraft_kurwa.src.gui {
-    public class Engine : Game {
-        private readonly GraphicsDeviceManager _graphics;
+namespace minecraft_kurwa.src.gui;
 
-        public Engine() {
-            Time.UpdateLoadTime();
-            _graphics = new GraphicsDeviceManager(this);
-            Window.Title = "minecraft?";
+public class Engine : Game {
+    private readonly GraphicsDeviceManager _graphics;
 
-            _graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
-            _graphics.PreferredBackBufferWidth = Settings.WINDOW_WIDTH;
-            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+    public Engine() {
+        Time.UpdateLoadTime();
+        _graphics = new GraphicsDeviceManager(this);
+        Window.Title = "minecraft?";
 
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromSeconds(1 / Global.UPDATES_PER_SECOND);
+        _graphics.PreferredBackBufferHeight = Settings.WINDOW_HEIGHT;
+        _graphics.PreferredBackBufferWidth = Settings.WINDOW_WIDTH;
+        _graphics.GraphicsProfile = GraphicsProfile.HiDef;
 
-            if (ExperimentalSettings.RANDOM_SEED) Settings.SEED = new Random().Next(int.MinValue, int.MaxValue);
-            Global.RANDOM = new(Settings.SEED);
-        }
+        IsFixedTimeStep = true;
+        TargetElapsedTime = TimeSpan.FromSeconds(1 / Global.UPDATES_PER_SECOND);
 
-        protected override void Initialize() {
-            base.Initialize();
+        if (ExperimentalSettings.RANDOM_SEED) Settings.SEED = new Random().Next(int.MinValue, int.MaxValue);
+        Global.RANDOM = new(Settings.SEED);
+    }
 
-            Global.GRAPHICS_DEVICE = GraphicsDevice;
+    protected override void Initialize() {
+        base.Initialize();
 
-            global.resources.Content.Load(Content);
+        Global.GRAPHICS_DEVICE = GraphicsDevice;
 
-            VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
-                VertexColorEnabled = true
-            };
+        global.resources.Content.Load(Content);
 
-            WorldGenerator.GenerateWorld();
+        VoxelStructure.basicEffect = new(Global.GRAPHICS_DEVICE) {
+            VertexColorEnabled = true
+        };
 
-            VoxelConnector.CreateGrid();
-            VoxelConnector.GenerateWorld();
+        WorldGenerator.GenerateWorld();
 
-            Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
-        }
+        VoxelConnector.CreateGrid();
+        VoxelConnector.GenerateWorld();
 
-        protected override void Update(GameTime gameTime) {
-            if (Input.Update()) Exit(); // exit if Controls.EXIT is pressed
+        Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
+    }
 
-            Renderer.UpdateViewMatrix();
+    protected override void Update(GameTime gameTime) {
+        if (Input.Update()) Exit(); // exit if Controls.EXIT is pressed
 
-            Time.UpdateLoadTime();
+        Renderer.UpdateViewMatrix();
 
-            base.Update(gameTime);
-        }
+        Time.UpdateLoadTime();
 
-        protected override void Draw(GameTime gameTime) {
-            VoxelCulling.Update();
-            View.Update();
+        base.Update(gameTime);
+    }
 
-            Renderer.Draw();
+    protected override void Draw(GameTime gameTime) {
+        VoxelCulling.Update();
+        View.Update();
 
-            Time.UpdateFPS();
+        Renderer.Draw();
 
-            base.Draw(gameTime);
-        }
+        Time.UpdateFPS();
+
+        base.Draw(gameTime);
     }
 }

@@ -21,7 +21,7 @@ namespace minecraft_kurwa.src.generator.feature.shrub {
                     for (short z = (short)(-sizeZ / 2); z <= sizeZ / 2; z++) {
                         if (posZ + z < 0 || posZ + z >= Settings.HEIGHT_LIMIT) continue;
 
-                        if (Shapes.Ellipsoid(x, y, z, sizeX / 2, sizeY / 2, sizeZ / 2) && Global.RANDOM.Next(0, 2) != 0) {
+                        if (Geometry.Ellipsoid(x, y, z, sizeX / 2, sizeY / 2, sizeZ / 2) && Global.RANDOM.Next(0, 2) != 0) {
                             if (Global.HEIGHT_MAP[posX + x, posY + y] < posZ + z && Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = (byte)leaves;
                             }

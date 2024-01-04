@@ -50,7 +50,7 @@ namespace minecraft_kurwa.src.generator.feature.tree.types {
                     for (short z = -1; z <= 1; z++) {
                         if (posZ + z < 0 || posZ + z >= Settings.WORLD_SIZE) continue;
 
-                        if (Shapes.Ellipsoid(x - 1, y - 1, z, sizeX, sizeY, 1)) {
+                        if (Geometry.Ellipsoid(x - 1, y - 1, z, sizeX, sizeY, 1)) {
                             if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null && Global.RANDOM.Next(0, 4) == 0) {
                                 Global.VOXEL_MAP[posX + x, posY + y, posZ + z] = _leaveType;
                             }
