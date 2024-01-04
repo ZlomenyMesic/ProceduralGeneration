@@ -157,6 +157,7 @@ namespace minecraft_kurwa.src.generator.terrain.biomes
             }
 
             // make the borders of the biomes blend 50 : 50 and save what is the secondary biome
+            // (hranit detection algorithm)
             for (int x = 0; x < Settings.WORLD_SIZE; x++) {
                 for (int y = 0; y < Settings.WORLD_SIZE; y++) {
                     
