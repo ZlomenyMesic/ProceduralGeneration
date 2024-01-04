@@ -28,6 +28,8 @@ namespace minecraft_kurwa.src.generator {
             }
 
             WaterGenerator.Generate();
+            Rivers.GenerateMap();
+
             TerrainFinalization.FillGaps();
 
             TreeGenerator.Generate();

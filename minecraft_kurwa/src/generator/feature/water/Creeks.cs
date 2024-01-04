@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using global::minecraft_kurwa.src.global;
-using minecraft_kurwa.src.renderer.voxels;
+using minecraft_kurwa.src.global;
 
 namespace minecraft_kurwa.src.generator.feature.water;
 
 internal static class Creeks {
-
     internal static void generateCreeks () {
         (int x, int y)[] springs = generateSprings();
 
