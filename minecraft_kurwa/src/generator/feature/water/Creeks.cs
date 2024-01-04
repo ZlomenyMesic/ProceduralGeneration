@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using global::minecraft_kurwa.src.global;
+using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water;
 
@@ -7,8 +8,10 @@ internal static class Creeks {
 
     internal static void generateCreeks () {
         (int x, int y)[] springs = generateSprings();
-        
-        
+
+        for (int i = 0; i < springs.Length; i++) {
+            
+        }
     }
 
     private static (int x, int y)[] generateSprings () {
