@@ -1,3 +1,8 @@
+//
+// minecraft_kurwa
+// ZlomenyMesic, KryKom
+//
+
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
 

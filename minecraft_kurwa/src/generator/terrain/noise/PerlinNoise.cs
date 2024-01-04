@@ -5,21 +5,22 @@
 
 using System;
 
-namespace minecraft_kurwa.src.generator.terrain.noise {
-    internal class PerlinNoise {
-        internal double seed;
-        private long _defaultSize;
-        private int[] _p;
-        private int[] _permutation;
+namespace minecraft_kurwa.src.generator.terrain.noise;
 
-        internal PerlinNoise(double seed) {
-            this.seed = seed;
-            Initialize();
-        }
+internal class PerlinNoise {
+    internal double seed;
+    private long _defaultSize;
+    private int[] _p;
+    private int[] _permutation;
 
-        private void Initialize() {
-            _p = new int[512];
-            _permutation = new[] { 151, 160, 137, 91, 90, 15, 131, 13, 201,
+    internal PerlinNoise(double seed) {
+        this.seed = seed;
+        Initialize();
+    }
+
+    private void Initialize() {
+        _p = new int[512];
+        _permutation = new[] { 151, 160, 137, 91, 90, 15, 131, 13, 201,
                 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99,
                 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26,
                 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88,
@@ -39,69 +40,67 @@ namespace minecraft_kurwa.src.generator.terrain.noise {
                 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236,
                 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66,
                 215, 61, 156, 180 };
-            _defaultSize = 35;
+        _defaultSize = 35;
 
-            for (int i = 0; i < 256; i++)
-            {
-                _p[256 + i] = _p[i] = _permutation[i];
-            }
+        for (int i = 0; i < 256; i++) {
+            _p[256 + i] = _p[i] = _permutation[i];
         }
+    }
 
-        internal double Noise(double x, double y) {
-            double value = 0, size = _defaultSize, initialSize = size;
+    internal double Noise(double x, double y) {
+        double value = 0, size = _defaultSize, initialSize = size;
 
-            while (size >= 1) {
-                value += SmoothNoise(x / size, y / size, 0f) * size;
-                size /= 2.0f;
-            }
-            return value / initialSize;
+        while (size >= 1) {
+            value += SmoothNoise(x / size, y / size, 0f) * size;
+            size /= 2.0f;
         }
+        return value / initialSize;
+    }
 
-        internal double SmoothNoise(double x, double y, double z) {
-            x += seed; y += seed; z += seed;
+    internal double SmoothNoise(double x, double y, double z) {
+        x += seed; y += seed; z += seed;
 
-            int X = (int)Math.Floor(x) & 255;
-            int Y = (int)Math.Floor(y) & 255;
-            int Z = (int)Math.Floor(z) & 255;
+        int X = (int)Math.Floor(x) & 255;
+        int Y = (int)Math.Floor(y) & 255;
+        int Z = (int)Math.Floor(z) & 255;
 
-            x -= Math.Floor(x);
-            y -= Math.Floor(y);
-            z -= Math.Floor(z);
+        x -= Math.Floor(x);
+        y -= Math.Floor(y);
+        z -= Math.Floor(z);
 
-            double u = Fade(x);
-            double v = Fade(y);
-            double w = Fade(z);
+        double u = Fade(x);
+        double v = Fade(y);
+        double w = Fade(z);
 
-            int A = _p[X] + Y;
-            int AA = _p[A] + Z;
-            int AB = _p[A + 1] + Z;
-            int B = _p[X + 1] + Y;
-            int BA = _p[B] + Z;
-            int BB = _p[B + 1] + Z;
+        int A = _p[X] + Y;
+        int AA = _p[A] + Z;
+        int AB = _p[A + 1] + Z;
+        int B = _p[X + 1] + Y;
+        int BA = _p[B] + Z;
+        int BB = _p[B + 1] + Z;
 
-            return Lerp(w, Lerp(v, Lerp(u, Grad(_p[AA], x, y, z),
-                                    Grad(_p[BA], x - 1, y, z)),
-                            Lerp(u, Grad(_p[AB], x, y - 1, z),
-                                    Grad(_p[BB], x - 1, y - 1, z))),
-                    Lerp(v, Lerp(u, Grad(_p[AA + 1], x, y, z - 1),
-                                    Grad(_p[BA + 1], x - 1, y, z - 1)),
-                            Lerp(u, Grad(_p[AB + 1], x, y - 1, z - 1),
-                                    Grad(_p[BB + 1], x - 1, y - 1, z - 1))));
-        }
+        return Lerp(w, Lerp(v, Lerp(u, Grad(_p[AA], x, y, z),
+                                Grad(_p[BA], x - 1, y, z)),
+                        Lerp(u, Grad(_p[AB], x, y - 1, z),
+                                Grad(_p[BB], x - 1, y - 1, z))),
+                Lerp(v, Lerp(u, Grad(_p[AA + 1], x, y, z - 1),
+                                Grad(_p[BA + 1], x - 1, y, z - 1)),
+                        Lerp(u, Grad(_p[AB + 1], x, y - 1, z - 1),
+                                Grad(_p[BB + 1], x - 1, y - 1, z - 1))));
+    }
 
-        private static double Fade(double t) {
-            return t * t * t * (t * (t * 6 - 15) + 10);
-        }
+    private static double Fade(double t) {
+        return t * t * t * (t * (t * 6 - 15) + 10);
+    }
 
-        private static double Lerp(double t, double a, double b) {
-            return a + t * (b - a);
-        }
+    private static double Lerp(double t, double a, double b) {
+        return a + t * (b - a);
+    }
 
-        private static double Grad(int hash, double x, double y, double z) {
-            int h = hash & 15;
-            double u = h < 8 ? x : y,
-                    v = h < 4 ? y : h == 12 || h == 14 ? x : z;
-            return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
-        }
+    private static double Grad(int hash, double x, double y, double z) {
+        int h = hash & 15;
+        double u = h < 8 ? x : y,
+                v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+        return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
     }
 }
