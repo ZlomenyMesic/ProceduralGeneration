@@ -43,5 +43,8 @@ namespace minecraft_kurwa.src.global {
 
         internal static ushort ROUND_SMOOTH_RADIUS = 2;
         internal static ushort ROUND_SMOOTH_CHANGE_AMOUNT = 10;
+
+        internal static ushort CREEK_EXPAND_TRY_LIMIT = 10;
+        internal static ushort CREEK_DENSITY = 1; // amount per 10,000 blocks
     }
 }
