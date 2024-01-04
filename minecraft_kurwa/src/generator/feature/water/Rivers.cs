@@ -30,7 +30,7 @@ internal static class Rivers {
                 if (y > 0 && map[x, y] != map[x, y - 1]) hranit = true;
 
                 nothing[x, y] = hranit;
-                if (hranit) Global.VOXEL_MAP[x, y, 150] = (byte)VoxelType.WATER;
+                if (hranit) Global.VOXEL_MAP[x, y, 150] = (byte)VoxelType.MARKER_BLOCK_BLUE;
             }
         }
     }

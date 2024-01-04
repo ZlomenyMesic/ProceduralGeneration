@@ -63,6 +63,8 @@ namespace minecraft_kurwa.src.renderer.voxels {
         PINE_LEAVES = 35,
         PINE_WOOD = 36,
         
-        MARKER_BLOCK = 37,
+        MARKER_BLOCK_RED = 37,
+        MARKER_BLOCK_BLUE = 38,
+        MARKER_BLOCK_GREEN = 39,
     }
 }

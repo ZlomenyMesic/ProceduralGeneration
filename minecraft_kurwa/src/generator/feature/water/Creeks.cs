@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using minecraft_kurwa.debug;
 using minecraft_kurwa.src.global;
 
 namespace minecraft_kurwa.src.generator.feature.water;
@@ -17,8 +18,9 @@ internal static class Creeks {
         
         for (int x = 0; x < Settings.WORLD_SIZE; x++) {
             for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                if (Global.RANDOM.Next(0, 10000) <= Settings.CREEK_DENSITY) {
+                if (Global.RANDOM.Next(0, 1000000) <= Settings.CREEK_DENSITY) {
                     list.Add((x, y));
+                    Marker.generateMarker(x, y);
                 }
             }
         }

@@ -58,7 +58,9 @@ namespace minecraft_kurwa.src.gui.colors {
             new(0, 0, 0),       // 34 - river rock
             new(31, 110, 39),   // 35 - pine leaves
             new(110, 100, 66),  // 36 - pine wood
-            new(255, 0, 0),     // 37 - marker block 
+            new(255, 0, 0),     // 37 - marker block red
+            new(0, 0, 255),     // 38 - marker block blue
+            new(0, 255, 0),     // 39 - marker block green
         };
 
         internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
