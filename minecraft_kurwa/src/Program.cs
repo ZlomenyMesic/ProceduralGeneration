@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using minecraft_kurwa.src.launcher;
 using minecraft_kurwa.src.gui;
 
+namespace minecraft_kurwa.src;
+
 static class Program {
     [DllImport("nvapi64.dll", EntryPoint = "fake")]
     static extern int LoadNvApi64();

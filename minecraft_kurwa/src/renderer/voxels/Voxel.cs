@@ -3,48 +3,48 @@
 // ZlomenyMesic, KryKom
 //
 
-namespace minecraft_kurwa.src.renderer.voxels {
-    internal struct Voxel1 {
-        internal ushort posX;
-        internal ushort posY;
-        internal ushort posZ;
+namespace minecraft_kurwa.src.renderer.voxels;
 
-        internal byte sizeX;
-        internal byte sizeY;
-        internal byte sizeZ;
+internal struct Voxel1 {
+    internal ushort posX;
+    internal ushort posY;
+    internal ushort posZ;
 
-        internal ushort indexStart;
-        internal byte triangles;
-        internal byte transparency;
+    internal byte sizeX;
+    internal byte sizeY;
+    internal byte sizeZ;
 
-        internal Voxel1(ushort posX, ushort posY, ushort posZ, byte sizeX, byte sizeY, byte sizeZ, ushort indexStart, byte triangles, byte transparency) {
-            this.posX = posX;
-            this.posY = posY;
-            this.posZ = posZ;
+    internal ushort indexStart;
+    internal byte triangles;
+    internal byte transparency;
 
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.sizeZ = sizeZ;
+    internal Voxel1(ushort posX, ushort posY, ushort posZ, byte sizeX, byte sizeY, byte sizeZ, ushort indexStart, byte triangles, byte transparency) {
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
 
-            this.indexStart = indexStart;
-            this.triangles = triangles;
-            this.transparency = transparency;
-        }
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.sizeZ = sizeZ;
+
+        this.indexStart = indexStart;
+        this.triangles = triangles;
+        this.transparency = transparency;
     }
+}
 
-    internal struct Voxel2 {
-        internal byte sizeX;
-        internal byte sizeY;
-        internal byte sizeZ;
+internal struct Voxel2 {
+    internal byte sizeX;
+    internal byte sizeY;
+    internal byte sizeZ;
 
-        internal byte? type;
+    internal byte? type;
 
-        internal Voxel2(byte sizeX, byte sizeY, byte sizeZ, byte? type) {
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.sizeZ = sizeZ;
+    internal Voxel2(byte sizeX, byte sizeY, byte sizeZ, byte? type) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.sizeZ = sizeZ;
 
-            this.type = type;
-        }
+        this.type = type;
     }
 }

@@ -3,68 +3,68 @@
 // ZlomenyMesic, KryKom
 //
 
-namespace minecraft_kurwa.src.renderer.voxels {
-    internal enum VoxelType {
-        UNKNOWN = -1,
+namespace minecraft_kurwa.src.renderer.voxels;
 
-        AIR = 0,
-        GRASS = 1,
-        STONE = 2,
-        SAND = 3,
-        ICE = 4,
-        TERRACOTTA = 5,
-        GRAVEL = 6,
-        SNOW = 7,
+internal enum VoxelType {
+    UNKNOWN = -1,
 
-        OAK_LEAVES = 8,
-        OAK_WOOD = 9,
+    AIR = 0,
+    GRASS = 1,
+    STONE = 2,
+    SAND = 3,
+    ICE = 4,
+    TERRACOTTA = 5,
+    GRAVEL = 6,
+    SNOW = 7,
 
-        KAPOK_LEAVES = 10,
-        KAPOK_WOOD = 11,
+    OAK_LEAVES = 8,
+    OAK_WOOD = 9,
 
-        SPRUCE_LEAVES = 12,
-        SPRUCE_WOOD = 13,
+    KAPOK_LEAVES = 10,
+    KAPOK_WOOD = 11,
 
-        BEECH_LEAVES = 14,
-        BEECH_WOOD = 15,
+    SPRUCE_LEAVES = 12,
+    SPRUCE_WOOD = 13,
 
-        MAPLE_LEAVES = 16,
-        MAPLE_WOOD = 17,
+    BEECH_LEAVES = 14,
+    BEECH_WOOD = 15,
 
-        WATER = 18,
+    MAPLE_LEAVES = 16,
+    MAPLE_WOOD = 17,
 
-        POPLAR_LEAVES = 19,
-        POPLAR_WOOD = 20,
+    WATER = 18,
 
-        CHERRY_LEAVES = 21,
-        CHERRY_WOOD = 22,
+    POPLAR_LEAVES = 19,
+    POPLAR_WOOD = 20,
 
-        SANDSTONE = 23,
+    CHERRY_LEAVES = 21,
+    CHERRY_WOOD = 22,
 
-        ACACIA_LEAVES = 24,
-        ACACIA_WOOD = 25,
+    SANDSTONE = 23,
 
-        CHERRY_LAUREL_LEAVES = 26,
+    ACACIA_LEAVES = 24,
+    ACACIA_WOOD = 25,
 
-        JACKALBERRY_LEAVES = 27,
-        JACKALBERRY_WOOD = 28,
+    CHERRY_LAUREL_LEAVES = 26,
 
-        RAISIN_LEAVES = 29,
+    JACKALBERRY_LEAVES = 27,
+    JACKALBERRY_WOOD = 28,
 
-        MAHOGANY_LEAVES = 30,
-        MAHOGANY_WOOD = 31,
+    RAISIN_LEAVES = 29,
 
-        DRY_GRASS = 32,
+    MAHOGANY_LEAVES = 30,
+    MAHOGANY_WOOD = 31,
 
-        MUD = 33,
+    DRY_GRASS = 32,
 
-        RIVER_ROCK = 34,
+    MUD = 33,
 
-        PINE_LEAVES = 35,
-        PINE_WOOD = 36,
-        
-        MARKER_BLOCK_RED = 37,
-        MARKER_BLOCK_BLUE = 38,
-        MARKER_BLOCK_GREEN = 39,
-    }
+    RIVER_ROCK = 34,
+
+    PINE_LEAVES = 35,
+    PINE_WOOD = 36,
+
+    MARKER_BLOCK_RED = 37,
+    MARKER_BLOCK_BLUE = 38,
+    MARKER_BLOCK_GREEN = 39,
 }
