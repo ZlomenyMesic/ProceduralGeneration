@@ -17,9 +17,10 @@ internal class WorldGenerator {
         BiomeGenerator.GenerateBiomeMap();
         BiomeGenerator.GenerateBiomeBlending();
 
+        TerrainGenerator.GenerateHeightMap();
+
         WaterGenerator.GenerateRivers();
 
-        TerrainGenerator.GenerateHeightMap();
         Erosion.GenerateErosion();
 
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
@@ -30,7 +31,7 @@ internal class WorldGenerator {
         }
 
         WaterGenerator.GenerateOtherWaterThanRivers();
-        Creeks.generateCreeks();
+        //Creeks.GenerateCreeks();
 
         TerrainFinalization.FillGaps();
 

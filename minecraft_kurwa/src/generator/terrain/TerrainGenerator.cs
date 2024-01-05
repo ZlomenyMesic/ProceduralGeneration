@@ -130,11 +130,5 @@ internal class TerrainGenerator {
                 }
             }
         }
-
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Rivers.riverHeightMap[x, y]);
-            }
-        }
     }
 }

@@ -14,8 +14,8 @@ using Console = System.Console;
 namespace minecraft_kurwa.src.generator.feature.water;
 
 internal static class Creeks {
-    internal static void generateCreeks () {
-        (int x, int y)[] springs = generateSprings();
+    internal static void GenerateCreeks () {
+        (int x, int y)[] springs = GenerateSprings();
 
         List<(int x, int y)>[] creekPaths = new List<(int x, int y)>[springs.Length];
 
@@ -23,7 +23,7 @@ internal static class Creeks {
 
         for (int i = 0; i < springs.Length; i++) {
             
-            (int x, int y)? next = getSlope(springs[i].x, springs[i].y);
+            (int x, int y)? next = GetSlope(springs[i].x, springs[i].y);
             
             if (next == null) {
                 failLength[i] = 0;
@@ -31,20 +31,20 @@ internal static class Creeks {
             }
             
             do {
-                next = getSlope(next.Value.x, next.Value.y);
+                next = GetSlope(next.Value.x, next.Value.y);
                 failLength[i]++;
             } while (next != null);
         }
     }
 
-    private static (int x, int y)[] generateSprings () {
-        List<(int x, int y)> list = new List<(int x, int y)>();
+    private static (int x, int y)[] GenerateSprings() {
+        List<(int x, int y)> list = new();
         
         for (int x = 0; x < Settings.WORLD_SIZE; x++) {
             for (int y = 0; y < Settings.WORLD_SIZE; y++) {
                 if (Global.RANDOM.Next(0, 1000000) <= Settings.CREEK_DENSITY) {
                     list.Add((x, y));
-                    Marker.generateMarker(x, y, VoxelType.MARKER_BLOCK_RED);
+                    Marker.GenerateMarker(x, y, VoxelType.MARKER_BLOCK_RED);
                 }
             }
         }
@@ -52,7 +52,7 @@ internal static class Creeks {
         return list.ToArray();
     }
 
-    private static (int x, int y)? getSlope (int x, int y) {
+    private static (int x, int y)? GetSlope(int x, int y) {
 
         (int x, int y, int z)? lowest = (-1, -1, Settings.HEIGHT_LIMIT);
 
@@ -60,7 +60,7 @@ internal static class Creeks {
             for (int tx = x - i; tx <= x + i; tx++) {
                 int ty = tx - x + y;
 
-                Console.WriteLine("[" + tx + "; " + ty + "]");
+                //Console.WriteLine("[" + tx + "; " + ty + "]");
 
                 try {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
@@ -72,7 +72,7 @@ internal static class Creeks {
             for (int tx = x - i; tx <= x + i; tx++) {
                 int ty = x - tx + y;
 
-                Console.WriteLine("[" + tx + "; " + ty + "]");
+                //Console.WriteLine("[" + tx + "; " + ty + "]");
                 
                 try {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
@@ -83,7 +83,7 @@ internal static class Creeks {
         }
 
         if (lowest.Value.x != -1) {
-            Marker.generateMarker(lowest.Value.x, lowest.Value.y, VoxelType.MARKER_BLOCK_GREEN);
+            Marker.GenerateMarker(lowest.Value.x, lowest.Value.y, VoxelType.MARKER_BLOCK_GREEN);
             return (lowest.Value.x, lowest.Value.y);
         }
 
