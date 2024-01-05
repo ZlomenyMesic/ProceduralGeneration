@@ -4,6 +4,7 @@
 // ZlomenyMesic, KryKom
 //
 
+using System;
 using System.Collections.Generic;
 using minecraft_kurwa.debug;
 using minecraft_kurwa.src.global;
@@ -18,10 +19,21 @@ internal static class Creeks {
 
         List<(int x, int y)>[] creekPaths = new List<(int x, int y)>[springs.Length];
 
-        byte[] failed = new byte[springs.Length];
+        byte[] failLength = new byte[springs.Length];
 
         for (int i = 0; i < springs.Length; i++) {
-            getClosestSlope(springs[i].x, springs[i].y);
+            
+            (int x, int y)? next = getSlope(springs[i].x, springs[i].y);
+            
+            if (next == null) {
+                failLength[i] = 0;
+                continue;
+            }
+            
+            do {
+                next = getSlope(next.Value.x, next.Value.y);
+                failLength[i]++;
+            } while (next != null);
         }
     }
 
@@ -40,7 +52,7 @@ internal static class Creeks {
         return list.ToArray();
     }
 
-    private static (int x, int y)? getClosestSlope (int x, int y) {
+    private static (int x, int y)? getSlope (int x, int y) {
 
         for (int i = Settings.CREEK_EXPAND_TRY_LIMIT; i >= 10; i--) {
             for (int tx = x - i; tx <= x + i; tx++) {
