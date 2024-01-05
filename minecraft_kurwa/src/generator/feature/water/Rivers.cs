@@ -85,7 +85,7 @@ internal static class Rivers {
 
                 distances[x, y] = 0;
 
-                if (Global.RANDOM.Next(0, 30) != 0) continue;
+                if (Global.RANDOM.Next(0, 20) != 0) continue;
 
                 for (int x2 = 0; x2 < Settings.WORLD_SIZE; x2++) {
                     for (int y2 = 0; y2 < Settings.WORLD_SIZE; y2++) {
@@ -105,7 +105,7 @@ internal static class Rivers {
         // (I'm going insane)
         for (int x = 0; x < Settings.WORLD_SIZE; x++) {
             for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                riverHeightMap[x, y] = Math.Round(Geometry.Sigmoid(distances[x, y] / 30f), 3);
+                riverHeightMap[x, y] = Math.Round(Geometry.Sigmoid(distances[x, y] / 50f), 3);
             }
         }
     }
