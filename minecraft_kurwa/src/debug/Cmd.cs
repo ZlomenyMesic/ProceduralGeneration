@@ -1,5 +1,5 @@
 namespace minecraft_kurwa.debug;
 
-public class Console {
+public class Cmd {
     
 }
