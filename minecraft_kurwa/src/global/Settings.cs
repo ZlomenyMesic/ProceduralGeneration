@@ -42,7 +42,7 @@ internal static class Settings {
     internal static bool ENABLE_TERRAIN_COLLAPSE = false;
     internal static ushort TERRAIN_COLLAPSE_LIMIT = 6;
 
-    internal static ushort CREEK_EXPAND_TRY_LIMIT = 10;
-    internal static ushort CREEK_DENSITY = 10; // amount per 1,000,000 blocks
+    internal static ushort CREEK_EXPAND_TRY_LIMIT = 20;
+    internal static ushort CREEK_DENSITY = 20; // amount per 1,000,000 blocks
 
 }

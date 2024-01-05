@@ -54,16 +54,17 @@ internal static class Creeks {
 
     private static (int x, int y)? getSlope (int x, int y) {
 
-        for (int i = Settings.CREEK_EXPAND_TRY_LIMIT; i >= 10; i--) {
+        (int x, int y, int z)? lowest = (-1, -1, Settings.HEIGHT_LIMIT);
+
+        for (int i = Settings.CREEK_EXPAND_TRY_LIMIT; i >= 1; i--) {
             for (int tx = x - i; tx <= x + i; tx++) {
                 int ty = tx - x + y;
 
                 Console.WriteLine("[" + tx + "; " + ty + "]");
 
                 try {
-                    if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y]) {
-                        Marker.generateMarker(tx, ty, VoxelType.MARKER_BLOCK_GREEN);
-                        return (tx, ty);
+                    if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
+                        lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
                 } catch {}
             }
@@ -74,12 +75,16 @@ internal static class Creeks {
                 Console.WriteLine("[" + tx + "; " + ty + "]");
                 
                 try {
-                    if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y]) {
-                        Marker.generateMarker(tx, ty, VoxelType.MARKER_BLOCK_GREEN);
-                        return (tx, ty);
+                    if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
+                        lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
                 } catch {}
             }
+        }
+
+        if (lowest.Value.x != -1) {
+            Marker.generateMarker(lowest.Value.x, lowest.Value.y, VoxelType.MARKER_BLOCK_GREEN);
+            return (lowest.Value.x, lowest.Value.y);
         }
 
         return null;
