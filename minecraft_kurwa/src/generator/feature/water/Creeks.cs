@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using minecraft_kurwa.debug;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.renderer.voxels;
-using Console = System.Console;
 
 namespace minecraft_kurwa.src.generator.feature.water;
 
