@@ -27,17 +27,19 @@ internal class WorldGenerator {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                 // top block placement
                 Global.VOXEL_MAP[x, y, Global.HEIGHT_MAP[x, y]] = Biome.GetTopBlock(Global.BIOME_MAP[x, y, 0]);
+
+                for (ushort z = 0; z < Settings.WATER_LEVEL; z++) {
+                    Global.VOXEL_MAP[x, y, z] = null;
+                }
             }
         }
 
         WaterGenerator.GenerateOtherWaterThanRivers();
-        //Creeks.GenerateCreeks();
+        Creeks.GenerateCreeks();
 
         TerrainFinalization.FillGaps();
 
         TreeGenerator.Generate();
         ShrubGenerator.Generate();
-
-        TerrainFinalization.ShiftWorld();
     }
 }
