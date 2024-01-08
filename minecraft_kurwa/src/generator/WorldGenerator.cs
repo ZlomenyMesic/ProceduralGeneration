@@ -17,8 +17,11 @@ internal class WorldGenerator {
     internal static void GenerateWorld() {
         Time.StartProfiler();
         BiomeGenerator.GenerateBiomeMap();
+        Time.StopProfiler("Biome map");
+
+        Time.StartProfiler();
         BiomeGenerator.GenerateBiomeBlending();
-        Time.StopProfiler("Biomes");
+        Time.StopProfiler("Biome blending");
 
         Time.StartProfiler();
         TerrainGenerator.GenerateHeightMap();
@@ -56,6 +59,6 @@ internal class WorldGenerator {
         Time.StartProfiler();
         TreeGenerator.Generate();
         ShrubGenerator.Generate();
-        Time.StopProfiler("Tress & Bushes");
+        Time.StopProfiler("Trees & Shrubs");
     }
 }

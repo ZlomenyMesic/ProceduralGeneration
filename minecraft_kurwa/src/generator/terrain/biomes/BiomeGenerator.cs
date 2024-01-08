@@ -161,22 +161,22 @@ internal static class BiomeGenerator {
         for (int x = 0; x < Settings.WORLD_SIZE; x++) {
             for (int y = 0; y < Settings.WORLD_SIZE; y++) {
 
-                if (x < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x + 1, y, 0]) {
+                if (x < Settings.WORLD_SIZE - 1 && Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x + 1, y, 0]) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
                         Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x + 1, y, 0];
                     }
 
-                if (x > 0) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x - 1, y, 0]) {
+                if (x > 0 && Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x - 1, y, 0]) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
                         Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x - 1, y, 0];
                     }
 
-                if (y < Settings.WORLD_SIZE - 1) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y + 1, 0]) {
+                if (y < Settings.WORLD_SIZE - 1 && Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y + 1, 0]) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
                         Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y + 1, 0];
                     }
 
-                if (y > 0) if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y - 1, 0]) {
+                if (y > 0 && Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[x, y - 1, 0]) {
                         Global.BIOME_MAP[x, y, 1] = Settings.BIOME_BLENDING;
                         Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[x, y - 1, 0];
                     }

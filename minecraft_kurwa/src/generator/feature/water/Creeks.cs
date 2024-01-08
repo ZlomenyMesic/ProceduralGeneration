@@ -61,23 +61,23 @@ internal static class Creeks {
 
                 //Console.WriteLine("[" + tx + "; " + ty + "]");
 
-                try {
+                if (tx >= 0 && ty >= 0 && tx < Settings.WORLD_SIZE && ty < Settings.WORLD_SIZE) {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
                         lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
-                } catch {}
+                }
             }
             
             for (int tx = x - i; tx <= x + i; tx++) {
                 int ty = x - tx + y;
 
                 //Console.WriteLine("[" + tx + "; " + ty + "]");
-                
-                try {
+
+                if (tx >= 0 && ty >= 0 && tx < Settings.WORLD_SIZE && ty < Settings.WORLD_SIZE) {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
                         lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
-                } catch {}
+                }
             }
         }
 
