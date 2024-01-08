@@ -93,8 +93,8 @@ internal static class Renderer {
             $"Seed: {Settings.SEED}\n" +
             $"Voxels: {VoxelConnector.voxelCounter}\n" +
             $"Triangles: {VoxelStructure.triangleCounter}\n" +
-            $"Frames per second: {Time.LastFPS}\n" +
-            $"",
+            $"Frames per second: {Time.LastFPS}\n\n" +
+            $"Profiling:\n{Time.LoadTimeProfiling}",
             new Vector2(30, 30), Color.White);
         spriteBatch.End();
     }

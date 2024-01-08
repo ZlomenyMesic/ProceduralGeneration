@@ -9,19 +9,28 @@ using minecraft_kurwa.src.generator.terrain;
 using minecraft_kurwa.src.generator.feature.tree;
 using minecraft_kurwa.src.generator.feature.water;
 using minecraft_kurwa.src.generator.feature.shrub;
+using minecraft_kurwa.src.gui;
 
 namespace minecraft_kurwa.src.generator;
 
 internal class WorldGenerator {
     internal static void GenerateWorld() {
+        Time.StartProfiler();
         BiomeGenerator.GenerateBiomeMap();
         BiomeGenerator.GenerateBiomeBlending();
+        Time.StopProfiler("Biomes");
 
+        Time.StartProfiler();
         TerrainGenerator.GenerateHeightMap();
+        Time.StopProfiler("Height map");
 
+        Time.StartProfiler();
         WaterGenerator.GenerateRivers();
+        Time.StopProfiler("Rivers");
 
+        Time.StartProfiler();
         Erosion.GenerateErosion();
+        Time.StopProfiler("Erosion");
 
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
@@ -34,12 +43,19 @@ internal class WorldGenerator {
             }
         }
 
+        Time.StartProfiler();
         WaterGenerator.GenerateOtherWaterThanRivers();
+        Time.StopProfiler("Ponds");
+
+        Time.StartProfiler();
         Creeks.GenerateCreeks();
+        Time.StopProfiler("Creeks");
 
         TerrainFinalization.FillGaps();
 
+        Time.StartProfiler();
         TreeGenerator.Generate();
         ShrubGenerator.Generate();
+        Time.StopProfiler("Tress & Bushes");
     }
 }

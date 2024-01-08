@@ -34,6 +34,8 @@ internal class PoplarTree : Tree {
             }
         }
 
-        BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + _height));
+        BuildBranch((short)_posX, (short)_posY, (short)_posZ, (short)_posX, (short)_posY, (short)(_posZ + _height - 2));
+        Global.VOXEL_MAP[_posX, _posY, _posZ + _height - 1] = _leaveType;
+        Global.VOXEL_MAP[_posX, _posY, _posZ + _height] = _leaveType;
     }
 }
