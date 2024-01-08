@@ -28,7 +28,7 @@ internal static class Rivers {
     private static readonly short[] dy = { 0, 0, 1, -1, 1, -1, 1, -1 };
 
     internal static void GenerateMap() {
-        var noise = new SimplexNoise(Settings.SEED + 1);
+        SimplexNoise noise = new(Settings.SEED + 1);
 
         byte[,] map = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         bool[,] edges = new bool[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
@@ -91,7 +91,7 @@ internal static class Rivers {
         // (I'm going insane)
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Geometry.Sigmoid(distances[x, y] / 40f));
+                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Geometry.Sigmoid(distances[x, y] / 50f));
             }
         }
     }

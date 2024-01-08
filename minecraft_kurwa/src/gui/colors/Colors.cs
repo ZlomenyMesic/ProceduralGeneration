@@ -59,9 +59,9 @@ internal static class ColorManager {
             new(0, 0, 0),       // 34 - river rock
             new(31, 110, 39),   // 35 - pine leaves
             new(110, 100, 66),  // 36 - pine wood
-            new(255, 0, 0, 75),     // 37 - marker block red
-            new(0, 0, 255, 75),     // 38 - marker block blue
-            new(0, 255, 0, 75),     // 39 - marker block green
+            new(255, 0, 0, 75), // 37 - marker block red
+            new(0, 0, 255, 75), // 38 - marker block blue
+            new(0, 255, 0, 75), // 39 - marker block green
         };
 
     internal static Color GetVoxelColor(byte? voxelType, byte biome, ushort altitude, int seed) {
