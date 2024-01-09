@@ -19,30 +19,31 @@ internal static class Settings {
 
     internal static int WORLD_SIZE = 500;
     internal static int HEIGHT_LIMIT = 250;
-    internal static int SEED = 1;
+    internal static int SEED = 21;
 
     internal static int MAIN_NOISE_SHARPNESS = 60;
     internal static int MAIN_NOISE_SCALE = 17;
     internal static int BIOME_SCALE = 800;
     internal static int SUBBIOME_SCALE = 400;
+    internal static byte BIOME_BLENDING_LEVEL = 50;
 
     internal static int WATER_LEVEL = 7;
     internal static int OCEAN_SCALE = 90;
     internal static int POND_DENSITY = 20;
-    internal static int FREEZING_DISTANCE = 20;     // any water block closer to a polar biome than this will freeze
-    internal static int MAX_FREEZING_DISTANCE = 45; // maximum distance from a polar biome to freeze
-    internal static int ICE_HOLES = 0;              // 0 and less => no holes in ice; 100 and more => no ice
+    internal static int FREEZING_DISTANCE = 20;         // any water block closer to a polar biome than this will freeze
+    internal static int MAX_FREEZING_DISTANCE = 45;     // maximum distance from a polar biome to freeze
+    internal static int ICE_HOLES = 0;                  // 0 and less => no holes in ice; 100 and more => no ice
+    internal static ushort CREEK_DENSITY = 20;          // amount per 1,000,000 blocks
+    internal static ushort CREEK_EXPAND_TRY_LIMIT = 40; // max length it tries to find a lower point then the current
+    internal static byte MIN_CREEK_LENGTH = 0;
 
     internal static int TREE_DENSITY = 130;
     internal static int BUSH_DENSITY = 50;
     internal static int WOODY_PLANTS_EDGE_OFFSET = 0; // trees and bushes on the edge of the map will be cut
 
-    internal static byte BIOME_BLENDING = 50;
-
     internal static bool ENABLE_TERRAIN_COLLAPSE = false;
     internal static ushort TERRAIN_COLLAPSE_LIMIT = 6;
 
-    internal static ushort CREEK_EXPAND_TRY_LIMIT = 20;
-    internal static ushort CREEK_DENSITY = 20; // amount per 1,000,000 blocks
-
+    internal static bool FLAT_WORLD = false;
+    internal static bool DEBUG_ENABLE_MARKERS = false;
 }
