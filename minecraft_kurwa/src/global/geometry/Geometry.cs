@@ -20,6 +20,7 @@ internal static class Geometry {
     internal static bool Ellipsoid(float x, float y, float z, float a, float b, float c)
         => (x * x / (a * a)) + (y * y / (b * b)) + (z * z / (c * c)) <= 1;
 
-    internal static float Sigmoid(float x)
-        => x / (1f + x);
+    internal static float Sigmoid(float x) {
+        return x / (1f + x);
+    }
 }

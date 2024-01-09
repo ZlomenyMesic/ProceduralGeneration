@@ -7,6 +7,7 @@ using minecraft_kurwa.src.generator.terrain.noise;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.global.geometry;
 using System;
+using System.Collections.Generic;
 
 namespace minecraft_kurwa.src.generator.feature.water;
 
@@ -20,92 +21,77 @@ internal static class Rivers {
     // (It's over for me)
     // (I should try ropemaxxing)
 
-    internal static double[,] riverHeightMap;
+    private const float RIVER_RARITY = 1.5f;
+    private const byte MAX_RIVER_WIDTH = 20; // only for the generation part, the actual rivers can be much wider
+
+    private static readonly short[] dx = { 1, -1, 0, 0, 1, 1, -1, -1 };
+    private static readonly short[] dy = { 0, 0, 1, -1, 1, -1, 1, -1 };
 
     internal static void GenerateMap() {
-        var noise = new SimplexNoise(Settings.SEED);
-
-        riverHeightMap = new double[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+        SimplexNoise noise = new(Settings.SEED + 1);
 
         byte[,] map = new byte[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
         bool[,] edges = new bool[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
-        float[,] distances = new float[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
+        short[,] distances = new short[Settings.WORLD_SIZE, Settings.WORLD_SIZE];
 
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                int noiseValue = (int)Math.Round(noise.Calculate(x + ExperimentalSettings.NOISE_OFFSET, y + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, 1), 0);
-
-                map[x, y] = (byte)noiseValue;
-
-                distances[x, y] = int.MaxValue;
+        for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+            for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                map[x, y] = (byte)Math.Round(noise.Calculate(x + ExperimentalSettings.NOISE_OFFSET, y + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE, RIVER_RARITY), 0);
             }
         }
-
-        /* SLOW AS FUCK:
-
-        int smudge = 8;
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                byte blending = (byte)Math.Round(noise.Calculate(x + 5000 + ExperimentalSettings.NOISE_OFFSET, y + 5000 + ExperimentalSettings.NOISE_OFFSET, Settings.BIOME_SCALE / 30, 2), 0);
-                if (blending != 0) continue;
-
-                byte local = Global.BIOME_MAP[x, y, 0];
-                byte[] neighbours = new byte[9];
-                byte nCount = 0;
-
-                for (int x2 = -smudge; x2 <= smudge; x2 += smudge) {
-                    if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
-
-                    for (int y2 = -smudge; y2 <= smudge; y2 += smudge) {
-                        if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
-
-                        neighbours[nCount++] = map[x + x2, y + y2];
-                    }
-                }
-
-                for (int j = 0; j < nCount; j++) {
-                    if (neighbours[j] != local) map[x, y] = neighbours[j];
-                }
-            }
-        }*/
 
         // edging algorithm
         // (I've been already edging for 36 consecutive days)
         // (I can't break my streak now)
-        int width = 10;
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                edges[x, y] = (map[x, y] == 0) && ((x + width < Settings.WORLD_SIZE && map[x + width, y] == 1) || (x - width >= 0 && map[x - width, y] == 1) || (y + width < Settings.WORLD_SIZE && map[x, y + width] == 1) || (y - width >= 0 && map[x, y - width] == 1));
+        for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+            for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                if (map[x, y] != 0) continue;
+
+                ushort width = (ushort)(Global.HEIGHT_MAP[x, y] != 0 
+                    ? Math.Min((250 / Global.HEIGHT_MAP[x, y]) + 1, MAX_RIVER_WIDTH) : MAX_RIVER_WIDTH);
+
+                edges[x, y] = (x + width < Settings.WORLD_SIZE && map[x + width, y] == 1) || (x - width >= 0 && map[x - width, y] == 1) || (y + width < Settings.WORLD_SIZE && map[x, y + width] == 1) || (y - width >= 0 && map[x, y - width] == 1);
             }
         }
 
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                if (!edges[x, y]) continue;
+        Queue<(short, short)> queue = new();
 
-                distances[x, y] = 0;
+        for (short x = 0; x < Settings.WORLD_SIZE; x++) {
+            for (short y = 0; y < Settings.WORLD_SIZE; y++) {
+                if (edges[x, y]) {
+                    distances[x, y] = 0;
 
-                if (Global.RANDOM.Next(0, 20) != 0) continue;
+                    if ((x + 1 < Settings.WORLD_SIZE && !edges[x + 1, y]) || (x - 1 >= 0 && !edges[x - 1, y]) || (y + 1 < Settings.WORLD_SIZE && !edges[x, y + 1]) || (y - 1 >= 0 && !edges[x, y - 1])) {
+                        queue.Enqueue((x, y));
+                    }
+                } 
+                else distances[x, y] = short.MaxValue;
+            }
+        }
 
-                for (int x2 = 0; x2 < Settings.WORLD_SIZE; x2++) {
-                    for (int y2 = 0; y2 < Settings.WORLD_SIZE; y2++) {
-                        int distX = x - x2;
-                        int distY = y - y2;
+        // BFS algorithm
+        while (queue.Count > 0) {
+            (short, short) current = queue.Dequeue();
 
-                        float dist = (float)Math.Sqrt(distX * distX + distY * distY);
+            for (byte i = 0; i < 8; i++) {
+                short nx = (short)(current.Item1 + dx[i]);
+                short ny = (short)(current.Item2 + dy[i]);
 
-                        distances[x2, y2] = Math.Min(distances[x2, y2], dist);
+                if (nx >= 0 && nx < Settings.WORLD_SIZE && ny >= 0 && ny < Settings.WORLD_SIZE) {
+                    if (distances[nx, ny] > distances[current.Item1, current.Item2] + 1) {
+                        distances[nx, ny] = (short)(distances[current.Item1, current.Item2] + 1);
+                        queue.Enqueue((nx, ny));
                     }
                 }
             }
         }
 
         // I totally mog you (I'm looksmaxxing)
-        // (Its over for you bro)
+        // (Its over for you)
         // (I'm going insane)
-        for (int x = 0; x < Settings.WORLD_SIZE; x++) {
-            for (int y = 0; y < Settings.WORLD_SIZE; y++) {
-                riverHeightMap[x, y] = Math.Round(Geometry.Sigmoid(distances[x, y] / 50f), 3);
+        for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
+            for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
+                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Geometry.Sigmoid(distances[x, y] / 40f));
             }
         }
     }

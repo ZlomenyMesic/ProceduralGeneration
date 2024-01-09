@@ -6,6 +6,20 @@
 namespace minecraft_kurwa.src.global;
 
 internal static class Settings {
+    // gf: "I wish I never ever met you at all"
+    // (Looksmaxxing reference)
+    // (I have to breakupmaxx)
+    // (gotta marrymaxx an A10 girl with positive canthal tilt she will save my bloodline)
+    // (Smashmaxxed and created PSL gods)
+    // (I saw her without makeup I wish I never ever met her at all)
+    // (Looksmaxxing reference again)
+    // (I need to divorcemaxx)
+    // (children are ugly asf)
+    // (ropemaxx will save me)
+    // (I cut the rope with my jawline)
+    // (There is no her)
+    // (I'm schizophrenic)
+
     // DEFAULT VALUES FOR THE LAUNCHER
 
     internal static int WINDOW_HEIGHT = 1080;
@@ -46,4 +60,6 @@ internal static class Settings {
 
     internal static bool FLAT_WORLD = false;
     internal static bool DEBUG_ENABLE_MARKERS = false;
+
+    internal static byte BIOME_BLENDING = 50;
 }

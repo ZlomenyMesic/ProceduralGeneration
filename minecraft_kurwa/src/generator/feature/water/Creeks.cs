@@ -30,7 +30,7 @@ internal static class Creeks {
             creekPaths[i].Add(springs[i]);
             
             // get next step for the first part of the creek
-            (int x, int y)? next = getSlope(springs[i].x, springs[i].y);
+            (int x, int y)? next = GetSlope(springs[i].x, springs[i].y);
             
             // if it does not exist, skip
             if (next == null) continue;
@@ -38,7 +38,7 @@ internal static class Creeks {
             
             // get next step if it exsits 
             do {
-                next = getSlope(next.Value.x, next.Value.y);
+                next = GetSlope(next.Value.x, next.Value.y);
                 
                 // add it to the list of steps
                 if (next != null) creekPaths[i].Add((next.Value.x, next.Value.y));
@@ -187,36 +187,38 @@ internal static class Creeks {
         return list.ToArray();
     }
 
-    private static (int x, int y)? getSlope (int x, int y) {
+    private static (int x, int y)? GetSlope(int x, int y) {
 
         (int x, int y, int z)? lowest = (-1, -1, Settings.HEIGHT_LIMIT);
 
         for (int i = Settings.CREEK_EXPAND_TRY_LIMIT; i >= 1; i--) {
             for (int tx = x - i; tx <= x + i; tx++) {
-                int ty = y + Math.Abs(tx - x) - i;
+                int ty = tx - x + y;
 
-                try {
-                    
+                //Console.WriteLine("[" + tx + "; " + ty + "]");
+
+                if (tx >= 0 && ty >= 0 && tx < Settings.WORLD_SIZE && ty < Settings.WORLD_SIZE) {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
                         lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
-                } catch {}
+                }
             }
             
             for (int tx = x - i; tx <= x + i; tx++) {
-                int ty = y - Math.Abs(x - tx) + i;
-                
-                try {
-                    
+                int ty = x - tx + y;
+
+                //Console.WriteLine("[" + tx + "; " + ty + "]");
+
+                if (tx >= 0 && ty >= 0 && tx < Settings.WORLD_SIZE && ty < Settings.WORLD_SIZE) {
                     if (Global.HEIGHT_MAP[tx, ty] < Global.HEIGHT_MAP[x, y] && Global.HEIGHT_MAP[tx, ty] < lowest.Value.z) {
                         lowest = (tx, ty, Global.HEIGHT_MAP[tx, ty]);
                     }
-                } catch {}
+                }
             }
         }
 
         if (lowest.Value.x != -1) {
-            // Marker.generateMarker(lowest.Value.x, lowest.Value.y, VoxelType.MARKER_BLOCK_GREEN);
+            Marker.GenerateMarker(lowest.Value.x, lowest.Value.y, VoxelType.MARKER_BLOCK_GREEN);
             return (lowest.Value.x, lowest.Value.y);
         }
 
