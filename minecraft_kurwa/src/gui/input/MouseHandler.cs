@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using minecraft_kurwa.src.global;
+using System;
 
 namespace minecraft_kurwa.src.gui.input;
 
@@ -23,5 +24,8 @@ internal static class MouseHandler {
         upDownRot = Settings.SENSIBILITY * difference.Y / 400;
 
         Mouse.SetPosition(Settings.WINDOW_WIDTH / 2, Settings.WINDOW_HEIGHT / 2);
+
+        //int scroll = mouseState.ScrollWheelValue / 100;
+        //Settings.MOVEMENT_SPEED = Math.Max(10, Math.Min(75, scroll));
     }
 }

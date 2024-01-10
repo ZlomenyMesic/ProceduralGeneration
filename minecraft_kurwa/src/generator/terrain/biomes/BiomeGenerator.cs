@@ -210,26 +210,25 @@ internal static class BiomeGenerator {
                     if (Global.BIOME_MAP[nx, ny, 1] > 1) queue.Enqueue((nx, ny));
                 }
 
-                if (World.IsInRange(nx, ny) && Global.BIOME_MAP[x, y, 1] < Global.BIOME_MAP[nx, ny, 1]) {
+                if (World.IsInRange(nx, ny)) {
                     // inherit the secondary biome if it is not the same as primary or tertiary
                     if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[nx, ny, 2] &&
                         Global.BIOME_MAP[x, y, 2] != Global.BIOME_MAP[nx, ny, 2] &&
                         Global.BIOME_MAP[x, y, 3] != Global.BIOME_MAP[nx, ny, 2]) {
                         if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN) {
                             Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[nx, ny, 2];
-                        } else if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
+                        }
+                        else if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
                             Global.BIOME_MAP[x, y, 3] = Global.BIOME_MAP[nx, ny, 2];
                         }
                     }
 
-                    // inherit the secondary biome if it is not the same as primary or tertiary
+                    // inherit the terciary biome if it is not the same as primary or secondary
                     if (Global.BIOME_MAP[x, y, 0] != Global.BIOME_MAP[nx, ny, 3] &&
                         Global.BIOME_MAP[x, y, 2] != Global.BIOME_MAP[nx, ny, 3] &&
                         Global.BIOME_MAP[x, y, 3] != Global.BIOME_MAP[nx, ny, 3]) {
-                        if (Global.BIOME_MAP[x, y, 2] == (byte)BiomeType.UNKNOWN) {
-                            Global.BIOME_MAP[x, y, 2] = Global.BIOME_MAP[nx, ny, 2];
-                        } else if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
-                            Global.BIOME_MAP[x, y, 3] = Global.BIOME_MAP[nx, ny, 2];
+                        if (Global.BIOME_MAP[x, y, 3] == (byte)BiomeType.UNKNOWN) {
+                            Global.BIOME_MAP[x, y, 3] = Global.BIOME_MAP[nx, ny, 3];
                         }
                     }
                 }
