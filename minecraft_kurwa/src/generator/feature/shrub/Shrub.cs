@@ -5,7 +5,7 @@
 
 using minecraft_kurwa.src.renderer.voxels;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 
 namespace minecraft_kurwa.src.generator.feature.shrub;
 
@@ -14,10 +14,10 @@ internal static class Shrub {
         int sizeZ = (sizeX + sizeY) / 3;
 
         for (short x = (short)(-sizeX / 2); x <= sizeX / 2; x++) {
-            if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(posX + x)) continue;
 
             for (short y = (short)(-sizeY / 2); y <= sizeY / 2; y++) {
-                if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(posY + y)) continue;
 
                 for (short z = (short)(-sizeZ / 2); z <= sizeZ / 2; z++) {
                     if (posZ + z < 0 || posZ + z >= Settings.HEIGHT_LIMIT) continue;

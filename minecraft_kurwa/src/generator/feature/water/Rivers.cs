@@ -5,7 +5,7 @@
 
 using minecraft_kurwa.src.generator.terrain.noise;
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using System;
 using System.Collections.Generic;
 
@@ -50,7 +50,7 @@ internal static class Rivers {
                 ushort width = (ushort)(Global.HEIGHT_MAP[x, y] != 0 
                     ? Math.Min((250 / Global.HEIGHT_MAP[x, y]) + 1, MAX_RIVER_WIDTH) : MAX_RIVER_WIDTH);
 
-                edges[x, y] = (x + width < Settings.WORLD_SIZE && map[x + width, y] == 1) || (x - width >= 0 && map[x - width, y] == 1) || (y + width < Settings.WORLD_SIZE && map[x, y + width] == 1) || (y - width >= 0 && map[x, y - width] == 1);
+                edges[x, y] = (World.IsInRange(x + width) && map[x + width, y] == 1) || (World.IsInRange(x - width) && map[x - width, y] == 1) || (World.IsInRange(y + width) && map[x, y + width] == 1) || (World.IsInRange(y - width) && map[x, y - width] == 1);
             }
         }
 
@@ -61,7 +61,7 @@ internal static class Rivers {
                 if (edges[x, y]) {
                     distances[x, y] = 0;
 
-                    if ((x + 1 < Settings.WORLD_SIZE && !edges[x + 1, y]) || (x - 1 >= 0 && !edges[x - 1, y]) || (y + 1 < Settings.WORLD_SIZE && !edges[x, y + 1]) || (y - 1 >= 0 && !edges[x, y - 1])) {
+                    if ((World.IsInRange(x + 1) && !edges[x + 1, y]) || (World.IsInRange(x - 1) && !edges[x - 1, y]) || (World.IsInRange(y + 1) && !edges[x, y + 1]) || (World.IsInRange(y - 1) && !edges[x, y - 1])) {
                         queue.Enqueue((x, y));
                     }
                 } 
@@ -77,11 +77,9 @@ internal static class Rivers {
                 short nx = (short)(current.Item1 + dx[i]);
                 short ny = (short)(current.Item2 + dy[i]);
 
-                if (nx >= 0 && nx < Settings.WORLD_SIZE && ny >= 0 && ny < Settings.WORLD_SIZE) {
-                    if (distances[nx, ny] > distances[current.Item1, current.Item2] + 1) {
-                        distances[nx, ny] = (short)(distances[current.Item1, current.Item2] + 1);
-                        queue.Enqueue((nx, ny));
-                    }
+                if (World.IsInRange(nx, ny) && distances[nx, ny] > distances[current.Item1, current.Item2] + 1) {
+                    distances[nx, ny] = (short)(distances[current.Item1, current.Item2] + 1);
+                    queue.Enqueue((nx, ny));
                 }
             }
         }

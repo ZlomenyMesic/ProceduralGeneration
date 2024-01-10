@@ -5,24 +5,41 @@
 
 using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace minecraft_kurwa.src.gui;
 
 internal static class Time {
     private static Stopwatch _loadTime; // how much time did it take to generate the terrain and start the application
+    private static Stopwatch _loadTimeProfiler; // count loading time of individual code parts
     private static Stopwatch _fpsCounter; // used to count frames per second
 
     private static uint _frames; // number of frames rendered in last second
     private static byte _lastFPS; // last fps value
 
-    internal static long LoadTime { get => _loadTime.ElapsedMilliseconds; }
-    internal static byte LastFPS { get => _lastFPS; }
+    private static StringBuilder _loadTimeProfiling;
+
+    internal static long LoadTime => _loadTime.ElapsedMilliseconds;
+    internal static string LoadTimeProfiling => _loadTimeProfiling.ToString();
+    internal static byte LastFPS => _lastFPS;
 
     internal static void UpdateLoadTime() {
         if (_loadTime == null) {
             _loadTime = new();
             _loadTime.Start();
         } else _loadTime.Stop();
+    }
+
+    internal static void StartProfiler() {
+        _loadTimeProfiler ??= new();
+        _loadTimeProfiler.Restart();
+    }
+
+    internal static void StopProfiler(string name) {
+        _loadTimeProfiler.Stop();
+
+        _loadTimeProfiling ??= new();
+        _loadTimeProfiling.Append($"{name}: {_loadTimeProfiler.ElapsedMilliseconds} ms\n");
     }
 
     internal static void UpdateFPS() {

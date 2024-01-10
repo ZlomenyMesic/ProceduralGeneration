@@ -14,6 +14,7 @@ using minecraft_kurwa.src.renderer.sky;
 using minecraft_kurwa.src.renderer.voxels;
 using minecraft_kurwa.src.global.resources;
 using System;
+using minecraft_kurwa.src.global.functions;
 
 namespace minecraft_kurwa.src.renderer;
 
@@ -62,7 +63,7 @@ internal static class Renderer {
         VoxelStructure.basicEffect.View = VIEW_MATRIX;
 
         // add blocks to the render target
-        if (Global.CAM_POSITION.X < 0 || Global.CAM_POSITION.X >= Settings.WORLD_SIZE || Global.CAM_POSITION.Z < 0 || Global.CAM_POSITION.Z >= Settings.WORLD_SIZE || Global.CAM_POSITION.Y >= Global.HEIGHT_MAP[(int)Global.CAM_POSITION.X, (int)Global.CAM_POSITION.Z] + 1) {
+        if (!World.IsInRange(Global.CAM_POSITION.X, Global.CAM_POSITION.Z) || Global.CAM_POSITION.Y >= Global.HEIGHT_MAP[(int)Global.CAM_POSITION.X, (int)Global.CAM_POSITION.Z] + 1) {
             for (int i = 0; i < VoxelConnector.world.Length; i++) {
                 VoxelConnector.world[i]?.Draw();
             }
@@ -93,8 +94,8 @@ internal static class Renderer {
             $"Seed: {Settings.SEED}\n" +
             $"Voxels: {VoxelConnector.voxelCounter}\n" +
             $"Triangles: {VoxelStructure.triangleCounter}\n" +
-            $"Frames per second: {Time.LastFPS}\n" +
-            $"",
+            $"Frames per second: {Time.LastFPS}\n\n" +
+            $"Profiling:\n{Time.LoadTimeProfiling}",
             new Vector2(30, 30), Color.White);
         spriteBatch.End();
     }

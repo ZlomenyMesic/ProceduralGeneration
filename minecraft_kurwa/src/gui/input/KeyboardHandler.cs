@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
@@ -60,12 +61,12 @@ internal static class KeyboardHandler {
             int steps = (int)Math.Round(dist / 0.1f, 0) + 1;
             Vector3 step = diff / steps;
 
-            if ((int)pos.X < 0 || (int)pos.X >= Settings.WORLD_SIZE || (int)pos.Y < 0 || (int)pos.Y >= Settings.HEIGHT_LIMIT || (int)pos.Z < 0 || (int)pos.Z >= Settings.WORLD_SIZE || Global.VOXEL_MAP[(int)pos.X, (int)pos.Z, (int)pos.Y] == null) {
+            if (!World.IsInRange((int)pos.X, (int)pos.Z, (int)pos.Y) || Global.VOXEL_MAP[(int)pos.X, (int)pos.Z, (int)pos.Y] == null) {
                 for (int i = 0; i < steps; i++) {
                     pos += step;
                     target += step;
 
-                    if ((int)pos.X >= 0 && (int)pos.X < Settings.WORLD_SIZE && (int)pos.Y >= 0 && (int)pos.Y < Settings.HEIGHT_LIMIT && (int)pos.Z >= 0 && (int)pos.Z < Settings.WORLD_SIZE && Global.VOXEL_MAP[(int)pos.X, (int)pos.Z, (int)pos.Y] != null) {
+                    if (World.IsInRange((int)pos.X, (int)pos.Z, (int)pos.Y) && Global.VOXEL_MAP[(int)pos.X, (int)pos.Z, (int)pos.Y] != null) {
                         pos -= step;
                         target -= step;
                         break;

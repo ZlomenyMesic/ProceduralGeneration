@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.tree.types;
@@ -16,10 +16,10 @@ internal class BasicDeciduousTree : Tree {
         byte radius = (byte)(_height / 2.5f);
 
         for (short x = (short)(-radius + 1); x < radius; x++) {
-            if (_posX + x < 0 || _posX + x >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(_posX + x)) continue;
 
             for (short y = (short)(-radius + 1); y < radius; y++) {
-                if (_posY + y < 0 || _posY + y >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(_posY + y)) continue;
 
                 for (short z = (short)(-radius + 1); z < radius; z++) {
                     if (Geometry.Sphere(x, y, z, radius / 2) && Global.RANDOM.Next(0, 2) == 0

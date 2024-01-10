@@ -8,7 +8,7 @@ using minecraft_kurwa.src.renderer.voxels;
 using System.Linq;
 using System;
 using Microsoft.Xna.Framework;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 
 namespace minecraft_kurwa.src.generator.feature.water;
 
@@ -52,10 +52,10 @@ internal static class Ponds {
         float b = (float)Math.Round((double)sizeY / 2, 0);
 
         for (short x = (short)Math.Round(-a, 0); x <= a; x++) {
-            if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(posX + x)) continue;
 
             for (short y = (short)Math.Round(-b, 0); y <= b; y++) {
-                if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(posY + y)) continue;
 
                 if (Geometry.Ellipse(x, y, a - 0.2f, b - 0.2f) && ((Math.Abs(x) < a - 1 && Math.Abs(y) < b - 1) || Global.RANDOM.Next(0, 4) != 0)) {
                     Global.VOXEL_MAP[posX + x, posY + y, waterLevel] = (byte?)VoxelType.WATER;
@@ -74,13 +74,16 @@ internal static class Ponds {
         ushort[] heights = new ushort[9];
 
         byte index = 0;
+        int nx, ny;
         for (short x2 = -1; x2 <= 1; x2++) {
-            if (x + x2 * sizeX / 2 < 0 || x + x2 * sizeX / 2 >= Settings.WORLD_SIZE) continue;
+            nx = x + x2 * sizeX / 2;
+            if (!World.IsInRange(nx)) continue;
 
             for (short y2 = -1; y2 <= 1; y2++) {
-                if (y + y2 * sizeY / 2 < 0 || y + y2 * sizeY / 2 >= Settings.WORLD_SIZE) continue;
+                ny = y + y2 * sizeY / 2;
+                if (!World.IsInRange(nx, ny)) continue;
 
-                heights[index++] = Global.HEIGHT_MAP[x + x2 * sizeX / 2, y + y2 * sizeY / 2];
+                heights[index++] = Global.HEIGHT_MAP[nx, ny];
             }
         }
 
@@ -88,10 +91,10 @@ internal static class Ponds {
         if (waterLevel == Settings.WATER_LEVEL) goto cannotGenerate;
 
         for (short x2 = (short)(-sizeX / 2 - 1); x2 <= sizeX / 2 + 1; x2++) {
-            if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(x + x2)) continue;
 
             for (short y2 = (short)(-sizeY / 2 - 1); y2 <= sizeY / 2 + 1; y2++) {
-                if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(y + y2)) continue;
 
                 if (Global.HEIGHT_MAP[x + x2, y + y2] < waterLevel) goto cannotGenerate;
             }

@@ -8,6 +8,7 @@ using minecraft_kurwa.src.generator.terrain.biomes;
 using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.generator.terrain.noise;
 using minecraft_kurwa.src.generator.feature.water;
+using minecraft_kurwa.src.global.functions;
 
 namespace minecraft_kurwa.src.generator.terrain;
 
@@ -87,7 +88,7 @@ internal class TerrainGenerator {
             for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
                 for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
                     for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                        if (x < Settings.WORLD_SIZE - 1) {
+                        if (World.IsInRange(x + 1)) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x + 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
                                 Global.HEIGHT_MAP[x + 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
@@ -97,7 +98,7 @@ internal class TerrainGenerator {
                             }
                         }
 
-                        if (x > 0) {
+                        if (World.IsInRange(x - 1)) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x - 1, y] > Settings.TERRAIN_COLLAPSE_LIMIT) {
                                 Global.HEIGHT_MAP[x - 1, y] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
@@ -107,7 +108,7 @@ internal class TerrainGenerator {
                             }
                         }
 
-                        if (y < Settings.WORLD_SIZE - 1) {
+                        if (World.IsInRange(y + 1)) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y + 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
                                 Global.HEIGHT_MAP[x, y + 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }
@@ -117,7 +118,7 @@ internal class TerrainGenerator {
                             }
                         }
 
-                        if (y > 0) {
+                        if (World.IsInRange(y - 1)) {
                             if (Global.HEIGHT_MAP[x, y] - Global.HEIGHT_MAP[x, y - 1] > Settings.TERRAIN_COLLAPSE_LIMIT) {
                                 Global.HEIGHT_MAP[x, y - 1] = (ushort)(Global.HEIGHT_MAP[x, y] - Settings.TERRAIN_COLLAPSE_LIMIT + Global.RANDOM.Next(-1, 1));
                             }

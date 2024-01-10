@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.tree.types;
@@ -21,10 +21,10 @@ internal class PoplarTree : Tree {
 
             if (z >= _height * 1.5 / 5 && z <= _height * 4.5 / 5) {
                 for (sbyte x = -2; x <= 2; x++) {
-                    if (_posX + x < 0 || _posX + x >= Settings.WORLD_SIZE) continue;
+                    if (!World.IsInRange(_posX + x)) continue;
 
                     for (sbyte y = -2; y <= 2; y++) {
-                        if (_posY + y < 0 || _posY + y >= Settings.WORLD_SIZE) continue;
+                        if (!World.IsInRange(_posY + y)) continue;
 
                         if (Geometry.Circle(x, y, 2) && Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] == null) {
                             if (Global.RANDOM.Next(0, 4) != 0) Global.VOXEL_MAP[_posX + x, _posY + y, _posZ + z] = _leaveType;

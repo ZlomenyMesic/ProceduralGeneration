@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 using System.Numerics;
@@ -43,13 +43,13 @@ internal class PineTree : Tree {
         short sizeY = (short)(Global.RANDOM.Next(3, 8) - 1);
 
         for (short x = (short)(-sizeX / 2); x <= sizeX / 2; x++) {
-            if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(posX + x)) continue;
 
             for (short y = (short)(-sizeY / 2); y <= sizeY / 2; y++) {
-                if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(posY + y)) continue;
 
                 for (short z = -1; z <= 1; z++) {
-                    if (posZ + z < 0 || posZ + z >= Settings.WORLD_SIZE) continue;
+                    if (posZ + z < 0 || posZ + z >= Settings.HEIGHT_LIMIT) continue;
 
                     if (Geometry.Ellipsoid(x - 1, y - 1, z, sizeX, sizeY, 1)) {
                         if (Global.VOXEL_MAP[posX + x, posY + y, posZ + z] == null && Global.RANDOM.Next(0, 4) == 0) {
