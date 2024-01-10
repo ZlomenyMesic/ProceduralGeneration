@@ -22,7 +22,7 @@ internal static class ExperimentalSettings {
     internal static bool INVERT_COLORS = false; // nightmare fuel
 
     // if true, Settings.SEED is selected randomly
-    internal static bool RANDOM_SEED = false;
+    internal static bool RANDOM_SEED = true;
 
     // perlin noise output near [0, 0] is always the same
     // must be AT LEAST 30 to not generate any gravel around [0, 0]
