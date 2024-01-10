@@ -4,6 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water;
@@ -31,7 +32,7 @@ internal static class WaterFreezing {
 
                 short x3 = (short)(x + x2 * distance);
                 short y3 = (short)(y + y2 * distance);
-                if (x3 < 0 || x3 >= Settings.WORLD_SIZE || y3 < 0 || y3 >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(x3, y3)) continue;
 
                 if (Global.BIOME_MAP[x3, y3, 0] < 30) return false; // water is too close to a subtropical or tropical biome to freeze
                 if (Global.BIOME_MAP[x3, y3, 0] >= 60 && Global.BIOME_MAP[x3, y3, 0] < 70) return true; // water is close to a polar biome

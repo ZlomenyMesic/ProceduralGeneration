@@ -7,6 +7,7 @@ using minecraft_kurwa.src.global;
 using minecraft_kurwa.src.generator.terrain.noise;
 using System;
 using System.Collections.Generic;
+using minecraft_kurwa.src.global.functions;
 
 namespace minecraft_kurwa.src.generator.terrain.biomes;
 
@@ -47,10 +48,10 @@ internal static class BiomeGenerator {
                 byte nCount = 0;
 
                 for (int x2 = -6; x2 < 7; x2 += 6) {
-                    if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+                    if (!World.IsInRange(x + x2)) continue;
 
                     for (int y2 = -6; y2 < 7; y2 += 6) {
-                        if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+                        if (!World.IsInRange(y + y2)) continue;
 
                         neighbours[nCount++] = Global.BIOME_MAP[x + x2, y + y2, 0];
                     }
@@ -70,10 +71,10 @@ internal static class BiomeGenerator {
                     Dictionary<byte, byte> neighbours = new();
 
                     for (int x2 = -1; x2 < 2; x2++) {
-                        if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+                        if (!World.IsInRange(x + x2)) continue;
 
                         for (int y2 = -1; y2 < 2; y2++) {
-                            if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+                            if (!World.IsInRange(y + y2)) continue;
 
                             byte neighbour = Global.BIOME_MAP[x + x2, y + y2, 0];
 

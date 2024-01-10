@@ -5,6 +5,7 @@
 
 using minecraft_kurwa.src.generator.terrain.noise;
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.functions;
 using System;
 
 namespace minecraft_kurwa.src.generator.terrain;
@@ -30,10 +31,10 @@ internal static class Erosion {
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                 for (int x2 = -1; x2 < 2; x2++) {
-                    if (x + x2 < 0 || x + x2 >= Settings.WORLD_SIZE) continue;
+                    if (!World.IsInRange(x + x2)) continue;
 
                     for (int y2 = -1; y2 < 2; y2++) {
-                        if (y + y2 < 0 || y + y2 >= Settings.WORLD_SIZE) continue;
+                        if (!World.IsInRange(y + y2)) continue;
 
                         if (erosion[x, y] != erosion[x + x2, y + y2] && Global.RANDOM.Next(0, 2) == 0) erosion[x, y] = erosion[x + x2, y + y2];
                     }

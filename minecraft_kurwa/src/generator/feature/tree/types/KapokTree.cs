@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 using System;
 
@@ -20,10 +20,10 @@ internal class KapokTree : Tree {
         short crownPosY = (short)(_posY + Global.RANDOM.Next(-2, 3));
 
         for (short x = (short)(-radius - 1); x <= radius + 1; x++) {
-            if (crownPosX + x < 0 || crownPosX + x >= Settings.WORLD_SIZE) continue;
+            if (!World.IsInRange(crownPosX + x)) continue;
 
             for (short y = (short)(-radius - 1); y <= radius + 1; y++) {
-                if (crownPosY + y < 0 || crownPosY + y >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(crownPosY + y)) continue;
 
                 for (short z = (short)(-radius / 3 + 1); z <= radius / 1.5; z++) {
                     float distance = (float)Math.Sqrt(x * x + y * y);

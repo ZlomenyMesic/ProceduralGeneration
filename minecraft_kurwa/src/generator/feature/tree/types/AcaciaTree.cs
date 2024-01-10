@@ -4,7 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
-using minecraft_kurwa.src.global.geometry;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 using System.Numerics;
 
@@ -51,10 +51,10 @@ internal class AcaciaTree : Tree {
             if (posZ + layer >= Settings.HEIGHT_LIMIT) break;
 
             for (short x = (short)(-radius - 1); x <= radius + 1; x++) {
-                if (posX + x < 0 || posX + x >= Settings.WORLD_SIZE) continue;
+                if (!World.IsInRange(posX + x)) continue;
 
                 for (short y = (short)(-radius - 1); y <= radius + 1; y++) {
-                    if (posY + y < 0 || posY + y >= Settings.WORLD_SIZE) continue;
+                    if (!World.IsInRange(posY + y)) continue;
 
                     if ((Geometry.Circle(x, y, radius) && Global.RANDOM.Next(0, 8) != 0) || (Geometry.Circle(x, y, radius + 1) && Global.RANDOM.Next(0, 4) != 0)) {
                         if (Global.VOXEL_MAP[posX + x, posY + y, posZ + layer] == null) {

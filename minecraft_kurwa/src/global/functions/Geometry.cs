@@ -5,7 +5,7 @@
 
 using System;
 
-namespace minecraft_kurwa.src.global.geometry;
+namespace minecraft_kurwa.src.global.functions;
 
 internal static class Geometry {
     internal static bool Circle(float x, float y, float radius) 
