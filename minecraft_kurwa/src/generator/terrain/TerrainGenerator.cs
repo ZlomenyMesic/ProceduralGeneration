@@ -77,7 +77,7 @@ internal class TerrainGenerator {
                 if (Global.BIOME_MAP[x, y, 2] != (byte)BiomeType.UNKNOWN &&
                     Global.BIOME_MAP[x, y, 3] != (byte)BiomeType.UNKNOWN) {
 
-                    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + ((float)sHeight / 2 + (float)tHeight / 2) * Global.BIOME_MAP[x, y, 1]) / 100);
+                    Global.HEIGHT_MAP[x, y] = (ushort)((pHeight * (100 - Global.BIOME_MAP[x, y, 1]) + ((float)sHeight / 2 + (float)tHeight / 2) * Global.BIOME_MAP[x, y, 1]) / 100); ;
                 }
             }
         }

@@ -35,6 +35,10 @@ internal class WorldGenerator {
         Erosion.GenerateErosion();
         Time.StopProfiler("Erosion");
 
+        Time.StartProfiler();
+        Creeks.generateCreeks();
+        Time.StopProfiler("Creeks");
+
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
                 // top block placement
@@ -49,10 +53,6 @@ internal class WorldGenerator {
         Time.StartProfiler();
         WaterGenerator.GenerateOtherWaterThanRivers();
         Time.StopProfiler("Ponds");
-
-        Time.StartProfiler();
-        Creeks.generateCreeks();
-        Time.StopProfiler("Creeks");
 
         TerrainFinalization.FillGaps();
 

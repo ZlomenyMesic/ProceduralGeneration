@@ -156,7 +156,7 @@ internal static class Creeks {
         for (int tx = x - (patternSize - 1) / 2; tx <= x + (patternSize - 1) / 2; tx++) {
             for (int ty = y - (patternSize - 1) / 2; ty <= y + (patternSize - 1) / 2; ty++) {
                 if (tx >= 0 && ty >= 0 && tx < Settings.WORLD_SIZE && ty < Settings.WORLD_SIZE && px < patternSize && py < patternSize) {
-                    Global.HEIGHT_MAP[tx, ty] = (ushort)(Global.HEIGHT_MAP[tx, ty] - heightPattern[px, py]);
+                    Global.HEIGHT_MAP[tx, ty] = (ushort)(Math.Max(0, Global.HEIGHT_MAP[tx, ty] - heightPattern[px, py]));
 
                     if (waterPattern[px, py] == 1) {
                         Global.VOXEL_MAP[tx, ty, Global.HEIGHT_MAP[tx, ty] + heightPattern[px, py]] = (byte)VoxelType.WATER;
