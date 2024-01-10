@@ -13,6 +13,8 @@ using minecraft_kurwa.src.global.functions;
 namespace minecraft_kurwa.src.generator.feature.water;
 
 internal static class Ponds {
+    internal static int highestWaterLevel = 0;
+
     private const byte MIN_POND_SIZE = 7;
     private const byte MAX_POND_SIZE = 10;
 
@@ -48,6 +50,8 @@ internal static class Ponds {
     }
 
     private static void GeneratePond(ushort posX, ushort posY, ushort sizeX, ushort sizeY, ushort waterLevel) {
+        if (waterLevel > highestWaterLevel) highestWaterLevel = waterLevel;
+
         float a = (float)Math.Round((double)sizeX / 2, 0);
         float b = (float)Math.Round((double)sizeY / 2, 0);
 

@@ -10,6 +10,7 @@ using minecraft_kurwa.src.generator.feature.tree;
 using minecraft_kurwa.src.generator.feature.water;
 using minecraft_kurwa.src.generator.feature.shrub;
 using minecraft_kurwa.src.gui;
+using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator;
 
@@ -47,12 +48,23 @@ internal class WorldGenerator {
                 for (ushort z = 0; z < Settings.WATER_LEVEL; z++) {
                     Global.VOXEL_MAP[x, y, z] = null;
                 }
+
+                // freeze water
+                for (ushort z = 0; z < Ponds.highestWaterLevel; z++) {
+                    if (Global.VOXEL_MAP[x, y, z] == (byte)VoxelType.WATER) {
+                        Global.VOXEL_MAP[x, y, z] = WaterGenerator.ShouldFreeze(x, y, (ushort)Global.RANDOM.Next(Settings.FREEZING_DISTANCE, Settings.MAX_FREEZING_DISTANCE))
+                            ? Global.RANDOM.Next(0, 100) > Settings.ICE_HOLES - 1
+                                ? (byte)VoxelType.ICE
+                                : (byte)VoxelType.WATER
+                            : (byte)VoxelType.WATER;
+                    }
+                }
             }
         }
 
         Time.StartProfiler();
         WaterGenerator.GenerateOtherWaterThanRivers();
-        Time.StopProfiler("Ponds");
+        Time.StopProfiler("Other water");
 
         TerrainFinalization.FillGaps();
 

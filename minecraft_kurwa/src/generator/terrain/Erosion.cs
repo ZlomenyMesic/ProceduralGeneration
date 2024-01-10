@@ -44,10 +44,12 @@ internal static class Erosion {
 
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                byte erosionLevel = (byte)(Math.Round(s.Calculate(x + 10000, y + 10000, SCALE * 3, 1), 0) + 1);
-                for (; Global.HEIGHT_MAP[x, y] - erosionLevel < 0; erosionLevel--) ;
+                if (erosion[x, y]) {
+                    byte erosionLevel = (byte)(Math.Round(s.Calculate(x + 10000, y + 10000, SCALE * 3, 1), 0) + 1);
+                    for (; Global.HEIGHT_MAP[x, y] - erosionLevel < 0; erosionLevel--);
 
-                Global.HEIGHT_MAP[x, y] -= (ushort)(erosion[x, y] ? erosionLevel : 0);
+                    Global.HEIGHT_MAP[x, y] -= erosionLevel;
+                }
             }
         }
     }

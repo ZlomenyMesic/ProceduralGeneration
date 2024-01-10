@@ -4,6 +4,7 @@
 //
 
 using minecraft_kurwa.src.global;
+using minecraft_kurwa.src.global.functions;
 using minecraft_kurwa.src.renderer.voxels;
 
 namespace minecraft_kurwa.src.generator.feature.water;
@@ -14,7 +15,20 @@ internal static class WaterGenerator {
     internal static void GenerateOtherWaterThanRivers() {
         FillWaterLevel();
         Ponds.Generate();
-        WaterFreezing.Freeze();
+    }
+    internal static bool ShouldFreeze(ushort x, ushort y, ushort distance) {
+        for (sbyte x2 = -1; x2 <= 1; x2++) {
+            for (sbyte y2 = -1; y2 <= 1; y2++) {
+
+                short x3 = (short)(x + x2 * distance);
+                short y3 = (short)(y + y2 * distance);
+                if (!World.IsInRange(x3, y3)) continue;
+
+                if (Global.BIOME_MAP[x3, y3, 0] < 30) return false; // water is too close to a subtropical or tropical biome to freeze
+                if (Global.BIOME_MAP[x3, y3, 0] >= 60 && Global.BIOME_MAP[x3, y3, 0] < 70) return true; // water is close to a polar biome
+            }
+        }
+        return false;
     }
 
     private static void FillWaterLevel() {

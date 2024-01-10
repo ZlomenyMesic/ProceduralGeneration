@@ -83,7 +83,7 @@ internal class TerrainGenerator {
         }
 
         // fast terrain smoothing (terrain collapse)
-        if (Settings.ENABLE_TERRAIN_COLLAPSE == true) {
+        if (Settings.ENABLE_TERRAIN_COLLAPSE) {
 
             for (ushort i = 0; i < Settings.HEIGHT_LIMIT / Settings.TERRAIN_COLLAPSE_LIMIT; i++) {
                 for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
