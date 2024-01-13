@@ -434,7 +434,6 @@ namespace minecraft_kurwa.src.launcher {
             numericUpDown23.Location = new System.Drawing.Point(202, 103);
             numericUpDown23.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             numericUpDown23.Maximum = new decimal(new int[] { 3000, 0, 0, 0 });
-            numericUpDown23.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             numericUpDown23.Name = "numericUpDown23";
             numericUpDown23.Size = new System.Drawing.Size(129, 23);
             numericUpDown23.TabIndex = 8;
@@ -802,7 +801,7 @@ namespace minecraft_kurwa.src.launcher {
             MaximizeBox = false;
             Name = "MCKurwaLauncher";
             SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            Text = "tf is a launcher??";
+            Text = "PGoPRTwSGUI launcher";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize) numericUpDown4).EndInit();
