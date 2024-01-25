@@ -21,6 +21,6 @@ internal static class Geometry {
         => (x * x / (a * a)) + (y * y / (b * b)) + (z * z / (c * c)) <= 1;
 
     internal static float Sigmoid(float x) {
-        return x / (1f + x);
+        return x / (50f + x);
     }
 }

@@ -89,7 +89,7 @@ internal static class Rivers {
         // (I'm going insane)
         for (ushort x = 0; x < Settings.WORLD_SIZE; x++) {
             for (ushort y = 0; y < Settings.WORLD_SIZE; y++) {
-                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Geometry.Sigmoid(distances[x, y] / 50f));
+                Global.HEIGHT_MAP[x, y] = (ushort)(Global.HEIGHT_MAP[x, y] * Geometry.Sigmoid(distances[x, y]));
             }
         }
     }
