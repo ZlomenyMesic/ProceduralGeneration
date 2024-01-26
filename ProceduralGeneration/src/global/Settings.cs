@@ -33,7 +33,7 @@ internal static class Settings {
 
     internal static int WORLD_SIZE = 500;
     internal static int HEIGHT_LIMIT = 250;
-    internal static long SEED = 21;
+    internal static int SEED = 21;
 
     internal static int MAIN_NOISE_SHARPNESS = 60;
     internal static int MAIN_NOISE_SCALE = 17;

@@ -8,12 +8,12 @@ using System;
 namespace minecraft_kurwa.src.generator.terrain.noise;
 
 internal class PerlinNoise {
-    internal double seed;
+    internal int seed;
     private long _defaultSize;
     private int[] _p;
     private int[] _permutation;
 
-    internal PerlinNoise(double seed) {
+    internal PerlinNoise(int seed) {
         this.seed = seed;
         Initialize();
     }
